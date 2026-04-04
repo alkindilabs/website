@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>al-Kindi — Design &amp; Technology Studio</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logos/alkindi.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/fonts.css">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 
   <header class="site-header">
-    <a href="/" class="nav__logo"><img src="alkindi.svg" alt="al-Kindi" class="nav__logo-img"></a>
+    <a href="/" class="nav__logo"><img src="assets/logos/alkindi.svg" alt="al-Kindi" class="nav__logo-img"></a>
     <div class="lang-switch">
       <span class="lang-switch__sep">|</span>
       <a href="#" class="lang-switch__item lang-switch__item--active">EN</a>
@@ -27,7 +29,7 @@
   </header>
 
   <section id="hero" class="hero">
-<div class="container hero__content">
+    <div class="container hero__content">
       <h1 class="hero__heading" aria-label="Free, Fearless — Istanbul-born, Lisbon-grown">
         <span class="hero__phrase">Free, Fearless</span>
         <span class="hero__phrase">Istanbul&#8209;born, Lisbon&#8209;grown</span>
@@ -52,8 +54,8 @@
 
         <div class="work__col work__col--left">
           <a href="#" class="project-item reveal reveal-delay-1">
-            <div class="project-item__image" style="background: linear-gradient(160deg, #2a2a2a 0%, #1a1a1a 100%)">
-              <div class="project-item__placeholder" style="background: linear-gradient(135deg, #3d3530 0%, #1e1a17 100%)"></div>
+            <div class="project-item__image project-item__image--nexora">
+              <div class="project-item__placeholder project-item__placeholder--nexora"></div>
             </div>
             <div class="project-item__info">
               <h3 class="project-item__title">Nexora — Brand Identity</h3>
@@ -62,7 +64,7 @@
           </a>
           <a href="#" class="project-item reveal reveal-delay-3">
             <div class="project-item__image">
-              <div class="project-item__placeholder" style="background: linear-gradient(135deg, #1e2830 0%, #0f1519 100%)"></div>
+              <div class="project-item__placeholder project-item__placeholder--kove"></div>
             </div>
             <div class="project-item__info">
               <h3 class="project-item__title">Kove Labs — Product Design</h3>
@@ -74,7 +76,7 @@
         <div class="work__col work__col--right">
           <a href="#" class="project-item reveal reveal-delay-2">
             <div class="project-item__image">
-              <div class="project-item__placeholder" style="background: linear-gradient(135deg, #1e2820 0%, #0f160f 100%)"></div>
+              <div class="project-item__placeholder project-item__placeholder--solari"></div>
             </div>
             <div class="project-item__info">
               <h3 class="project-item__title">Solari — Web Platform</h3>
@@ -83,7 +85,7 @@
           </a>
           <a href="#" class="project-item reveal reveal-delay-4">
             <div class="project-item__image">
-              <div class="project-item__placeholder" style="background: linear-gradient(135deg, #28201e 0%, #160f0f 100%)"></div>
+              <div class="project-item__placeholder project-item__placeholder--ashen"></div>
             </div>
             <div class="project-item__info">
               <h3 class="project-item__title">Ashen Studio — Digital Identity</h3>
@@ -178,7 +180,7 @@
         <article class="team__member">
           <div class="team__photo-wrap">
             <div class="team__photo">
-              <div class="team__photo-placeholder" style="background: linear-gradient(160deg, #1e1a14 0%, #0d0b09 100%)"></div>
+              <div class="team__photo-placeholder team__photo-placeholder--munevver"></div>
             </div>
             <button class="team__toggle" aria-expanded="false" aria-label="Show bio">
               <span class="team__toggle-icon">+</span>
@@ -198,7 +200,7 @@
         <article class="team__member">
           <div class="team__photo-wrap">
             <div class="team__photo">
-              <div class="team__photo-placeholder" style="background: linear-gradient(160deg, #141a1e 0%, #090d10 100%)"></div>
+              <div class="team__photo-placeholder team__photo-placeholder--partner"></div>
             </div>
             <button class="team__toggle" aria-expanded="false" aria-label="Show bio">
               <span class="team__toggle-icon">+</span>
@@ -218,7 +220,7 @@
         <article class="team__member">
           <div class="team__photo-wrap">
             <div class="team__photo">
-              <div class="team__photo-placeholder" style="background: linear-gradient(160deg, #141e1a 0%, #090f0b 100%)"></div>
+              <div class="team__photo-placeholder team__photo-placeholder--olive"></div>
             </div>
             <button class="team__toggle" aria-expanded="false" aria-label="Show bio">
               <span class="team__toggle-icon">+</span>
@@ -262,86 +264,6 @@
     </div>
   </footer>
 
-  <script>
-    (function () {
-      var header   = document.querySelector('.site-header');
-      var navLinks = document.querySelectorAll('.nav__link');
-      var lightSections = new Set(['services', 'about']);
-      var lastScrollY   = window.scrollY;
-      var ticking       = false;
-
-      /* section-id → nav href */
-      var sectionMap = { work: '#work', services: '#services', about: '#about', team: '#team', contact: '#contact' };
-
-      function update() {
-        var scrollY = window.scrollY;
-
-        /* nav colour — elementFromPoint right below header (pixel-perfect) */
-        var checkY  = header.getBoundingClientRect().bottom + 2;
-        var el      = document.elementFromPoint(window.innerWidth / 2, checkY);
-        var secEl   = el ? el.closest('section[id]') : null;
-        var colorSection = secEl ? secEl.id : 'hero';
-        header.classList.toggle('header--light', lightSections.has(colorSection));
-
-        /* active indicator — based on 35% of viewport */
-        var mid = scrollY + window.innerHeight * 0.35;
-        var activeSection = 'hero';
-        document.querySelectorAll('section[id]').forEach(function (s) {
-          if (s.offsetTop <= mid) activeSection = s.id;
-        });
-        var activeHref = sectionMap[activeSection] || '#work';
-        navLinks.forEach(function (link) {
-          link.classList.toggle('nav__link--active', link.getAttribute('href') === activeHref);
-        });
-
-        /* show background only after scrolling past hero top area */
-        header.classList.toggle('header--scrolled', scrollY > 80);
-
-        /* hide on scroll-down, reveal on scroll-up */
-        var delta = scrollY - lastScrollY;
-        if (scrollY < 80) {
-          header.classList.remove('header--hidden');
-        } else if (delta > 6) {
-          header.classList.add('header--hidden');
-        } else if (delta < -6) {
-          header.classList.remove('header--hidden');
-        }
-        lastScrollY = scrollY;
-
-        ticking = false;
-      }
-
-      window.addEventListener('scroll', function () {
-        if (!ticking) { requestAnimationFrame(update); ticking = true; }
-      }, { passive: true });
-
-      window.addEventListener('resize', update, { passive: true });
-      update();
-
-      /* scroll reveal */
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08 });
-
-      document.querySelectorAll('.reveal').forEach(function (el) {
-        revealObserver.observe(el);
-      });
-
-      /* team member bio toggle */
-      document.querySelectorAll('.team__toggle').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var member = btn.closest('.team__member');
-          var open   = member.classList.toggle('team__member--open');
-          btn.setAttribute('aria-expanded', open);
-          btn.querySelector('.team__toggle-icon').textContent = open ? '−' : '+';
-        });
-      });
-    })();
-  </script>
+  <script src="scripts/site.js" defer></script>
 </body>
 </html>

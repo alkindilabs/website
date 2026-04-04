@@ -1,25 +1,7 @@
 /* ============================================================
-   AL-KINDI — style.css
+   AL-KINDI — styles/main.css
    @layer reset → tokens → base → layout → components
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700&display=swap');
-
-/* UnivaNova — headings */
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Hairline.woff2') format('woff2'); font-weight: 100; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Thin.woff2') format('woff2'); font-weight: 200; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Light.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
-@font-face { font-family: 'UnivaNova'; src: url('fonts/univa-nova-minimalist-typeface-with-clean-design-2026-02-18-00-34-58-utc/Web%20Fonts/UnivaNova-Heavy.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
-
-@font-face { font-family: 'Archimoto'; src: url('fonts/archimoto-v-00-2026-02-18-00-34-59-utc/ArchimotoV00-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Archimoto'; src: url('fonts/archimoto-v-00-2026-02-18-00-34-59-utc/ArchimotoV00-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Archimoto'; src: url('fonts/archimoto-v-00-2026-02-18-00-34-59-utc/ArchimotoV00-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
-
-
 @layer reset, tokens, base, layout, components;
 
 
@@ -352,7 +334,7 @@
   .hero {
     height: 100svh;
     background-color: #060504;
-    background-image: url('upscale.png');
+    background-image: url('../assets/images/upscale.png');
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
@@ -563,10 +545,30 @@
     background-color: #111;
   }
 
+  .project-item__image--nexora {
+    background: linear-gradient(160deg, #2a2a2a 0%, #1a1a1a 100%);
+  }
+
   .project-item__placeholder {
     position: absolute;
     inset: 0;
     transition: transform 0.6s ease;
+  }
+
+  .project-item__placeholder--nexora {
+    background: linear-gradient(135deg, #3d3530 0%, #1e1a17 100%);
+  }
+
+  .project-item__placeholder--kove {
+    background: linear-gradient(135deg, #1e2830 0%, #0f1519 100%);
+  }
+
+  .project-item__placeholder--solari {
+    background: linear-gradient(135deg, #1e2820 0%, #0f160f 100%);
+  }
+
+  .project-item__placeholder--ashen {
+    background: linear-gradient(135deg, #28201e 0%, #160f0f 100%);
   }
 
   .project-item:hover .project-item__placeholder {
@@ -737,7 +739,7 @@
 
   .team {
     background-color: var(--color-dark);
-    background-image: url('team.png');
+    background-image: url('../assets/images/team.png');
     background-size: cover;
     background-position: center 60%;
     background-repeat: no-repeat;
@@ -802,6 +804,18 @@
   .team__photo-placeholder {
     position: absolute;
     inset: 0;
+  }
+
+  .team__photo-placeholder--munevver {
+    background: linear-gradient(160deg, #1e1a14 0%, #0d0b09 100%);
+  }
+
+  .team__photo-placeholder--partner {
+    background: linear-gradient(160deg, #141a1e 0%, #090d10 100%);
+  }
+
+  .team__photo-placeholder--olive {
+    background: linear-gradient(160deg, #141e1a 0%, #090f0b 100%);
   }
 
   .team__toggle {
