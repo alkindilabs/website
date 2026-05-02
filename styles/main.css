@@ -22,6 +22,20 @@ img, svg, video {
 }
 
 button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 
 
 /* ============================================================
@@ -263,26 +277,29 @@ a {
   left: 50%;
   transform: translateX(-50%);
   top: var(--space-lg);
-}
-
-.lang-switch::before {
-  content: '|';
-  color: var(--decoration-on-dark);
-  margin-right: 0.15rem;
-  transition: var(--transition-color);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
 }
 
 .lang-switch__item {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.75rem 0.5rem;
   color: var(--text-on-dark);
   text-shadow: var(--shadow-text-soft);
+  letter-spacing: inherit;
+  text-transform: inherit;
   transition: var(--transition-color);
 }
 
 .lang-switch__item--active {
   color: var(--text-on-dark-strong);
+  cursor: default;
 }
 
-.header--light .lang-switch::before { color: rgba(13, 13, 13, 0.20); }
 .header--light .lang-switch__item { text-shadow: none; color: var(--text-on-light-muted); }
 .header--light .lang-switch__item--active { color: var(--text-on-light-strong); }
 
@@ -758,7 +775,6 @@ a {
   color: var(--color-dark-fg);
   font-size: var(--t-xl);
   font-weight: 300;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1085,7 +1101,10 @@ a {
 @media (scripting: none) {
   .team__bio-wrap { grid-template-rows: 1fr; }
   .team__toggle { display: none; }
+  .lang-switch { display: none; }
 }
+/* Older browsers without (scripting: none) support fall back to
+   styles/noscript.css, loaded inside <noscript> in index.html. */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

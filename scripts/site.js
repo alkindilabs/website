@@ -4,6 +4,10 @@
   const ACTIVE_SECTION_VIEWPORT_RATIO = 0.35;
   const REVEAL_THRESHOLD = 0.08;
   const HEADER_HIT_OFFSET = 2;
+  const LANG_STORAGE_KEY = 'alkindi-lang';
+  const SUPPORTED_LANGS = new Set(['en', 'tr']);
+  const SOURCE_LANG = 'en';
+  const TR_DICT_URL = 'content/tr.json';
 
   document.documentElement.classList.add('reveal-enabled');
 
@@ -110,16 +114,101 @@
     revealElements.forEach((el) => el.classList.add('is-visible'));
   }
 
-  document.querySelectorAll('.team__toggle').forEach((button) => {
+  const safeStorage = (() => {
+    try {
+      const probe = '__alkindi__';
+      localStorage.setItem(probe, probe);
+      localStorage.removeItem(probe);
+      return localStorage;
+    } catch {
+      return null;
+    }
+  })();
+
+  const detectInitialLang = () => {
+    const saved = safeStorage?.getItem(LANG_STORAGE_KEY);
+    if (SUPPORTED_LANGS.has(saved)) return saved;
+    const browser = (navigator.language || '').slice(0, 2).toLowerCase();
+    return SUPPORTED_LANGS.has(browser) ? browser : SOURCE_LANG;
+  };
+
+  const TR_FETCH_TIMEOUT_MS = 5000;
+
+  let trDict = null;
+  let trDictPromise = null;
+  let currentLang = SOURCE_LANG;
+  let langSeq = 0;
+  const originalContent = new Map();
+
+  const writeLangPref = (lang) => {
+    try {
+      safeStorage?.setItem(LANG_STORAGE_KEY, lang);
+    } catch {
+      /* quota or storage became unavailable; ignore */
+    }
+  };
+
+  const clearLangPref = () => {
+    try {
+      safeStorage?.removeItem(LANG_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const captureOriginalContent = () => {
+    document.querySelectorAll('[data-i18n], [data-i18n-aria]').forEach((el) => {
+      originalContent.set(el, {
+        text: el.textContent,
+        aria: el.getAttribute('aria-label'),
+      });
+    });
+  };
+
+  const loadTrDict = () => {
+    if (trDict) return Promise.resolve();
+    if (trDictPromise) return trDictPromise;
+    trDictPromise = (async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), TR_FETCH_TIMEOUT_MS);
+      try {
+        const res = await fetch(TR_DICT_URL, { signal: controller.signal });
+        if (!res.ok) throw new Error(`Failed to load tr: HTTP ${res.status} ${res.statusText}`.trimEnd());
+        trDict = await res.json();
+      } finally {
+        clearTimeout(timeoutId);
+        trDictPromise = null;
+      }
+    })();
+    return trDictPromise;
+  };
+
+  const t = (key, params) => {
+    const raw = currentLang === 'tr' ? trDict?.[key] : undefined;
+    if (raw === undefined) return undefined;
+    if (!params) return raw;
+    let value = raw;
+    Object.entries(params).forEach(([k, v]) => {
+      value = value.split(`{${k}}`).join(v);
+    });
+    return value;
+  };
+
+  const formatToggleLabel = (open, name) => {
+    const value = t(open ? 'team.bioHide' : 'team.bioShow', { name });
+    return value ?? `${open ? 'Hide' : 'Show'} ${name} bio`;
+  };
+
+  const teamToggles = Array.from(document.querySelectorAll('.team__toggle')).map((button) => {
     const member = button.closest('.team__member');
     const icon = button.querySelector('.team__toggle-icon');
-    const memberName = member.querySelector('.team__name').textContent.trim();
     const bio = document.getElementById(button.getAttribute('aria-controls'));
 
     const setBioState = (open) => {
+      const name = member.querySelector('.team__name').textContent.trim();
       member.classList.toggle('team__member--open', open);
       button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', `${open ? 'Hide' : 'Show'} ${memberName} bio`);
+      button.setAttribute('aria-label', formatToggleLabel(open, name));
       bio.setAttribute('aria-hidden', String(!open));
       icon.textContent = open ? '−' : '+';
     };
@@ -135,7 +224,69 @@
         refresh();
       }
     });
+
+    return { button, refresh: () => setBioState(button.getAttribute('aria-expanded') === 'true') };
   });
+
+  const applyTranslations = () => {
+    document.documentElement.lang = currentLang;
+    const trActive = currentLang === 'tr';
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const orig = originalContent.get(el);
+      const value = trActive ? trDict?.[el.dataset.i18n] : undefined;
+      el.textContent = value ?? orig.text;
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      const orig = originalContent.get(el);
+      const value = trActive ? trDict?.[el.dataset.i18nAria] : undefined;
+      if (value ?? orig.aria) el.setAttribute('aria-label', value ?? orig.aria);
+    });
+    teamToggles.forEach((entry) => entry.refresh());
+  };
+
+  const langItems = Array.from(document.querySelectorAll('.lang-switch__item'));
+  const refreshLangButtons = () => {
+    langItems.forEach((btn) => {
+      const active = btn.dataset.lang === currentLang;
+      btn.classList.toggle('lang-switch__item--active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  const setLang = async (lang) => {
+    if (!SUPPORTED_LANGS.has(lang)) return;
+    const token = ++langSeq;
+    if (lang === currentLang) return;
+    if (lang === 'tr') {
+      try {
+        await loadTrDict();
+      } catch (err) {
+        console.warn('Language switch to tr failed:', err);
+        return;
+      }
+    }
+    if (token !== langSeq) return;
+    currentLang = lang;
+    writeLangPref(lang);
+    applyTranslations();
+    refreshLangButtons();
+    refresh();
+  };
+
+  langItems.forEach((item) => {
+    item.addEventListener('click', () => setLang(item.dataset.lang));
+  });
+
+  captureOriginalContent();
+  refreshLangButtons();
+
+  const initial = detectInitialLang();
+  if (initial !== SOURCE_LANG) {
+    const cameFromStorage = safeStorage?.getItem(LANG_STORAGE_KEY) === initial;
+    setLang(initial).then(() => {
+      if (currentLang !== initial && cameFromStorage) clearLangPref();
+    });
+  }
 
   const yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
