@@ -174,7 +174,7 @@
       const timeoutId = setTimeout(() => controller.abort(), TR_FETCH_TIMEOUT_MS);
       try {
         const res = await fetch(TR_DICT_URL, { signal: controller.signal });
-        if (!res.ok) throw new Error(`Failed to load tr: HTTP ${res.status}${res.statusText ? ` ${res.statusText}` : ''}`);
+        if (!res.ok) throw new Error(`Failed to load tr: HTTP ${res.status} ${res.statusText}`.trimEnd());
         trDict = await res.json();
       } finally {
         clearTimeout(timeoutId);
