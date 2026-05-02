@@ -8,10 +8,6 @@
   const SUPPORTED_LANGS = new Set(['en', 'tr']);
   const SOURCE_LANG = 'en';
   const TR_DICT_URL = 'content/tr.json';
-  const EN_TEMPLATES = Object.freeze({
-    'team.bioShow': 'Show {name} bio',
-    'team.bioHide': 'Hide {name} bio',
-  });
 
   document.documentElement.classList.add('reveal-enabled');
 
@@ -152,6 +148,14 @@
     }
   };
 
+  const clearLangPref = () => {
+    try {
+      safeStorage?.removeItem(LANG_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
+
   const captureOriginalContent = () => {
     document.querySelectorAll('[data-i18n], [data-i18n-html], [data-i18n-aria]').forEach((el) => {
       originalContent.set(el, {
@@ -170,7 +174,7 @@
       const timeoutId = setTimeout(() => controller.abort(), TR_FETCH_TIMEOUT_MS);
       try {
         const res = await fetch(TR_DICT_URL, { signal: controller.signal });
-        if (!res.ok) throw new Error(`Failed to load tr: ${res.statusText}`);
+        if (!res.ok) throw new Error(`Failed to load tr: HTTP ${res.status}${res.statusText ? ` ${res.statusText}` : ''}`);
         trDict = await res.json();
       } finally {
         clearTimeout(timeoutId);
@@ -181,7 +185,7 @@
   };
 
   const t = (key, params) => {
-    const raw = (currentLang === 'tr' ? trDict?.[key] : undefined) ?? EN_TEMPLATES[key];
+    const raw = currentLang === 'tr' ? trDict?.[key] : undefined;
     if (raw === undefined) return undefined;
     if (!params) return raw;
     let value = raw;
@@ -284,8 +288,9 @@
 
   const initial = detectInitialLang();
   if (initial !== SOURCE_LANG) {
+    const cameFromStorage = safeStorage?.getItem(LANG_STORAGE_KEY) === initial;
     setLang(initial).then(() => {
-      if (currentLang !== initial) writeLangPref(SOURCE_LANG);
+      if (currentLang !== initial && cameFromStorage) clearLangPref();
     });
   }
 

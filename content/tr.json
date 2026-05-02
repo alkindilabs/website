@@ -44,7 +44,8 @@
   "about.body1": "Net kapsamı, dürüst diyaloğu ve büyük sözlere ihtiyaç duymadan kendi başına durabilen işi tercih ediyoruz. Bazen bu, bir özellik eklemek; bazen sadeleştirip gürültüyü azaltmak demek.",
   "about.body2": "Trendlerin peşinde değiliz. Faydalı, tutarlı ve iyi yapılmış bir şey kurmanıza yardımcı olmak için buradayız.",
   "team.label": "Ekip",
-  "team.intro": "İki şehir.<br>Bir stüdyo.",
+  "team.intro1": "İki şehir.",
+  "team.intro2": "Bir stüdyo.",
   "team.munevver.role": "Yaratıcı Direktör",
   "team.munevver.name": "Münevver Aslan",
   "team.munevver.bio": "Münevver her projeye disiplinler arası bir bakış getiriyor; marka sistemleri, etkileşim tasarımı ve netlik ile karakter arasındaki ince çizgide çalışıyor. İstanbul doğumlu, şimdi Lizbon ile işin onu götürdüğü her yer arasında yaşıyor.",
@@ -57,5 +58,5 @@
   "contact.heading": "Lansmanı yapılacak bir ürün, biçimlendirilecek bir marka ya da daha iyi yapı arayan bir hizmet mi var?",
   "contact.sub": "Nerede olduğunuzu ve nereye gitmek istediğinizi anlatın; yolu birlikte tasarlayalım.",
   "footer.tagline": "Tasarım ve Teknoloji Stüdyosu",
-  "footer.credit": "Markalama, Grafik ve Arayüz Tasarımı: <a href=\"https://munevver.xyz\" target=\"_blank\" rel=\"noopener\">Münevver Aslan</a>"
+  "footer.creditPrefix": "Markalama, Grafik ve Arayüz Tasarımı:"
 }
