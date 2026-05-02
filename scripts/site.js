@@ -136,10 +136,22 @@
     return SUPPORTED_LANGS.has(browser) ? browser : SOURCE_LANG;
   };
 
+  const TR_FETCH_TIMEOUT_MS = 5000;
+  const REVEAL_TIMEOUT_MS = 250;
+
   let trDict = null;
+  let trDictPromise = null;
   let currentLang = SOURCE_LANG;
   let langSeq = 0;
   const originalContent = new Map();
+
+  const writeLangPref = (lang) => {
+    try {
+      safeStorage?.setItem(LANG_STORAGE_KEY, lang);
+    } catch {
+      /* quota or storage became unavailable; ignore */
+    }
+  };
 
   const captureOriginalContent = () => {
     document.querySelectorAll('[data-i18n], [data-i18n-html], [data-i18n-aria]').forEach((el) => {
@@ -151,11 +163,22 @@
     });
   };
 
-  const loadTrDict = async () => {
-    if (trDict) return;
-    const res = await fetch(TR_DICT_URL);
-    if (!res.ok) throw new Error(`Failed to load tr: ${res.statusText}`);
-    trDict = await res.json();
+  const loadTrDict = () => {
+    if (trDict) return Promise.resolve();
+    if (trDictPromise) return trDictPromise;
+    trDictPromise = (async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), TR_FETCH_TIMEOUT_MS);
+      try {
+        const res = await fetch(TR_DICT_URL, { signal: controller.signal });
+        if (!res.ok) throw new Error(`Failed to load tr: ${res.statusText}`);
+        trDict = await res.json();
+      } finally {
+        clearTimeout(timeoutId);
+        trDictPromise = null;
+      }
+    })();
+    return trDictPromise;
   };
 
   const t = (key, params) => {
@@ -229,7 +252,7 @@
     langItems.forEach((btn) => {
       const active = btn.dataset.lang === currentLang;
       btn.classList.toggle('lang-switch__item--active', active);
-      btn.setAttribute('aria-checked', String(active));
+      btn.setAttribute('aria-pressed', String(active));
     });
   };
 
@@ -246,7 +269,7 @@
     }
     if (token !== langSeq) return;
     currentLang = lang;
-    safeStorage?.setItem(LANG_STORAGE_KEY, lang);
+    writeLangPref(lang);
     applyTranslations();
     refreshLangButtons();
     refresh();
@@ -262,11 +285,14 @@
   (async () => {
     const initial = detectInitialLang();
     if (initial === SOURCE_LANG) return;
-    document.documentElement.dataset.langPending = initial;
+    const root = document.documentElement;
+    root.dataset.langPending = initial;
+    const revealTimer = setTimeout(() => delete root.dataset.langPending, REVEAL_TIMEOUT_MS);
     try {
       await setLang(initial);
     } finally {
-      delete document.documentElement.dataset.langPending;
+      clearTimeout(revealTimer);
+      delete root.dataset.langPending;
     }
   })();
 
