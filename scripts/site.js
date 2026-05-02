@@ -4,6 +4,9 @@
   const ACTIVE_SECTION_VIEWPORT_RATIO = 0.35;
   const REVEAL_THRESHOLD = 0.08;
   const HEADER_HIT_OFFSET = 2;
+  const LANG_STORAGE_KEY = 'alkindi-lang';
+  const SUPPORTED_LANGS = ['en', 'tr'];
+  const FALLBACK_LANG = 'en';
 
   document.documentElement.classList.add('reveal-enabled');
 
@@ -110,16 +113,18 @@
     revealElements.forEach((el) => el.classList.add('is-visible'));
   }
 
-  document.querySelectorAll('.team__toggle').forEach((button) => {
+  let formatToggleLabel = (open, name) => `${open ? 'Hide' : 'Show'} ${name} bio`;
+
+  const teamToggles = Array.from(document.querySelectorAll('.team__toggle')).map((button) => {
     const member = button.closest('.team__member');
     const icon = button.querySelector('.team__toggle-icon');
-    const memberName = member.querySelector('.team__name').textContent.trim();
     const bio = document.getElementById(button.getAttribute('aria-controls'));
 
     const setBioState = (open) => {
+      const name = member.querySelector('.team__name').textContent.trim();
       member.classList.toggle('team__member--open', open);
       button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', `${open ? 'Hide' : 'Show'} ${memberName} bio`);
+      button.setAttribute('aria-label', formatToggleLabel(open, name));
       bio.setAttribute('aria-hidden', String(!open));
       icon.textContent = open ? '−' : '+';
     };
@@ -135,7 +140,102 @@
         refresh();
       }
     });
+
+    return { button, refresh: () => setBioState(button.getAttribute('aria-expanded') === 'true') };
   });
+
+  const dictionaries = {};
+  let currentLang = FALLBACK_LANG;
+
+  const safeStorage = (() => {
+    try {
+      const probe = '__alkindi__';
+      localStorage.setItem(probe, probe);
+      localStorage.removeItem(probe);
+      return localStorage;
+    } catch {
+      return null;
+    }
+  })();
+
+  const detectInitialLang = () => {
+    const saved = safeStorage?.getItem(LANG_STORAGE_KEY);
+    if (SUPPORTED_LANGS.includes(saved)) return saved;
+    const browser = (navigator.language || '').slice(0, 2).toLowerCase();
+    return SUPPORTED_LANGS.includes(browser) ? browser : FALLBACK_LANG;
+  };
+
+  const loadDictionary = async (lang) => {
+    if (dictionaries[lang]) return;
+    try {
+      const res = await fetch(`content/${lang}.json`);
+      if (!res.ok) throw new Error(res.statusText);
+      dictionaries[lang] = await res.json();
+    } catch {
+      dictionaries[lang] = {};
+    }
+  };
+
+  const t = (key, params) => {
+    const dict = dictionaries[currentLang] || {};
+    const fallback = dictionaries[FALLBACK_LANG] || {};
+    let value = dict[key] ?? fallback[key] ?? key;
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        value = value.split(`{${k}}`).join(v);
+      });
+    }
+    return value;
+  };
+
+  const applyTranslations = () => {
+    document.documentElement.lang = currentLang;
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      el.innerHTML = t(el.dataset.i18nHtml);
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      el.setAttribute('aria-label', t(el.dataset.i18nAria));
+    });
+    teamToggles.forEach((entry) => entry.refresh());
+  };
+
+  const langItems = Array.from(document.querySelectorAll('.lang-switch__item'));
+  const refreshLangButtons = () => {
+    langItems.forEach((btn) => {
+      const active = btn.dataset.lang === currentLang;
+      btn.classList.toggle('lang-switch__item--active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  const setLang = async (lang) => {
+    if (!SUPPORTED_LANGS.includes(lang) || lang === currentLang) return;
+    await loadDictionary(lang);
+    currentLang = lang;
+    safeStorage?.setItem(LANG_STORAGE_KEY, lang);
+    applyTranslations();
+    refreshLangButtons();
+    refresh();
+  };
+
+  langItems.forEach((item) => {
+    item.addEventListener('click', () => setLang(item.dataset.lang));
+  });
+
+  (async () => {
+    await loadDictionary(FALLBACK_LANG);
+    const initial = detectInitialLang();
+    if (initial !== FALLBACK_LANG) await loadDictionary(initial);
+    currentLang = initial;
+    safeStorage?.setItem(LANG_STORAGE_KEY, initial);
+    formatToggleLabel = (open, name) => t(open ? 'team.bioHide' : 'team.bioShow', { name });
+    applyTranslations();
+    refreshLangButtons();
+    refresh();
+  })();
 
   const yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

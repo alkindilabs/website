@@ -22,6 +22,7 @@ img, svg, video {
 }
 
 button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
 
 
 /* ============================================================
@@ -265,24 +266,23 @@ a {
   top: var(--space-lg);
 }
 
-.lang-switch::before {
-  content: '|';
-  color: var(--decoration-on-dark);
-  margin-right: 0.15rem;
-  transition: var(--transition-color);
-}
-
 .lang-switch__item {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
   color: var(--text-on-dark);
   text-shadow: var(--shadow-text-soft);
+  letter-spacing: inherit;
+  text-transform: inherit;
   transition: var(--transition-color);
 }
 
 .lang-switch__item--active {
   color: var(--text-on-dark-strong);
+  cursor: default;
 }
 
-.header--light .lang-switch::before { color: rgba(13, 13, 13, 0.20); }
 .header--light .lang-switch__item { text-shadow: none; color: var(--text-on-light-muted); }
 .header--light .lang-switch__item--active { color: var(--text-on-light-strong); }
 
@@ -758,7 +758,6 @@ a {
   color: var(--color-dark-fg);
   font-size: var(--t-xl);
   font-weight: 300;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
