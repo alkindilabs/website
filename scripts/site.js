@@ -157,10 +157,9 @@
   };
 
   const captureOriginalContent = () => {
-    document.querySelectorAll('[data-i18n], [data-i18n-html], [data-i18n-aria]').forEach((el) => {
+    document.querySelectorAll('[data-i18n], [data-i18n-aria]').forEach((el) => {
       originalContent.set(el, {
         text: el.textContent,
-        html: el.innerHTML,
         aria: el.getAttribute('aria-label'),
       });
     });
@@ -236,11 +235,6 @@
       const orig = originalContent.get(el);
       const value = trActive ? trDict?.[el.dataset.i18n] : undefined;
       el.textContent = value ?? orig.text;
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
-      const orig = originalContent.get(el);
-      const value = trActive ? trDict?.[el.dataset.i18nHtml] : undefined;
-      el.innerHTML = value ?? orig.html;
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
       const orig = originalContent.get(el);
