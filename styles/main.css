@@ -1084,7 +1084,10 @@ a {
 @media (scripting: none) {
   .team__bio-wrap { grid-template-rows: 1fr; }
   .team__toggle { display: none; }
+  .lang-switch { display: none; }
 }
+
+html[data-lang-pending] body { visibility: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

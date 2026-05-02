@@ -6,7 +6,12 @@
   const HEADER_HIT_OFFSET = 2;
   const LANG_STORAGE_KEY = 'alkindi-lang';
   const SUPPORTED_LANGS = new Set(['en', 'tr']);
-  const FALLBACK_LANG = 'en';
+  const SOURCE_LANG = 'en';
+  const TR_DICT_URL = 'content/tr.json';
+  const EN_TEMPLATES = Object.freeze({
+    'team.bioShow': 'Show {name} bio',
+    'team.bioHide': 'Hide {name} bio',
+  });
 
   document.documentElement.classList.add('reveal-enabled');
 
@@ -113,7 +118,61 @@
     revealElements.forEach((el) => el.classList.add('is-visible'));
   }
 
-  let formatToggleLabel = (open, name) => `${open ? 'Hide' : 'Show'} ${name} bio`;
+  const safeStorage = (() => {
+    try {
+      const probe = '__alkindi__';
+      localStorage.setItem(probe, probe);
+      localStorage.removeItem(probe);
+      return localStorage;
+    } catch {
+      return null;
+    }
+  })();
+
+  const detectInitialLang = () => {
+    const saved = safeStorage?.getItem(LANG_STORAGE_KEY);
+    if (SUPPORTED_LANGS.has(saved)) return saved;
+    const browser = (navigator.language || '').slice(0, 2).toLowerCase();
+    return SUPPORTED_LANGS.has(browser) ? browser : SOURCE_LANG;
+  };
+
+  let trDict = null;
+  let currentLang = SOURCE_LANG;
+  let langSeq = 0;
+  const originalContent = new Map();
+
+  const captureOriginalContent = () => {
+    document.querySelectorAll('[data-i18n], [data-i18n-html], [data-i18n-aria]').forEach((el) => {
+      originalContent.set(el, {
+        text: el.textContent,
+        html: el.innerHTML,
+        aria: el.getAttribute('aria-label'),
+      });
+    });
+  };
+
+  const loadTrDict = async () => {
+    if (trDict) return;
+    const res = await fetch(TR_DICT_URL);
+    if (!res.ok) throw new Error(`Failed to load tr: ${res.statusText}`);
+    trDict = await res.json();
+  };
+
+  const t = (key, params) => {
+    const raw = (currentLang === 'tr' ? trDict?.[key] : undefined) ?? EN_TEMPLATES[key];
+    if (raw === undefined) return undefined;
+    if (!params) return raw;
+    let value = raw;
+    Object.entries(params).forEach(([k, v]) => {
+      value = value.split(`{${k}}`).join(v);
+    });
+    return value;
+  };
+
+  const formatToggleLabel = (open, name) => {
+    const value = t(open ? 'team.bioHide' : 'team.bioShow', { name });
+    return value ?? `${open ? 'Hide' : 'Show'} ${name} bio`;
+  };
 
   const teamToggles = Array.from(document.querySelectorAll('.team__toggle')).map((button) => {
     const member = button.closest('.team__member');
@@ -144,67 +203,23 @@
     return { button, refresh: () => setBioState(button.getAttribute('aria-expanded') === 'true') };
   });
 
-  const DICTIONARY_URLS = Object.freeze({
-    en: 'content/en.json',
-    tr: 'content/tr.json',
-  });
-  const dictionaries = {};
-  let currentLang = FALLBACK_LANG;
-  let langSeq = 0;
-
-  const safeStorage = (() => {
-    try {
-      const probe = '__alkindi__';
-      localStorage.setItem(probe, probe);
-      localStorage.removeItem(probe);
-      return localStorage;
-    } catch {
-      return null;
-    }
-  })();
-
-  const detectInitialLang = () => {
-    const saved = safeStorage?.getItem(LANG_STORAGE_KEY);
-    if (SUPPORTED_LANGS.has(saved)) return saved;
-    const browser = (navigator.language || '').slice(0, 2).toLowerCase();
-    return SUPPORTED_LANGS.has(browser) ? browser : FALLBACK_LANG;
-  };
-
-  const loadDictionary = async (lang) => {
-    if (dictionaries[lang]) return;
-    const url = DICTIONARY_URLS[lang];
-    if (!url) throw new Error(`Unsupported lang: ${lang}`);
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to load ${lang}: ${res.statusText}`);
-    dictionaries[lang] = await res.json();
-  };
-
-  const t = (key, params) => {
-    const dict = dictionaries[currentLang] || {};
-    const fallback = dictionaries[FALLBACK_LANG] || {};
-    const raw = dict[key] ?? fallback[key];
-    if (raw === undefined) return undefined;
-    if (!params) return raw;
-    let value = raw;
-    Object.entries(params).forEach(([k, v]) => {
-      value = value.split(`{${k}}`).join(v);
-    });
-    return value;
-  };
-
   const applyTranslations = () => {
     document.documentElement.lang = currentLang;
+    const trActive = currentLang === 'tr';
     document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const value = t(el.dataset.i18n);
-      if (value !== undefined) el.textContent = value;
+      const orig = originalContent.get(el);
+      const value = trActive ? trDict?.[el.dataset.i18n] : undefined;
+      el.textContent = value ?? orig.text;
     });
     document.querySelectorAll('[data-i18n-html]').forEach((el) => {
-      const value = t(el.dataset.i18nHtml);
-      if (value !== undefined) el.innerHTML = value;
+      const orig = originalContent.get(el);
+      const value = trActive ? trDict?.[el.dataset.i18nHtml] : undefined;
+      el.innerHTML = value ?? orig.html;
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
-      const value = t(el.dataset.i18nAria);
-      if (value !== undefined) el.setAttribute('aria-label', value);
+      const orig = originalContent.get(el);
+      const value = trActive ? trDict?.[el.dataset.i18nAria] : undefined;
+      if (value ?? orig.aria) el.setAttribute('aria-label', value ?? orig.aria);
     });
     teamToggles.forEach((entry) => entry.refresh());
   };
@@ -214,7 +229,7 @@
     langItems.forEach((btn) => {
       const active = btn.dataset.lang === currentLang;
       btn.classList.toggle('lang-switch__item--active', active);
-      btn.setAttribute('aria-pressed', String(active));
+      btn.setAttribute('aria-checked', String(active));
     });
   };
 
@@ -222,10 +237,12 @@
     if (!SUPPORTED_LANGS.has(lang)) return;
     const token = ++langSeq;
     if (lang === currentLang) return;
-    try {
-      await loadDictionary(lang);
-    } catch {
-      return;
+    if (lang === 'tr') {
+      try {
+        await loadTrDict();
+      } catch {
+        return;
+      }
     }
     if (token !== langSeq) return;
     currentLang = lang;
@@ -239,31 +256,18 @@
     item.addEventListener('click', () => setLang(item.dataset.lang));
   });
 
+  captureOriginalContent();
+  refreshLangButtons();
+
   (async () => {
-    const token = ++langSeq;
+    const initial = detectInitialLang();
+    if (initial === SOURCE_LANG) return;
+    document.documentElement.dataset.langPending = initial;
     try {
-      await loadDictionary(FALLBACK_LANG);
-    } catch {
-      return;
+      await setLang(initial);
+    } finally {
+      delete document.documentElement.dataset.langPending;
     }
-    let initial = detectInitialLang();
-    if (initial !== FALLBACK_LANG) {
-      try {
-        await loadDictionary(initial);
-      } catch {
-        initial = FALLBACK_LANG;
-      }
-    }
-    if (token !== langSeq) return;
-    currentLang = initial;
-    safeStorage?.setItem(LANG_STORAGE_KEY, currentLang);
-    formatToggleLabel = (open, name) => {
-      const value = t(open ? 'team.bioHide' : 'team.bioShow', { name });
-      return value ?? `${open ? 'Hide' : 'Show'} ${name} bio`;
-    };
-    applyTranslations();
-    refreshLangButtons();
-    refresh();
   })();
 
   const yearEl = document.getElementById('footer-year');
