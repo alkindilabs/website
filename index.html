@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="al-Kindi is a design and technology studio building brands, products, and digital experiences.">
+  <meta property="og:title" content="al-Kindi — Design &amp; Technology Studio">
+  <meta property="og:description" content="A design and technology studio focused on clear thinking and solid work.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.alkindi.com/">
+  <meta property="og:image" content="https://www.alkindi.com/assets/images/upscale.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#060504">
+  <link rel="canonical" href="https://www.alkindi.com/">
   <title>al-Kindi — Design &amp; Technology Studio</title>
   <link rel="icon" href="assets/logos/alkindi.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles/fonts.css">
@@ -12,14 +21,13 @@
 
   <header class="site-header">
     <a href="/" class="nav__logo"><img src="assets/logos/alkindi.svg" alt="al-Kindi" class="nav__logo-img"></a>
-    <div class="lang-switch">
-      <span class="lang-switch__sep">|</span>
-      <a href="#" class="lang-switch__item lang-switch__item--active">EN</a>
-      <a href="#" class="lang-switch__item">TR</a>
+    <div class="lang-switch" aria-label="Language">
+      <span class="lang-switch__item lang-switch__item--active">EN</span>
+      <span class="lang-switch__item">TR</span>
     </div>
     <nav class="nav">
       <ul class="nav__links">
-        <li><a href="#work" class="nav__link nav__link--active"><span class="nav__arrow">→</span> Work</a></li>
+        <li><a href="#work" class="nav__link"><span class="nav__arrow">→</span> Work</a></li>
         <li><a href="#services" class="nav__link"><span class="nav__arrow">→</span> Services</a></li>
         <li><a href="#about" class="nav__link"><span class="nav__arrow">→</span> About</a></li>
         <li><a href="#team" class="nav__link"><span class="nav__arrow">→</span> Team</a></li>
@@ -46,23 +54,23 @@
     <section id="work" class="work">
       <div class="container">
         <div class="work__head reveal">
-          <p class="section__label work__label">Selected Projects</p>
-          <a href="#" class="work__viewall">View all &nbsp;→</a>
+          <h2 class="section__label">Selected Projects</h2>
+          <span class="work__viewall">View all &nbsp;→</span>
         </div>
       </div>
       <div class="work__grid">
 
         <div class="work__col work__col--left">
-          <a href="#" class="project-item reveal reveal-delay-1">
-            <div class="project-item__image project-item__image--nexora">
+          <article class="project-item reveal reveal-delay-1">
+            <div class="project-item__image">
               <div class="project-item__placeholder project-item__placeholder--nexora"></div>
             </div>
             <div class="project-item__info">
               <h3 class="project-item__title">Nexora — Brand Identity</h3>
               <p class="project-item__tags">Branding, Visual Identity, Strategy</p>
             </div>
-          </a>
-          <a href="#" class="project-item reveal reveal-delay-3">
+          </article>
+          <article class="project-item reveal reveal-delay-3">
             <div class="project-item__image">
               <div class="project-item__placeholder project-item__placeholder--kove"></div>
             </div>
@@ -70,11 +78,11 @@
               <h3 class="project-item__title">Kove Labs — Product Design</h3>
               <p class="project-item__tags">UI/UX, Product, Research</p>
             </div>
-          </a>
+          </article>
         </div>
 
         <div class="work__col work__col--right">
-          <a href="#" class="project-item reveal reveal-delay-2">
+          <article class="project-item reveal reveal-delay-2">
             <div class="project-item__image">
               <div class="project-item__placeholder project-item__placeholder--solari"></div>
             </div>
@@ -82,8 +90,8 @@
               <h3 class="project-item__title">Solari — Web Platform</h3>
               <p class="project-item__tags">Web Design, Development</p>
             </div>
-          </a>
-          <a href="#" class="project-item reveal reveal-delay-4">
+          </article>
+          <article class="project-item reveal reveal-delay-4">
             <div class="project-item__image">
               <div class="project-item__placeholder project-item__placeholder--ashen"></div>
             </div>
@@ -91,16 +99,16 @@
               <h3 class="project-item__title">Ashen Studio — Digital Identity</h3>
               <p class="project-item__tags">Branding, Web, Motion</p>
             </div>
-          </a>
+          </article>
         </div>
 
       </div>
     </section>
 
-    <section id="services" class="section-gap">
+    <section id="services" class="section-gap" data-color="light">
       <div class="container">
         <div class="services__top reveal">
-          <p class="section__label">Services</p>
+          <h2 class="section__label">Services</h2>
           <p class="services__lead">We like projects with a clear purpose and long&#8209;term value.</p>
         </div>
         <ul class="service-list">
@@ -157,9 +165,9 @@
       </div>
     </section>
 
-    <section id="about" class="section-gap about">
+    <section id="about" class="section-gap about" data-color="light">
       <div class="container">
-        <p class="section__label reveal">About al&#8209;Kindi</p>
+        <h2 class="section__label reveal">About al&#8209;Kindi</h2>
         <div class="about__layout">
           <p class="about__lead reveal reveal-delay-1">A small, focused studio with roots in software and a strong foundation in design.</p>
           <div class="about__body reveal reveal-delay-2">
@@ -172,7 +180,7 @@
 
     <section id="team" class="team section-gap">
       <div class="container">
-        <p class="section__label">Team</p>
+        <h2 class="section__label">Team</h2>
         <h2 class="team__intro">Two cities.<br>One studio.</h2>
       </div>
       <div class="team__list">
@@ -182,14 +190,14 @@
             <div class="team__photo">
               <div class="team__photo-placeholder team__photo-placeholder--munevver"></div>
             </div>
-            <button class="team__toggle" aria-expanded="false" aria-label="Show bio">
+            <button class="team__toggle" aria-expanded="false" aria-controls="bio-munevver" aria-label="Show Münevver Aslan bio">
               <span class="team__toggle-icon">+</span>
             </button>
           </div>
           <div class="team__info">
             <span class="team__role">Creative Director</span>
             <h3 class="team__name">Münevver Aslan</h3>
-            <div class="team__bio-wrap">
+            <div id="bio-munevver" class="team__bio-wrap">
               <div class="team__bio-inner">
                 <p class="team__bio">Münevver brings a multidisciplinary eye to every project — spanning brand systems, interaction design and the fine line between clarity and character. Born in Istanbul, now based between Lisbon and wherever the work takes her.</p>
               </div>
@@ -202,36 +210,16 @@
             <div class="team__photo">
               <div class="team__photo-placeholder team__photo-placeholder--partner"></div>
             </div>
-            <button class="team__toggle" aria-expanded="false" aria-label="Show bio">
+            <button class="team__toggle" aria-expanded="false" aria-controls="bio-partner" aria-label="Show Studio Partner bio">
               <span class="team__toggle-icon">+</span>
             </button>
           </div>
           <div class="team__info">
             <span class="team__role">Technical Lead</span>
             <h3 class="team__name">Studio Partner</h3>
-            <div class="team__bio-wrap">
+            <div id="bio-partner" class="team__bio-wrap">
               <div class="team__bio-inner">
                 <p class="team__bio">The engineering half of al-Kindi. Focused on clean architecture, sustainable codebases and the kind of software that quietly does exactly what it's supposed to — and nothing more.</p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="team__member">
-          <div class="team__photo-wrap">
-            <div class="team__photo">
-              <div class="team__photo-placeholder team__photo-placeholder--olive"></div>
-            </div>
-            <button class="team__toggle" aria-expanded="false" aria-label="Show bio">
-              <span class="team__toggle-icon">+</span>
-            </button>
-          </div>
-          <div class="team__info">
-            <span class="team__role">Role</span>
-            <h3 class="team__name">Name</h3>
-            <div class="team__bio-wrap">
-              <div class="team__bio-inner">
-                <p class="team__bio">Bio text goes here.</p>
               </div>
             </div>
           </div>
@@ -242,7 +230,7 @@
 
     <section id="contact" class="section-gap contact">
       <div class="container">
-        <p class="section__label reveal">Contact</p>
+        <h2 class="section__label reveal">Contact</h2>
         <h2 class="contact__heading reveal reveal-delay-1">Have a product to launch, a brand to refine or a service that needs better structure?</h2>
         <p class="contact__sub reveal reveal-delay-2">Tell us where you are and where you want to go — we'll help you design the path.</p>
         <div class="contact__links reveal reveal-delay-3">
@@ -256,7 +244,7 @@
 
   <footer class="site-footer">
     <div class="container footer__inner">
-      <span>© 2024 al-Kindi</span>
+      <small>© <span id="footer-year">2026</span> al-Kindi</small>
       <div class="footer__right">
         <span class="footer__tagline">Design &amp; Technology Studio</span>
         <span class="footer__credit">Branding, Graphics &amp; UI Design by <a href="https://munevver.xyz" target="_blank" rel="noopener">Münevver Aslan</a></span>

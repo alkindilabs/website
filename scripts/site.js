@@ -1,114 +1,142 @@
 (() => {
+  const SCROLL_THRESHOLD = 80;
+  const SCROLL_DELTA_DEADBAND = 6;
+  const ACTIVE_SECTION_VIEWPORT_RATIO = 0.35;
+  const REVEAL_THRESHOLD = 0.08;
+  const HEADER_HIT_OFFSET = 2;
+
+  document.documentElement.classList.add('reveal-enabled');
+
   const header = document.querySelector('.site-header');
-  if (!header) {
-    return;
-  }
+  if (!header) return;
 
-  const navLinks = document.querySelectorAll('.nav__link');
-  const lightSections = new Set(['services', 'about']);
-  const sectionMap = {
-    work: '#work',
-    services: '#services',
-    about: '#about',
-    team: '#team',
-    contact: '#contact',
-  };
+  const navItems = Array.from(document.querySelectorAll('.nav__link[href^="#"]'))
+    .map((link) => ({
+      link,
+      section: document.getElementById(link.hash.slice(1)),
+      top: 0,
+    }))
+    .filter((item) => item.section);
 
+  const allSections = Array.from(document.querySelectorAll('section[id]'));
+  let sectionRanges = [];
+  let headerHeight = 0;
   let lastScrollY = window.scrollY;
+  let isHidden = false;
   let ticking = false;
 
-  const getColorSection = () => {
-    const checkY = header.getBoundingClientRect().bottom + 2;
-    const element = document.elementFromPoint(window.innerWidth / 2, checkY);
-    const section = element?.closest('section[id]');
-    return section?.id ?? 'hero';
+  const recomputeLayout = () => {
+    sectionRanges = allSections.map((section) => {
+      const top = section.offsetTop;
+      return {
+        top,
+        bottom: top + section.offsetHeight,
+        isLight: section.dataset.color === 'light',
+      };
+    });
+    navItems.forEach((item) => {
+      item.top = item.section.offsetTop;
+    });
+    headerHeight = header.offsetHeight;
   };
 
-  const getActiveSection = (scrollY) => {
-    const midline = scrollY + window.innerHeight * 0.35;
-    let activeSection = 'hero';
+  const findColorRange = (scrollY) => {
+    const checkY = scrollY + headerHeight + HEADER_HIT_OFFSET;
+    return sectionRanges.find((range) => checkY >= range.top && checkY < range.bottom);
+  };
 
-    document.querySelectorAll('section[id]').forEach((section) => {
-      if (section.offsetTop <= midline) {
-        activeSection = section.id;
-      }
+  const findActiveLink = (scrollY) => {
+    const midline = scrollY + window.innerHeight * ACTIVE_SECTION_VIEWPORT_RATIO;
+    let active = navItems[0] ?? null;
+    navItems.forEach((item) => {
+      if (item.top <= midline) active = item;
     });
-
-    return activeSection;
+    return active?.link ?? null;
   };
 
   const updateHeader = () => {
     const scrollY = window.scrollY;
-    const colorSection = getColorSection();
-    const activeSection = getActiveSection(scrollY);
-    const activeHref = sectionMap[activeSection] || '#work';
-
-    header.classList.toggle('header--light', lightSections.has(colorSection));
-    header.classList.toggle('header--scrolled', scrollY > 80);
-
-    navLinks.forEach((link) => {
-      link.classList.toggle('nav__link--active', link.getAttribute('href') === activeHref);
-    });
-
+    const colorRange = findColorRange(scrollY);
+    const activeLink = findActiveLink(scrollY);
     const delta = scrollY - lastScrollY;
-    if (scrollY < 80) {
-      header.classList.remove('header--hidden');
-    } else if (delta > 6) {
-      header.classList.add('header--hidden');
-    } else if (delta < -6) {
-      header.classList.remove('header--hidden');
-    }
+
+    if (scrollY < SCROLL_THRESHOLD) isHidden = false;
+    else if (delta > SCROLL_DELTA_DEADBAND) isHidden = true;
+    else if (delta < -SCROLL_DELTA_DEADBAND) isHidden = false;
+
+    header.classList.toggle('header--light', !!colorRange?.isLight);
+    header.classList.toggle('header--scrolled', scrollY > SCROLL_THRESHOLD);
+    header.classList.toggle('header--hidden', isHidden);
+
+    navItems.forEach(({ link }) => {
+      const active = link === activeLink;
+      link.classList.toggle('nav__link--active', active);
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
 
     lastScrollY = scrollY;
     ticking = false;
   };
 
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!ticking) {
-        requestAnimationFrame(updateHeader);
-        ticking = true;
-      }
-    },
-    { passive: true }
-  );
+  const refresh = () => {
+    recomputeLayout();
+    updateHeader();
+  };
 
-  window.addEventListener('resize', updateHeader, { passive: true });
-  updateHeader();
+  refresh();
 
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    requestAnimationFrame(updateHeader);
+    ticking = true;
+  }, { passive: true });
+
+  window.addEventListener('resize', refresh, { passive: true });
+  window.addEventListener('load', refresh);
+  if (document.fonts) document.fonts.ready.then(refresh);
+
+  const revealElements = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in globalThis) {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
+        if (!entry.isIntersecting) return;
         entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
+        observer.unobserve(entry.target);
       });
-    },
-    { threshold: 0.08 }
-  );
-
-  document.querySelectorAll('.reveal').forEach((element) => {
-    revealObserver.observe(element);
-  });
+    }, { threshold: REVEAL_THRESHOLD });
+    revealElements.forEach((el) => observer.observe(el));
+  } else {
+    revealElements.forEach((el) => el.classList.add('is-visible'));
+  }
 
   document.querySelectorAll('.team__toggle').forEach((button) => {
-    button.addEventListener('click', () => {
-      const member = button.closest('.team__member');
-      if (!member) {
-        return;
-      }
+    const member = button.closest('.team__member');
+    const icon = button.querySelector('.team__toggle-icon');
+    const memberName = member.querySelector('.team__name').textContent.trim();
+    const bio = document.getElementById(button.getAttribute('aria-controls'));
 
-      const open = member.classList.toggle('team__member--open');
+    const setBioState = (open) => {
+      member.classList.toggle('team__member--open', open);
       button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', `${open ? 'Hide' : 'Show'} ${memberName} bio`);
+      bio.setAttribute('aria-hidden', String(!open));
+      icon.textContent = open ? '−' : '+';
+    };
 
-      const icon = button.querySelector('.team__toggle-icon');
-      if (icon) {
-        icon.textContent = open ? '−' : '+';
+    setBioState(button.getAttribute('aria-expanded') === 'true');
+
+    button.addEventListener('click', () => {
+      setBioState(button.getAttribute('aria-expanded') !== 'true');
+    });
+
+    bio.addEventListener('transitionend', (event) => {
+      if (event.target === bio && event.propertyName === 'grid-template-rows') {
+        refresh();
       }
     });
   });
+
+  const yearEl = document.getElementById('footer-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
