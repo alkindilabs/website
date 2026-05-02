@@ -137,7 +137,6 @@
   };
 
   const TR_FETCH_TIMEOUT_MS = 5000;
-  const REVEAL_TIMEOUT_MS = 250;
 
   let trDict = null;
   let trDictPromise = null;
@@ -263,7 +262,8 @@
     if (lang === 'tr') {
       try {
         await loadTrDict();
-      } catch {
+      } catch (err) {
+        console.warn('Language switch to tr failed:', err);
         return;
       }
     }
@@ -282,19 +282,8 @@
   captureOriginalContent();
   refreshLangButtons();
 
-  (async () => {
-    const initial = detectInitialLang();
-    if (initial === SOURCE_LANG) return;
-    const root = document.documentElement;
-    root.dataset.langPending = initial;
-    const revealTimer = setTimeout(() => delete root.dataset.langPending, REVEAL_TIMEOUT_MS);
-    try {
-      await setLang(initial);
-    } finally {
-      clearTimeout(revealTimer);
-      delete root.dataset.langPending;
-    }
-  })();
+  const initial = detectInitialLang();
+  if (initial !== SOURCE_LANG) setLang(initial);
 
   const yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
