@@ -5,7 +5,7 @@
   const REVEAL_THRESHOLD = 0.08;
   const HEADER_HIT_OFFSET = 2;
   const LANG_STORAGE_KEY = 'alkindi-lang';
-  const SUPPORTED_LANGS = ['en', 'tr'];
+  const SUPPORTED_LANGS = new Set(['en', 'tr']);
   const FALLBACK_LANG = 'en';
 
   document.documentElement.classList.add('reveal-enabled');
@@ -160,9 +160,9 @@
 
   const detectInitialLang = () => {
     const saved = safeStorage?.getItem(LANG_STORAGE_KEY);
-    if (SUPPORTED_LANGS.includes(saved)) return saved;
+    if (SUPPORTED_LANGS.has(saved)) return saved;
     const browser = (navigator.language || '').slice(0, 2).toLowerCase();
-    return SUPPORTED_LANGS.includes(browser) ? browser : FALLBACK_LANG;
+    return SUPPORTED_LANGS.has(browser) ? browser : FALLBACK_LANG;
   };
 
   const loadDictionary = async (lang) => {
@@ -212,7 +212,7 @@
   };
 
   const setLang = async (lang) => {
-    if (!SUPPORTED_LANGS.includes(lang) || lang === currentLang) return;
+    if (!SUPPORTED_LANGS.has(lang) || lang === currentLang) return;
     await loadDictionary(lang);
     currentLang = lang;
     safeStorage?.setItem(LANG_STORAGE_KEY, lang);
