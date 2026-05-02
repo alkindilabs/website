@@ -144,8 +144,13 @@
     return { button, refresh: () => setBioState(button.getAttribute('aria-expanded') === 'true') };
   });
 
+  const DICTIONARY_URLS = Object.freeze({
+    en: 'content/en.json',
+    tr: 'content/tr.json',
+  });
   const dictionaries = {};
   let currentLang = FALLBACK_LANG;
+  let langSeq = 0;
 
   const safeStorage = (() => {
     try {
@@ -167,37 +172,39 @@
 
   const loadDictionary = async (lang) => {
     if (dictionaries[lang]) return;
-    try {
-      const res = await fetch(`content/${lang}.json`);
-      if (!res.ok) throw new Error(res.statusText);
-      dictionaries[lang] = await res.json();
-    } catch {
-      dictionaries[lang] = {};
-    }
+    const url = DICTIONARY_URLS[lang];
+    if (!url) throw new Error(`Unsupported lang: ${lang}`);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to load ${lang}: ${res.statusText}`);
+    dictionaries[lang] = await res.json();
   };
 
   const t = (key, params) => {
     const dict = dictionaries[currentLang] || {};
     const fallback = dictionaries[FALLBACK_LANG] || {};
-    let value = dict[key] ?? fallback[key] ?? key;
-    if (params) {
-      Object.entries(params).forEach(([k, v]) => {
-        value = value.split(`{${k}}`).join(v);
-      });
-    }
+    const raw = dict[key] ?? fallback[key];
+    if (raw === undefined) return undefined;
+    if (!params) return raw;
+    let value = raw;
+    Object.entries(params).forEach(([k, v]) => {
+      value = value.split(`{${k}}`).join(v);
+    });
     return value;
   };
 
   const applyTranslations = () => {
     document.documentElement.lang = currentLang;
     document.querySelectorAll('[data-i18n]').forEach((el) => {
-      el.textContent = t(el.dataset.i18n);
+      const value = t(el.dataset.i18n);
+      if (value !== undefined) el.textContent = value;
     });
     document.querySelectorAll('[data-i18n-html]').forEach((el) => {
-      el.innerHTML = t(el.dataset.i18nHtml);
+      const value = t(el.dataset.i18nHtml);
+      if (value !== undefined) el.innerHTML = value;
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
-      el.setAttribute('aria-label', t(el.dataset.i18nAria));
+      const value = t(el.dataset.i18nAria);
+      if (value !== undefined) el.setAttribute('aria-label', value);
     });
     teamToggles.forEach((entry) => entry.refresh());
   };
@@ -212,8 +219,15 @@
   };
 
   const setLang = async (lang) => {
-    if (!SUPPORTED_LANGS.has(lang) || lang === currentLang) return;
-    await loadDictionary(lang);
+    if (!SUPPORTED_LANGS.has(lang)) return;
+    const token = ++langSeq;
+    if (lang === currentLang) return;
+    try {
+      await loadDictionary(lang);
+    } catch {
+      return;
+    }
+    if (token !== langSeq) return;
     currentLang = lang;
     safeStorage?.setItem(LANG_STORAGE_KEY, lang);
     applyTranslations();
@@ -226,12 +240,27 @@
   });
 
   (async () => {
-    await loadDictionary(FALLBACK_LANG);
-    const initial = detectInitialLang();
-    if (initial !== FALLBACK_LANG) await loadDictionary(initial);
+    const token = ++langSeq;
+    try {
+      await loadDictionary(FALLBACK_LANG);
+    } catch {
+      return;
+    }
+    let initial = detectInitialLang();
+    if (initial !== FALLBACK_LANG) {
+      try {
+        await loadDictionary(initial);
+      } catch {
+        initial = FALLBACK_LANG;
+      }
+    }
+    if (token !== langSeq) return;
     currentLang = initial;
-    safeStorage?.setItem(LANG_STORAGE_KEY, initial);
-    formatToggleLabel = (open, name) => t(open ? 'team.bioHide' : 'team.bioShow', { name });
+    safeStorage?.setItem(LANG_STORAGE_KEY, currentLang);
+    formatToggleLabel = (open, name) => {
+      const value = t(open ? 'team.bioHide' : 'team.bioShow', { name });
+      return value ?? `${open ? 'Hide' : 'Show'} ${name} bio`;
+    };
     applyTranslations();
     refreshLangButtons();
     refresh();

@@ -1,20 +1,18 @@
 {
   "lang.switch": "Dil",
-
+  "nav.main": "Birincil",
   "nav.work": "İşler",
   "nav.services": "Hizmetler",
   "nav.about": "Hakkında",
   "nav.team": "Ekip",
   "nav.contact": "İletişim",
-
   "hero.headingAria": "Özgür, Korkusuz — İstanbul doğumlu, Lizbon yetişmesi",
   "hero.phrase1": "Özgür, Korkusuz",
   "hero.phrase2": "İstanbul‑doğumlu, Lizbon‑yetişmesi",
   "hero.tagline": "Net düşünmeye ve sağlam işe odaklanan bir tasarım ve teknoloji stüdyosu.",
   "hero.body": "Kullanması doğal, anlaması kolay markalar, ürünler ve dijital deneyimler kuruyoruz. Bazı günler arayüz tasarlıyoruz, bazı günler kodun derinlerinde çalışıyoruz; çoğu gün ikisini birden yapıyoruz.",
-
   "work.label": "Seçili Projeler",
-  "work.viewAll": "Tümünü gör  →",
+  "work.viewAll": "Tümünü gör  →",
   "work.nexora.title": "Nexora — Marka Kimliği",
   "work.nexora.tags": "Markalama, Görsel Kimlik, Strateji",
   "work.kove.title": "Kove Labs — Ürün Tasarımı",
@@ -23,7 +21,6 @@
   "work.solari.tags": "Web Tasarımı, Geliştirme",
   "work.ashen.title": "Ashen Studio — Dijital Kimlik",
   "work.ashen.tags": "Markalama, Web, Hareket",
-
   "services.label": "Hizmetler",
   "services.lead": "Net amacı ve uzun vadeli değeri olan projeleri seviyoruz.",
   "services.01.title": "Yazılım Geliştirme",
@@ -42,12 +39,10 @@
   "services.07.desc": "Tasarım ve ürün kararlarını kanıta dayandırmak için kullanıcı, veri ve bağlamı inceliyoruz.",
   "services.08.title": "Yaratıcı Yönlendirme",
   "services.08.desc": "Tasarım, ürün ya da marka yönünde düşünceli bir ortak arayan ekiplere destek.",
-
   "about.label": "al‑Kindi Hakkında",
   "about.lead": "Yazılımdan beslenen, tasarımda sağlam bir temele sahip; küçük ve odaklı bir stüdyo.",
   "about.body1": "Net kapsamı, dürüst diyaloğu ve büyük sözlere ihtiyaç duymadan kendi başına durabilen işi tercih ediyoruz. Bazen bu, bir özellik eklemek; bazen sadeleştirip gürültüyü azaltmak demek.",
   "about.body2": "Trendlerin peşinde değiliz. Faydalı, tutarlı ve iyi yapılmış bir şey kurmanıza yardımcı olmak için buradayız.",
-
   "team.label": "Ekip",
   "team.intro": "İki şehir.<br>Bir stüdyo.",
   "team.munevver.role": "Yaratıcı Direktör",
@@ -58,11 +53,9 @@
   "team.partner.bio": "al-Kindi'nin mühendislik tarafı. Temiz mimariye, sürdürülebilir kod tabanlarına ve sessizce tam olarak yapması gerekeni yapan, fazlasını yapmayan yazılıma odaklı.",
   "team.bioShow": "{name} biyografisini göster",
   "team.bioHide": "{name} biyografisini gizle",
-
   "contact.label": "İletişim",
   "contact.heading": "Lansmanı yapılacak bir ürün, biçimlendirilecek bir marka ya da daha iyi yapı arayan bir hizmet mi var?",
   "contact.sub": "Nerede olduğunuzu ve nereye gitmek istediğinizi anlatın; yolu birlikte tasarlayalım.",
-
   "footer.tagline": "Tasarım ve Teknoloji Stüdyosu",
   "footer.credit": "Markalama, Grafik ve Arayüz Tasarımı: <a href=\"https://munevver.xyz\" target=\"_blank\" rel=\"noopener\">Münevver Aslan</a>"
 }
