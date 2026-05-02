@@ -6,6 +6,13 @@
 - Keep it simple on purpose.
 - Do not introduce frameworks, bundlers, or build tooling without a clear, repo-specific need.
 
+## Instruction Scope
+
+- This root file applies to the whole repository by default.
+- If the repo grows, subdirectories may add `AGENTS.md` or `AGENTS.override.md` only when that subtree genuinely needs narrower local rules.
+- Nested instruction files should refine local behavior, not exist for one-off tasks or temporary notes.
+- When a nested instruction file exists for the files being edited, follow the most specific applicable instructions without ignoring the repo-wide contract.
+
 ## Core Separation
 
 - `index.html` owns semantic structure, section order, authored copy, links, and asset references.
@@ -63,6 +70,18 @@ content/   # only if content extraction becomes necessary
 - Interaction changes should land in `scripts/site.js`.
 - New images, fonts, and logos should land under `assets/`.
 - If EN/TR becomes real content rather than placeholders, move language content into `content/*` instead of duplicating large blocks of markup plus ad hoc JS.
+
+## Verification
+
+- There is no build step in this repo. Verify changes with a local static server.
+- From the repo root, run `python3 -m http.server 4173`.
+- After HTML, CSS, JS, or path changes, verify at minimum:
+  - `curl -I http://127.0.0.1:4173/`
+  - `curl -I http://127.0.0.1:4173/styles/fonts.css`
+  - `curl -I http://127.0.0.1:4173/styles/main.css`
+  - `curl -I http://127.0.0.1:4173/scripts/site.js`
+- If assets were renamed or moved, also verify `curl -I` for each affected asset path.
+- If markup or interaction changed, do a browser sanity check for header behavior, reveal animations, and team-member toggles before finishing.
 
 ## Non-Goals
 
