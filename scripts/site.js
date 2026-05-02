@@ -283,7 +283,11 @@
   refreshLangButtons();
 
   const initial = detectInitialLang();
-  if (initial !== SOURCE_LANG) setLang(initial);
+  if (initial !== SOURCE_LANG) {
+    setLang(initial).then(() => {
+      if (currentLang !== initial) writeLangPref(SOURCE_LANG);
+    });
+  }
 
   const yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
