@@ -150,6 +150,12 @@
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
 
+  // SAFETY_DICT is the offline-first-visit fallback (no cache + no network).
+  // It intentionally duplicates a subset of content/en.json so the brand,
+  // hero, and section labels still render when both fetch and cache fail.
+  // The per-element [data-i18n]:empty cloak in styles/main.css keeps any key
+  // not present here visibility:hidden, so missing entries do not produce a
+  // visible blank gap.
   const SAFETY_DICT = Object.freeze({
     'lang.switch': 'Language',
     'nav.work': 'Work',
@@ -191,11 +197,21 @@
 
   const cacheKey = (lang) => `${DICT_CACHE_PREFIX}${lang}:${DICT_CACHE_VERSION}`;
 
+  const isValidDict = (value) => {
+    if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+    for (const v of Object.values(value)) {
+      if (typeof v !== 'string') return false;
+    }
+    return true;
+  };
+
   const readCachedDict = (lang) => {
     if (!safeStorage) return null;
     try {
       const raw = safeStorage.getItem(cacheKey(lang));
-      return raw ? JSON.parse(raw) : null;
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return isValidDict(parsed) ? parsed : null;
     } catch {
       return null;
     }
@@ -203,6 +219,7 @@
 
   const writeCachedDict = (lang, dict) => {
     if (!safeStorage) return;
+    if (!isValidDict(dict)) return;
     try {
       safeStorage.setItem(cacheKey(lang), JSON.stringify(dict));
     } catch {
@@ -220,11 +237,23 @@
     document.addEventListener('visibilitychange', onChange);
   });
 
+  const createTimeoutSignal = (ms) => {
+    if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+      return AbortSignal.timeout(ms);
+    }
+    if (typeof AbortController === 'function') {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), ms);
+      return controller.signal;
+    }
+    return undefined;
+  };
+
   const fetchDictOnce = async (lang) => {
     const url = DICT_URLS[lang];
     if (!url) throw new Error(`Unsupported lang: ${lang}`);
     const signal = document.visibilityState === 'visible'
-      ? AbortSignal.timeout(DICT_TIMEOUT_VISIBLE_MS)
+      ? createTimeoutSignal(DICT_TIMEOUT_VISIBLE_MS)
       : undefined;
     const res = await fetch(url, {
       credentials: 'omit',
@@ -237,13 +266,20 @@
       err.code = `http-${res.status}`;
       throw err;
     }
+    let parsed;
     try {
-      return await res.json();
+      parsed = await res.json();
     } catch {
       const err = new Error('parse');
       err.code = 'parse';
       throw err;
     }
+    if (!isValidDict(parsed)) {
+      const err = new Error('parse');
+      err.code = 'parse';
+      throw err;
+    }
+    return parsed;
   };
 
   const isAbortError = (err) => err?.name === 'AbortError' || err?.name === 'TimeoutError';
