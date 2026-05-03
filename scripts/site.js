@@ -7,7 +7,10 @@
   const LANG_STORAGE_KEY = 'alkindi-lang';
   const SUPPORTED_LANGS = new Set(['en', 'tr']);
   const SOURCE_LANG = 'en';
-  const TR_DICT_URL = 'content/tr.json';
+  const DICT_URLS = Object.freeze({
+    en: 'content/en.json',
+    tr: 'content/tr.json',
+  });
 
   document.documentElement.classList.add('reveal-enabled');
 
@@ -132,13 +135,12 @@
     return SUPPORTED_LANGS.has(browser) ? browser : SOURCE_LANG;
   };
 
-  const TR_FETCH_TIMEOUT_MS = 5000;
+  const DICT_FETCH_TIMEOUT_MS = 5000;
 
-  let trDict = null;
-  let trDictPromise = null;
+  const dicts = {};
+  const dictPromises = {};
   let currentLang = SOURCE_LANG;
   let langSeq = 0;
-  const originalContent = new Map();
 
   const writeLangPref = (lang) => {
     try {
@@ -156,35 +158,28 @@
     }
   };
 
-  const captureOriginalContent = () => {
-    document.querySelectorAll('[data-i18n], [data-i18n-aria]').forEach((el) => {
-      originalContent.set(el, {
-        text: el.textContent,
-        aria: el.getAttribute('aria-label'),
-      });
-    });
-  };
-
-  const loadTrDict = () => {
-    if (trDict) return Promise.resolve();
-    if (trDictPromise) return trDictPromise;
-    trDictPromise = (async () => {
+  const loadDict = (lang) => {
+    if (dicts[lang]) return Promise.resolve();
+    if (dictPromises[lang]) return dictPromises[lang];
+    const url = DICT_URLS[lang];
+    if (!url) return Promise.reject(new Error(`Unsupported lang: ${lang}`));
+    dictPromises[lang] = (async () => {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), TR_FETCH_TIMEOUT_MS);
+      const timeoutId = setTimeout(() => controller.abort(), DICT_FETCH_TIMEOUT_MS);
       try {
-        const res = await fetch(TR_DICT_URL, { signal: controller.signal });
-        if (!res.ok) throw new Error(`Failed to load tr: HTTP ${res.status} ${res.statusText}`.trimEnd());
-        trDict = await res.json();
+        const res = await fetch(url, { signal: controller.signal });
+        if (!res.ok) throw new Error(`Failed to load ${lang}: HTTP ${res.status} ${res.statusText}`.trimEnd());
+        dicts[lang] = await res.json();
       } finally {
         clearTimeout(timeoutId);
-        trDictPromise = null;
+        dictPromises[lang] = null;
       }
     })();
-    return trDictPromise;
+    return dictPromises[lang];
   };
 
   const t = (key, params) => {
-    const raw = currentLang === 'tr' ? trDict?.[key] : undefined;
+    const raw = dicts[currentLang]?.[key] ?? dicts[SOURCE_LANG]?.[key];
     if (raw === undefined) return undefined;
     if (!params) return raw;
     let value = raw;
@@ -230,16 +225,13 @@
 
   const applyTranslations = () => {
     document.documentElement.lang = currentLang;
-    const trActive = currentLang === 'tr';
     document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const orig = originalContent.get(el);
-      const value = trActive ? trDict?.[el.dataset.i18n] : undefined;
-      el.textContent = value ?? orig.text;
+      const value = t(el.dataset.i18n);
+      if (value !== undefined) el.textContent = value;
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
-      const orig = originalContent.get(el);
-      const value = trActive ? trDict?.[el.dataset.i18nAria] : undefined;
-      if (value ?? orig.aria) el.setAttribute('aria-label', value ?? orig.aria);
+      const value = t(el.dataset.i18nAria);
+      if (value !== undefined) el.setAttribute('aria-label', value);
     });
     teamToggles.forEach((entry) => entry.refresh());
   };
@@ -257,13 +249,11 @@
     if (!SUPPORTED_LANGS.has(lang)) return;
     const token = ++langSeq;
     if (lang === currentLang) return;
-    if (lang === 'tr') {
-      try {
-        await loadTrDict();
-      } catch (err) {
-        console.warn('Language switch to tr failed:', err);
-        return;
-      }
+    try {
+      await loadDict(lang);
+    } catch (err) {
+      console.warn(`Language switch to ${lang} failed:`, err);
+      return;
     }
     if (token !== langSeq) return;
     currentLang = lang;
@@ -277,16 +267,36 @@
     item.addEventListener('click', () => setLang(item.dataset.lang));
   });
 
-  captureOriginalContent();
   refreshLangButtons();
 
-  const initial = detectInitialLang();
-  if (initial !== SOURCE_LANG) {
+  const markI18nReady = () => document.documentElement.classList.add('i18n-ready');
+
+  (async () => {
+    const initial = detectInitialLang();
     const cameFromStorage = safeStorage?.getItem(LANG_STORAGE_KEY) === initial;
-    setLang(initial).then(() => {
-      if (currentLang !== initial && cameFromStorage) clearLangPref();
-    });
-  }
+    try {
+      await loadDict(SOURCE_LANG);
+    } catch (err) {
+      console.warn('Failed to load source dictionary:', err);
+      markI18nReady();
+      return;
+    }
+    let applied = SOURCE_LANG;
+    if (initial !== SOURCE_LANG) {
+      try {
+        await loadDict(initial);
+        applied = initial;
+      } catch (err) {
+        console.warn(`Failed to load ${initial} dictionary; falling back to ${SOURCE_LANG}:`, err);
+        if (cameFromStorage) clearLangPref();
+      }
+    }
+    currentLang = applied;
+    applyTranslations();
+    refreshLangButtons();
+    refresh();
+    markI18nReady();
+  })();
 
   const yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

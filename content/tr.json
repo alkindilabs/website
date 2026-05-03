@@ -58,5 +58,6 @@
   "contact.heading": "Lansmanı yapılacak bir ürün, biçimlendirilecek bir marka ya da daha iyi yapı arayan bir hizmet mi var?",
   "contact.sub": "Nerede olduğunuzu ve nereye gitmek istediğinizi anlatın; yolu birlikte tasarlayalım.",
   "footer.tagline": "Tasarım ve Teknoloji Stüdyosu",
-  "footer.creditPrefix": "Markalama, Grafik ve Arayüz Tasarımı:"
+  "footer.creditPrefix": "Markalama, Grafik ve Arayüz Tasarımı:",
+  "noscript.message": "Bu siteyi görüntülemek için JavaScript gerekiyor."
 }
