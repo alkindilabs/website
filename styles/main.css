@@ -1109,7 +1109,6 @@ a {
 [data-i18n]:empty { visibility: hidden; }
 
 .noscript-message {
-  display: none;
   padding: var(--space-md);
   background: var(--color-night);
   color: var(--color-dark-fg);
