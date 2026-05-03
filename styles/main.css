@@ -124,8 +124,9 @@ body {
   color: var(--color-fg);
   background-color: var(--color-night);
   background-image: image-set(
-    url('../assets/images/munevver-pattern-768.avif') type('image/avif'),
-    url('../assets/images/munevver-pattern-768.webp') type('image/webp')
+    url('../assets/images/munevver-pattern-768.avif')  type('image/avif') 1x,
+    url('../assets/images/munevver-pattern-1536.avif') type('image/avif') 2x,
+    url('../assets/images/munevver-pattern-768.webp')  type('image/webp')
   );
   background-repeat: no-repeat;
   background-size: 100% auto;
@@ -137,7 +138,8 @@ body {
 @media (min-width: 769px) {
   body {
     background-image: image-set(
-      url('../assets/images/munevver-pattern-1440.avif') type('image/avif'),
+      url('../assets/images/munevver-pattern-1440.avif') type('image/avif') 1x,
+      url('../assets/images/munevver-pattern-2880.avif') type('image/avif') 2x,
       url('../assets/images/munevver-pattern-1440.webp') type('image/webp')
     );
   }
@@ -146,7 +148,8 @@ body {
 @media (min-width: 1441px) {
   body {
     background-image: image-set(
-      url('../assets/images/munevver-pattern-2400.avif') type('image/avif'),
+      url('../assets/images/munevver-pattern-2400.avif') type('image/avif') 1x,
+      url('../assets/images/munevver-pattern-3840.avif') type('image/avif') 2x,
       url('../assets/images/munevver-pattern-2400.webp') type('image/webp')
     );
   }
