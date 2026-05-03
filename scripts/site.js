@@ -316,7 +316,7 @@
     const cached = readCachedDict(lang);
     if (cached) {
       dicts[lang] = cached;
-      void refreshDict(lang);
+      refreshDict(lang);
       return Promise.resolve(cached);
     }
     dictPromises[lang] = fetchDictResilient(lang)
