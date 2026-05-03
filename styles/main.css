@@ -480,7 +480,7 @@ a {
   grid-template-columns: 1fr 1fr;
   gap: clamp(var(--space-lg), 3vw, var(--space-2xl));
   padding-inline: var(--margin);
-  max-width: calc(var(--content-max) + var(--margin) * 2);
+  max-width: min(70vw, 880px);
   margin-inline: auto;
   margin-block-start: var(--space-2xl);
 }
