@@ -370,7 +370,7 @@ a {
 
 .hero {
   height: 100svh;
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   color: var(--color-dark-fg);
   display: flex;
   flex-direction: column;
@@ -468,7 +468,7 @@ a {
 /* Work — dark-background staggered 2-column project grid */
 
 .work {
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   color: var(--color-dark-fg);
   padding-block: var(--space-3xl);
   position: relative;
@@ -615,7 +615,7 @@ a {
 /* Services */
 
 #services {
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   color: var(--color-dark-fg);
 }
 
@@ -679,7 +679,7 @@ a {
 /* About */
 
 .about {
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   color: var(--color-dark-fg);
   border-top: none;
   border-bottom: none;
@@ -721,7 +721,7 @@ a {
 /* Team — dark section, portrait photos with expandable bios */
 
 .team {
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   color: var(--color-dark-fg);
   position: relative;
 }
@@ -872,7 +872,7 @@ a {
 /* Contact — dark section, mirrors the hero as visual bookend */
 
 .contact {
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   color: var(--color-dark-fg);
   position: relative;
 }
@@ -937,7 +937,7 @@ a {
 /* Footer — continues the dark contact section */
 
 .site-footer {
-  background-color: rgba(var(--color-night-rgb), 0.30);
+  background-color: transparent;
   border-top: none;
   padding-block: var(--space-xl);
   font-size: var(--t-xs);
