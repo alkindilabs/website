@@ -163,6 +163,8 @@
     'nav.about': 'About',
     'nav.team': 'Team',
     'nav.contact': 'Contact',
+    'nav.main': 'Primary navigation',
+    'hero.headingAria': 'Free, Fearless — Istanbul-born, Lisbon-grown',
     'hero.phrase1': 'Free, Fearless',
     'hero.phrase2': 'Istanbul-born, Lisbon-grown',
     'hero.tagline': 'A design and technology studio focused on clear thinking and solid work.',
@@ -217,11 +219,22 @@
     }
   };
 
+  const MAX_VALUE_LEN = 4096;
+  const CONTROL_CHARS = /[\u0000-\u001F\u007F]/g;
+
+  const sanitizeForStorage = (dict) => {
+    const out = {};
+    for (const [k, v] of Object.entries(dict)) {
+      out[k] = String(v).replace(CONTROL_CHARS, '').slice(0, MAX_VALUE_LEN);
+    }
+    return out;
+  };
+
   const writeCachedDict = (lang, dict) => {
     if (!safeStorage) return;
     if (!isValidDict(dict)) return;
     try {
-      safeStorage.setItem(cacheKey(lang), JSON.stringify(dict));
+      safeStorage.setItem(cacheKey(lang), JSON.stringify(sanitizeForStorage(dict)));
     } catch {
       /* quota exceeded or storage unavailable; ignore */
     }
@@ -237,49 +250,55 @@
     document.addEventListener('visibilitychange', onChange);
   });
 
+  const NO_TIMEOUT = Object.freeze({ signal: undefined, clear: () => {} });
+
   const createTimeoutSignal = (ms) => {
     if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
-      return AbortSignal.timeout(ms);
+      return { signal: AbortSignal.timeout(ms), clear: () => {} };
     }
     if (typeof AbortController === 'function') {
       const controller = new AbortController();
-      setTimeout(() => controller.abort(), ms);
-      return controller.signal;
+      const id = setTimeout(() => controller.abort(), ms);
+      return { signal: controller.signal, clear: () => clearTimeout(id) };
     }
-    return undefined;
+    return NO_TIMEOUT;
   };
 
   const fetchDictOnce = async (lang) => {
     const url = DICT_URLS[lang];
     if (!url) throw new Error(`Unsupported lang: ${lang}`);
-    const signal = document.visibilityState === 'visible'
+    const timeout = document.visibilityState === 'visible'
       ? createTimeoutSignal(DICT_TIMEOUT_VISIBLE_MS)
-      : undefined;
-    const res = await fetch(url, {
-      credentials: 'omit',
-      cache: 'force-cache',
-      headers: { Accept: 'application/json' },
-      signal,
-    });
-    if (!res.ok) {
-      const err = new Error(`http-${res.status}`);
-      err.code = `http-${res.status}`;
-      throw err;
-    }
-    let parsed;
+      : NO_TIMEOUT;
     try {
-      parsed = await res.json();
-    } catch {
-      const err = new Error('parse');
-      err.code = 'parse';
-      throw err;
+      const res = await fetch(url, {
+        credentials: 'omit',
+        cache: 'force-cache',
+        headers: { Accept: 'application/json' },
+        signal: timeout.signal,
+      });
+      if (!res.ok) {
+        const err = new Error(`http-${res.status}`);
+        err.code = `http-${res.status}`;
+        throw err;
+      }
+      let parsed;
+      try {
+        parsed = await res.json();
+      } catch {
+        const err = new Error('parse');
+        err.code = 'parse';
+        throw err;
+      }
+      if (!isValidDict(parsed)) {
+        const err = new Error('parse');
+        err.code = 'parse';
+        throw err;
+      }
+      return parsed;
+    } finally {
+      timeout.clear();
     }
-    if (!isValidDict(parsed)) {
-      const err = new Error('parse');
-      err.code = 'parse';
-      throw err;
-    }
-    return parsed;
   };
 
   const isAbortError = (err) => err?.name === 'AbortError' || err?.name === 'TimeoutError';
@@ -403,7 +422,6 @@
       if (value != null && value !== '') el.setAttribute('aria-label', value);
     });
     teamToggles.forEach((entry) => entry.refresh());
-    document.documentElement.classList.add('i18n-ready');
   };
 
   const langItems = Array.from(document.querySelectorAll('.lang-switch__item'));
