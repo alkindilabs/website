@@ -203,7 +203,7 @@
       const name = member.querySelector('.team__name').textContent.trim();
       member.classList.toggle('team__member--open', open);
       button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', formatToggleLabel(open, name));
+      if (name) button.setAttribute('aria-label', formatToggleLabel(open, name));
       bio.setAttribute('aria-hidden', String(!open));
       icon.textContent = open ? '−' : '+';
     };

@@ -27,7 +27,7 @@
 
 - Do not commit inline `<script>` blocks in `index.html`.
 - Do not commit inline `style=""` for production UI. Use classes, modifiers, CSS custom properties, or asset files instead.
-- Do not commit authored copy in `index.html`. Add or edit `content/<lang>.json` instead. The only exceptions are the noscript fallback message and the static team-toggle aria-labels (progressive a11y baseline that JS overrides at runtime).
+- Do not commit authored *visible body copy* in `index.html`. Add or edit `content/<lang>.json` instead. Documented exceptions, in HTML for a reason: the noscript fallback message (JS is what fetches the dictionaries), the static team-toggle `aria-label` (progressive a11y baseline that JS overrides at runtime), `<title>` and `<meta>`/`og:*` tags (consumed before any script runs), and the logo `alt` text (referenced from a single source asset).
 - Do not duplicate copy, content lists, or behavior rules across HTML, CSS, and JS.
 - Keep JavaScript out of marketing copy and visual design decisions.
 - Keep CSS out of content policy and business logic. CSS may express visual states, not authored meaning.
