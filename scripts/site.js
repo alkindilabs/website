@@ -135,7 +135,46 @@
     return SUPPORTED_LANGS.has(browser) ? browser : SOURCE_LANG;
   };
 
-  const DICT_FETCH_TIMEOUT_MS = 4000;
+  // i18n loader strategy:
+  // 1. Apply from localStorage cache instantly if present (cache-first paint).
+  // 2. Fetch in background with a visibility-aware AbortSignal.timeout — only
+  //    time out while the tab is visible; if hidden, wait once for
+  //    visibilitychange before retrying.
+  // 3. Retry non-abort errors up to 2 times with 250 ms backoff.
+  // 4. If both cache and network fail, apply an inline English safety
+  //    dictionary so translatable nodes never stay blank.
+
+  const DICT_CACHE_PREFIX = 'alkindi-i18n:';
+  const DICT_CACHE_VERSION = 'v1';
+  const DICT_TIMEOUT_VISIBLE_MS = 8000;
+  const DICT_RETRY_MAX = 2;
+  const DICT_RETRY_BACKOFF_MS = 250;
+
+  // SAFETY_DICT is the offline-first-visit fallback (no cache + no network).
+  // It intentionally duplicates a subset of content/en.json so the brand,
+  // hero, and section labels still render when both fetch and cache fail.
+  // The per-element [data-i18n]:empty cloak in styles/main.css keeps any key
+  // not present here visibility:hidden, so missing entries do not produce a
+  // visible blank gap.
+  const SAFETY_DICT = Object.freeze({
+    'lang.switch': 'Language',
+    'nav.work': 'Work',
+    'nav.services': 'Services',
+    'nav.about': 'About',
+    'nav.team': 'Team',
+    'nav.contact': 'Contact',
+    'nav.main': 'Primary navigation',
+    'hero.headingAria': 'Free, Fearless — Istanbul-born, Lisbon-grown',
+    'hero.phrase1': 'Free, Fearless',
+    'hero.phrase2': 'Istanbul-born, Lisbon-grown',
+    'hero.tagline': 'A design and technology studio focused on clear thinking and solid work.',
+    'hero.body': 'We build brands, products and digital experiences that feel natural to use and easy to understand.',
+    'work.label': 'Selected Projects',
+    'services.label': 'Services',
+    'about.label': 'About al-Kindi',
+    'team.label': 'Team',
+    'contact.label': 'Contact',
+  });
 
   const dicts = {};
   const dictPromises = {};
@@ -158,23 +197,185 @@
     }
   };
 
-  const loadDict = (lang) => {
-    if (dicts[lang]) return Promise.resolve();
-    if (dictPromises[lang]) return dictPromises[lang];
+  const cacheKey = (lang) => `${DICT_CACHE_PREFIX}${lang}:${DICT_CACHE_VERSION}`;
+
+  const UNSAFE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+  const isValidDict = (value) => {
+    if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+    for (const k of Object.keys(value)) {
+      if (UNSAFE_KEYS.has(k)) return false;
+      if (typeof value[k] !== 'string') return false;
+    }
+    return true;
+  };
+
+  const readCachedDict = (lang) => {
+    if (!safeStorage) return null;
+    try {
+      const raw = safeStorage.getItem(cacheKey(lang));
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return isValidDict(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const MAX_VALUE_LEN = 4096;
+  const CONTROL_CHARS = /[\u0000-\u001F\u007F]/g;
+
+  const sanitizeForStorage = (dict) => {
+    const out = Object.create(null);
+    for (const [k, v] of Object.entries(dict)) {
+      if (UNSAFE_KEYS.has(k)) continue;
+      out[k] = String(v).replaceAll(CONTROL_CHARS, '').slice(0, MAX_VALUE_LEN);
+    }
+    return out;
+  };
+
+  const writeCachedDict = (lang, dict) => {
+    if (!safeStorage) return;
+    if (!isValidDict(dict)) return;
+    try {
+      safeStorage.setItem(cacheKey(lang), JSON.stringify(sanitizeForStorage(dict)));
+    } catch {
+      /* quota exceeded or storage unavailable; ignore */
+    }
+  };
+
+  const waitForVisible = () => new Promise((resolve) => {
+    if (document.visibilityState === 'visible') return resolve();
+    const onChange = () => {
+      if (document.visibilityState !== 'visible') return;
+      document.removeEventListener('visibilitychange', onChange);
+      resolve();
+    };
+    document.addEventListener('visibilitychange', onChange);
+  });
+
+  const fetchDictOnce = async (lang) => {
     const url = DICT_URLS[lang];
-    if (!url) return Promise.reject(new Error(`Unsupported lang: ${lang}`));
-    dictPromises[lang] = (async () => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), DICT_FETCH_TIMEOUT_MS);
-      try {
-        const res = await fetch(url, { signal: controller.signal });
-        if (!res.ok) throw new Error(`Failed to load ${lang}: HTTP ${res.status} ${res.statusText}`.trimEnd());
-        dicts[lang] = await res.json();
-      } finally {
-        clearTimeout(timeoutId);
-        dictPromises[lang] = null;
+    if (!url) throw new Error(`Unsupported lang: ${lang}`);
+
+    // Visibility-driven timeout: timer runs only while the tab is visible.
+    // Each transition to hidden cancels the pending timer; each transition
+    // back to visible restarts it. A tab that is hidden for the whole fetch
+    // therefore never times out.
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    let timerId = null;
+    const startTimer = () => {
+      if (!controller || timerId !== null) return;
+      timerId = setTimeout(() => controller.abort(), DICT_TIMEOUT_VISIBLE_MS);
+    };
+    const stopTimer = () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
       }
-    })();
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') startTimer();
+      else stopTimer();
+    };
+
+    if (document.visibilityState === 'visible') startTimer();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    try {
+      const res = await fetch(url, {
+        credentials: 'omit',
+        cache: 'force-cache',
+        headers: { Accept: 'application/json' },
+        signal: controller?.signal,
+      });
+      if (!res.ok) {
+        const err = new Error(`http-${res.status}`);
+        err.code = `http-${res.status}`;
+        throw err;
+      }
+      let parsed;
+      try {
+        parsed = await res.json();
+      } catch {
+        const err = new Error('parse');
+        err.code = 'parse';
+        throw err;
+      }
+      if (!isValidDict(parsed)) {
+        const err = new Error('parse');
+        err.code = 'parse';
+        throw err;
+      }
+      return parsed;
+    } finally {
+      stopTimer();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    }
+  };
+
+  const isAbortError = (err) => err?.name === 'AbortError' || err?.name === 'TimeoutError';
+
+  const fetchDictResilient = async (lang) => {
+    let networkAttempts = 0;
+    let didHiddenRetry = false;
+    while (true) {
+      try {
+        return await fetchDictOnce(lang);
+      } catch (err) {
+        if (isAbortError(err)) {
+          if (!didHiddenRetry && document.visibilityState !== 'visible') {
+            didHiddenRetry = true;
+            await waitForVisible();
+            continue;
+          }
+          console.warn('[i18n] abort');
+          throw err;
+        }
+        networkAttempts += 1;
+        if (networkAttempts > DICT_RETRY_MAX) {
+          console.warn(`[i18n] ${err.code || 'network'}`);
+          throw err;
+        }
+        await new Promise((resolve) => setTimeout(resolve, DICT_RETRY_BACKOFF_MS));
+      }
+    }
+  };
+
+  const ensureDict = (lang) => {
+    if (dicts[lang]) return Promise.resolve(dicts[lang]);
+    if (dictPromises[lang]) return dictPromises[lang];
+    const cached = readCachedDict(lang);
+    if (cached) {
+      dicts[lang] = cached;
+      refreshDict(lang);
+      return Promise.resolve(cached);
+    }
+    dictPromises[lang] = fetchDictResilient(lang)
+      .then((fresh) => {
+        dicts[lang] = fresh;
+        writeCachedDict(lang, fresh);
+        return fresh;
+      })
+      .finally(() => {
+        dictPromises[lang] = null;
+      });
+    return dictPromises[lang];
+  };
+
+  const refreshDict = (lang) => {
+    if (dictPromises[lang]) return dictPromises[lang];
+    dictPromises[lang] = fetchDictResilient(lang)
+      .then((fresh) => {
+        dicts[lang] = fresh;
+        writeCachedDict(lang, fresh);
+        if (lang === currentLang) applyTranslations();
+        return fresh;
+      })
+      .catch(() => null)
+      .finally(() => {
+        dictPromises[lang] = null;
+      });
     return dictPromises[lang];
   };
 
@@ -227,11 +428,11 @@
     document.documentElement.lang = currentLang;
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const value = t(el.dataset.i18n);
-      if (value !== undefined) el.textContent = value;
+      if (value != null && value !== '') el.textContent = value;
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
       const value = t(el.dataset.i18nAria);
-      if (value !== undefined) el.setAttribute('aria-label', value);
+      if (value != null && value !== '') el.setAttribute('aria-label', value);
     });
     teamToggles.forEach((entry) => entry.refresh());
   };
@@ -247,12 +448,11 @@
 
   const setLang = async (lang) => {
     if (!SUPPORTED_LANGS.has(lang)) return;
-    const token = ++langSeq;
     if (lang === currentLang) return;
+    const token = ++langSeq;
     try {
-      await loadDict(lang);
-    } catch (err) {
-      console.warn(`Language switch to ${lang} failed:`, err);
+      await ensureDict(lang);
+    } catch {
       return;
     }
     if (token !== langSeq) return;
@@ -269,29 +469,37 @@
 
   refreshLangButtons();
 
-  (async () => {
-    const initial = detectInitialLang();
-    const cameFromStorage = safeStorage?.getItem(LANG_STORAGE_KEY) === initial;
-    try {
-      await loadDict(SOURCE_LANG);
-    } catch (err) {
-      console.warn('Failed to load source dictionary:', err);
-      return;
-    }
-    let applied = SOURCE_LANG;
-    if (initial !== SOURCE_LANG) {
-      try {
-        await loadDict(initial);
-        applied = initial;
-      } catch (err) {
-        console.warn(`Failed to load ${initial} dictionary; falling back to ${SOURCE_LANG}:`, err);
-        if (cameFromStorage) clearLangPref();
-      }
-    }
-    currentLang = applied;
+  const renderLang = (lang) => {
+    currentLang = lang;
     applyTranslations();
     refreshLangButtons();
     refresh();
+  };
+
+  (async () => {
+    const initial = detectInitialLang();
+    const cameFromStorage = safeStorage?.getItem(LANG_STORAGE_KEY) === initial;
+
+    try {
+      await ensureDict(initial);
+      renderLang(initial);
+      return;
+    } catch {
+      if (cameFromStorage) clearLangPref();
+    }
+
+    if (initial !== SOURCE_LANG) {
+      try {
+        await ensureDict(SOURCE_LANG);
+        renderLang(SOURCE_LANG);
+        return;
+      } catch {
+        /* fall through to safety dict */
+      }
+    }
+
+    dicts[SOURCE_LANG] = { ...SAFETY_DICT };
+    renderLang(SOURCE_LANG);
   })();
 
   const yearEl = document.getElementById('footer-year');
