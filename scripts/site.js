@@ -135,7 +135,7 @@
     return SUPPORTED_LANGS.has(browser) ? browser : SOURCE_LANG;
   };
 
-  const DICT_FETCH_TIMEOUT_MS = 2000;
+  const DICT_FETCH_TIMEOUT_MS = 4000;
 
   const dicts = {};
   const dictPromises = {};
