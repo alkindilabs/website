@@ -199,10 +199,13 @@
 
   const cacheKey = (lang) => `${DICT_CACHE_PREFIX}${lang}:${DICT_CACHE_VERSION}`;
 
+  const UNSAFE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
   const isValidDict = (value) => {
     if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
-    for (const v of Object.values(value)) {
-      if (typeof v !== 'string') return false;
+    for (const k of Object.keys(value)) {
+      if (UNSAFE_KEYS.has(k)) return false;
+      if (typeof value[k] !== 'string') return false;
     }
     return true;
   };
@@ -223,8 +226,9 @@
   const CONTROL_CHARS = /[\u0000-\u001F\u007F]/g;
 
   const sanitizeForStorage = (dict) => {
-    const out = {};
+    const out = Object.create(null);
     for (const [k, v] of Object.entries(dict)) {
+      if (UNSAFE_KEYS.has(k)) continue;
       out[k] = String(v).replace(CONTROL_CHARS, '').slice(0, MAX_VALUE_LEN);
     }
     return out;
@@ -250,32 +254,40 @@
     document.addEventListener('visibilitychange', onChange);
   });
 
-  const NO_TIMEOUT = Object.freeze({ signal: undefined, clear: () => {} });
-
-  const createTimeoutSignal = (ms) => {
-    if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
-      return { signal: AbortSignal.timeout(ms), clear: () => {} };
-    }
-    if (typeof AbortController === 'function') {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), ms);
-      return { signal: controller.signal, clear: () => clearTimeout(id) };
-    }
-    return NO_TIMEOUT;
-  };
-
   const fetchDictOnce = async (lang) => {
     const url = DICT_URLS[lang];
     if (!url) throw new Error(`Unsupported lang: ${lang}`);
-    const timeout = document.visibilityState === 'visible'
-      ? createTimeoutSignal(DICT_TIMEOUT_VISIBLE_MS)
-      : NO_TIMEOUT;
+
+    // Visibility-driven timeout: timer runs only while the tab is visible.
+    // Each transition to hidden cancels the pending timer; each transition
+    // back to visible restarts it. A tab that is hidden for the whole fetch
+    // therefore never times out.
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    let timerId = null;
+    const startTimer = () => {
+      if (!controller || timerId !== null) return;
+      timerId = setTimeout(() => controller.abort(), DICT_TIMEOUT_VISIBLE_MS);
+    };
+    const stopTimer = () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
+      }
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') startTimer();
+      else stopTimer();
+    };
+
+    if (document.visibilityState === 'visible') startTimer();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     try {
       const res = await fetch(url, {
         credentials: 'omit',
         cache: 'force-cache',
         headers: { Accept: 'application/json' },
-        signal: timeout.signal,
+        signal: controller?.signal,
       });
       if (!res.ok) {
         const err = new Error(`http-${res.status}`);
@@ -297,7 +309,8 @@
       }
       return parsed;
     } finally {
-      timeout.clear();
+      stopTimer();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     }
   };
 
