@@ -1106,6 +1106,17 @@ a {
 /* Older browsers without (scripting: none) support fall back to
    styles/noscript.css, loaded inside <noscript> in index.html. */
 
+[data-i18n]:empty { visibility: hidden; }
+
+.noscript-message {
+  display: none;
+  padding: var(--space-md);
+  background: var(--color-night);
+  color: var(--color-dark-fg);
+  text-align: center;
+  font-size: var(--t-sm);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 

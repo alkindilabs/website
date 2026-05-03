@@ -1,8 +1,10 @@
 /* Loaded only when JavaScript is disabled (via <noscript>).
    Hides JS-only controls and unrolls JS-driven layouts so the
    page is still usable without scripts. Belt-and-suspenders for
-   browsers that do not support @media (scripting: none). */
+   browsers that do not support @media (scripting: none).
+   Also surfaces the JS-required notice. */
 
+.noscript-message { display: block; }
 .lang-switch { display: none; }
 .team__toggle { display: none; }
 .team__bio-wrap { grid-template-rows: 1fr; }
