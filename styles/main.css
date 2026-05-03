@@ -1106,7 +1106,7 @@ a {
 /* Older browsers without (scripting: none) support fall back to
    styles/noscript.css, loaded inside <noscript> in index.html. */
 
-html:not(.i18n-ready) body { visibility: hidden; }
+[data-i18n]:empty { visibility: hidden; }
 
 .noscript-message {
   display: none;

@@ -2,10 +2,8 @@
    Hides JS-only controls and unrolls JS-driven layouts so the
    page is still usable without scripts. Belt-and-suspenders for
    browsers that do not support @media (scripting: none).
-   Also reveals body (which main.css hides until i18n applies)
-   and surfaces the JS-required notice. */
+   Also surfaces the JS-required notice. */
 
-html body { visibility: visible !important; }
 .noscript-message { display: block; }
 .lang-switch { display: none; }
 .team__toggle { display: none; }

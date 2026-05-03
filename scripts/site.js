@@ -269,8 +269,6 @@
 
   refreshLangButtons();
 
-  const markI18nReady = () => document.documentElement.classList.add('i18n-ready');
-
   (async () => {
     const initial = detectInitialLang();
     const cameFromStorage = safeStorage?.getItem(LANG_STORAGE_KEY) === initial;
@@ -278,7 +276,6 @@
       await loadDict(SOURCE_LANG);
     } catch (err) {
       console.warn('Failed to load source dictionary:', err);
-      markI18nReady();
       return;
     }
     let applied = SOURCE_LANG;
@@ -295,7 +292,6 @@
     applyTranslations();
     refreshLangButtons();
     refresh();
-    markI18nReady();
   })();
 
   const yearEl = document.getElementById('footer-year');
