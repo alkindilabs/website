@@ -229,7 +229,7 @@
     const out = Object.create(null);
     for (const [k, v] of Object.entries(dict)) {
       if (UNSAFE_KEYS.has(k)) continue;
-      out[k] = String(v).replace(CONTROL_CHARS, '').slice(0, MAX_VALUE_LEN);
+      out[k] = String(v).replaceAll(CONTROL_CHARS, '').slice(0, MAX_VALUE_LEN);
     }
     return out;
   };
