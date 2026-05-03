@@ -122,7 +122,11 @@ body {
   font-weight: 500;
   line-height: var(--leading-base);
   color: var(--color-fg);
-  background-color: var(--color-bg);
+  background-color: var(--color-night);
+  background-image: url('../assets/images/munevver-pattern.webp');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center top;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -178,11 +182,11 @@ a {
 }
 
 .header--scrolled {
-  background: var(--color-night);
+  background: transparent;
 }
 
 .header--scrolled.header--light {
-  background: var(--color-bg);
+  background: transparent;
 }
 
 .header--hidden {
@@ -327,11 +331,7 @@ a {
 
 .hero {
   height: 100svh;
-  background-color: var(--color-night);
-  background-image: url('../assets/images/upscale.webp');
-  background-size: cover;
-  background-position: top center;
-  background-repeat: no-repeat;
+  background-color: rgba(var(--color-night-rgb), 0.30);
   color: var(--color-dark-fg);
   display: flex;
   flex-direction: column;
@@ -344,14 +344,7 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--color-night-rgb), 0.16) 0%,
-    rgba(var(--color-night-rgb), 0.04) 42%,
-    rgba(var(--color-night-rgb), 0.32) 72%,
-    rgba(var(--color-night-rgb), 0.72) 88%,
-    rgba(var(--color-night-rgb), 0.96) 100%
-  );
+  background: transparent;
   z-index: 1;
   pointer-events: none;
 }
@@ -436,7 +429,7 @@ a {
 /* Work — dark-background staggered 2-column project grid */
 
 .work {
-  background-color: var(--color-night);
+  background-color: rgba(var(--color-night-rgb), 0.30);
   color: var(--color-dark-fg);
   padding-block: var(--space-3xl);
   position: relative;
@@ -449,12 +442,7 @@ a {
   right: 0;
   top: -7rem;
   height: 7rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--color-night-rgb), 0) 0%,
-    rgba(var(--color-night-rgb), 0.78) 74%,
-    rgba(var(--color-night-rgb), 1) 100%
-  );
+  background: transparent;
   z-index: 1;
   pointer-events: none;
 }
@@ -587,6 +575,11 @@ a {
 
 /* Services */
 
+#services {
+  background-color: rgba(var(--color-night-rgb), 0.30);
+  color: var(--color-dark-fg);
+}
+
 .services__top {
   display: flex;
   flex-direction: column;
@@ -602,7 +595,7 @@ a {
 }
 
 .service-list {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 .service-item {
@@ -610,7 +603,7 @@ a {
   grid-template-columns: 2.5rem 1fr;
   gap: 0.3rem var(--space-lg);
   padding-block: var(--space-xl);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
   align-items: start;
   margin-inline: calc(-1 * var(--space-lg));
   padding-inline: var(--space-lg);
@@ -620,7 +613,7 @@ a {
   grid-column: 1;
   grid-row: 1;
   font-size: var(--t-xs);
-  color: var(--color-muted);
+  color: var(--text-on-dark-muted);
   letter-spacing: var(--tracking-wide);
   padding-top: 0.35em; /* optical alignment with title */
 }
@@ -637,7 +630,7 @@ a {
   grid-column: 2;
   grid-row: 2;
   font-size: var(--t-sm);
-  color: var(--color-muted);
+  color: var(--text-on-dark-muted);
   line-height: var(--leading-base);
   max-width: 56ch;
   margin-top: var(--space-sm);
@@ -647,9 +640,11 @@ a {
 /* About */
 
 .about {
-  background-color: var(--color-bg);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  background-color: rgba(var(--color-night-rgb), 0.30);
+  color: var(--color-dark-fg);
+  border-top: none;
+  border-bottom: none;
+  position: relative;
 }
 
 .about .section__label {
@@ -678,7 +673,7 @@ a {
 
 .about__body p {
   font-size: var(--t-base);
-  color: var(--color-muted);
+  color: var(--text-on-dark-muted);
   line-height: var(--leading-base);
   max-width: 52ch;
 }
@@ -687,11 +682,7 @@ a {
 /* Team — dark section, portrait photos with expandable bios */
 
 .team {
-  background-color: var(--color-dark);
-  background-image: url('../assets/images/team.webp');
-  background-size: cover;
-  background-position: center 60%;
-  background-repeat: no-repeat;
+  background-color: rgba(var(--color-night-rgb), 0.30);
   color: var(--color-dark-fg);
   position: relative;
 }
@@ -700,7 +691,7 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.52);
+  background: transparent;
   z-index: 1;
   pointer-events: none;
 }
@@ -842,7 +833,7 @@ a {
 /* Contact — dark section, mirrors the hero as visual bookend */
 
 .contact {
-  background-color: var(--color-dark);
+  background-color: rgba(var(--color-night-rgb), 0.30);
   color: var(--color-dark-fg);
   position: relative;
 }
@@ -907,11 +898,11 @@ a {
 /* Footer — continues the dark contact section */
 
 .site-footer {
-  background-color: var(--color-dark);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(var(--color-night-rgb), 0.30);
+  border-top: none;
   padding-block: var(--space-xl);
   font-size: var(--t-xs);
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .footer__inner {
