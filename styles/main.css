@@ -83,7 +83,7 @@ button { cursor: pointer; }
 
   /* Overlays (semantic; keep alpha values exact) */
   --text-on-dark:         rgba(255, 255, 255, 0.75);
-  --text-on-dark-muted:   rgba(255, 255, 255, 0.52);
+  --text-on-dark-muted:   rgba(255, 255, 255, 0.62);
   --text-on-dark-strong:  rgba(255, 255, 255, 0.95);
   --decoration-on-dark:   rgba(255, 255, 255, 0.20);
   --text-on-light-muted:  rgba(13, 13, 13, 0.50);
@@ -91,6 +91,14 @@ button { cursor: pointer; }
 
   --shadow-text-soft:   0 1px 6px rgba(0, 0, 0, 0.7);
   --shadow-text-strong: 0 2px 24px rgba(0, 0, 0, 0.4);
+
+  /* Reading scrim — feathered dark backdrop applied to text sections
+     so the Münevver pattern is visible at section seams but recedes
+     where long-form copy sits. Bookend (.contact) uses the softer
+     value so the pattern returns more visibly at the page close. */
+  --scrim-night:        rgba(var(--color-night-rgb), 0.92);
+  --scrim-night-soft:   rgba(var(--color-night-rgb), 0.78);
+  --accent-rule:        rgba(179, 82, 0, 0.22);
 
   --transition-color: color 0.35s ease;
 
@@ -379,14 +387,68 @@ a {
 }
 
 
+/* Hero foot gradient — a slim dark wash at the bottom 40% of the hero
+   so the tagline + body lines stay readable when the pattern crests
+   bright (moon, lanterns, sunlit ridges). The hero slogan itself sits
+   above this and lives directly on the pattern. */
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: transparent;
-  z-index: 1;
+  inset: auto 0 0 0;
+  height: 42%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(var(--color-night-rgb), 0.55) 70%,
+    rgba(var(--color-night-rgb), 0.72) 100%
+  );
+  z-index: 2;
   pointer-events: none;
 }
+
+/* Reading-zone scrim — feathered dark backdrop on text sections.
+   Pattern shows at the section seams (top/bottom 5rem) and dims under
+   the reading column so long-form copy stays legible. ABA rhythm:
+   hero opens with full pattern, scrimmed middle for reading, contact
+   uses softer scrim to let pattern return as visual bookend. */
+#services,
+.about,
+.team,
+.contact {
+  position: relative;
+  isolation: isolate;
+}
+
+#services::before,
+.about::before,
+.team::before,
+.contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--scrim-night);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 5rem,
+    black calc(100% - 5rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 5rem,
+    black calc(100% - 5rem),
+    transparent 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+.contact::before {
+  background-color: var(--scrim-night-soft);
+}
+
 
 /* Grain / noise overlay — shared */
 .hero::after,
@@ -450,8 +512,9 @@ a {
   min-width: 18rem;
   font-size: var(--t-lg);
   line-height: var(--leading-snug);
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.92);
   max-width: unset;
+  text-shadow: var(--shadow-text-soft);
 }
 
 .hero__body {
@@ -459,8 +522,9 @@ a {
   min-width: 18rem;
   font-size: var(--t-sm);
   line-height: var(--leading-base);
-  color: var(--text-on-dark-muted);
+  color: rgba(255, 255, 255, 0.78);
   max-width: unset;
+  text-shadow: var(--shadow-text-soft);
 }
 
 
@@ -475,7 +539,7 @@ a {
   line-height: var(--leading-base);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--color-accent);
   max-width: unset;
 }
 
@@ -511,7 +575,7 @@ a {
 }
 
 .service-list {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid var(--accent-rule);
 }
 
 .service-item {
@@ -519,7 +583,7 @@ a {
   grid-template-columns: 2.5rem 1fr;
   gap: 0.3rem var(--space-lg);
   padding-block: var(--space-xl);
-  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  border-top: 1px solid var(--accent-rule);
   align-items: start;
   margin-inline: calc(-1 * var(--space-lg));
   padding-inline: var(--space-lg);
@@ -529,7 +593,7 @@ a {
   grid-column: 1;
   grid-row: 1;
   font-size: var(--t-xs);
-  color: var(--text-on-dark-muted);
+  color: var(--color-accent);
   letter-spacing: var(--tracking-wide);
   padding-top: 0.35em; /* optical alignment with title */
 }
@@ -560,7 +624,6 @@ a {
   color: var(--color-dark-fg);
   border-top: none;
   border-bottom: none;
-  position: relative;
 }
 
 .about .section__label {
@@ -600,26 +663,9 @@ a {
 .team {
   background-color: transparent;
   color: var(--color-dark-fg);
-  position: relative;
-}
-
-.team::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: transparent;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.team > .container,
-.team > .team__list {
-  position: relative;
-  z-index: 2;
 }
 
 .team .section__label {
-  color: rgba(255, 255, 255, 0.70);
   margin-block-end: var(--space-2xl);
 }
 
@@ -779,16 +825,9 @@ a {
 .contact {
   background-color: transparent;
   color: var(--color-dark-fg);
-  position: relative;
-}
-
-.contact > .container {
-  position: relative;
-  z-index: 2;
 }
 
 .contact .section__label {
-  color: var(--text-on-dark-muted);
   margin-block-end: var(--space-2xl);
 }
 
