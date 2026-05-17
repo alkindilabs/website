@@ -62,7 +62,6 @@
     </fieldset>
     <nav class="nav" data-i18n-aria="nav.main">
       <ul class="nav__links">
-        <li><a href="#work" class="nav__link"><span class="nav__arrow">→</span><span data-i18n="nav.work"></span></a></li>
         <li><a href="#services" class="nav__link"><span class="nav__arrow">→</span><span data-i18n="nav.services"></span></a></li>
         <li><a href="#about" class="nav__link"><span class="nav__arrow">→</span><span data-i18n="nav.about"></span></a></li>
         <li><a href="#team" class="nav__link"><span class="nav__arrow">→</span><span data-i18n="nav.team"></span></a></li>
@@ -85,60 +84,6 @@
   </section>
 
   <main>
-
-    <section id="work" class="work">
-      <div class="container">
-        <div class="work__head reveal">
-          <h2 class="section__label" data-i18n="work.label"></h2>
-          <span class="work__viewall" data-i18n="work.viewAll"></span>
-        </div>
-      </div>
-      <div class="work__grid">
-
-        <div class="work__col work__col--left">
-          <article class="project-item reveal reveal-delay-1">
-            <div class="project-item__image">
-              <div class="project-item__placeholder project-item__placeholder--nexora"></div>
-            </div>
-            <div class="project-item__info">
-              <h3 class="project-item__title" data-i18n="work.nexora.title"></h3>
-              <p class="project-item__tags" data-i18n="work.nexora.tags"></p>
-            </div>
-          </article>
-          <article class="project-item reveal reveal-delay-3">
-            <div class="project-item__image">
-              <div class="project-item__placeholder project-item__placeholder--kove"></div>
-            </div>
-            <div class="project-item__info">
-              <h3 class="project-item__title" data-i18n="work.kove.title"></h3>
-              <p class="project-item__tags" data-i18n="work.kove.tags"></p>
-            </div>
-          </article>
-        </div>
-
-        <div class="work__col work__col--right">
-          <article class="project-item reveal reveal-delay-2">
-            <div class="project-item__image">
-              <div class="project-item__placeholder project-item__placeholder--solari"></div>
-            </div>
-            <div class="project-item__info">
-              <h3 class="project-item__title" data-i18n="work.solari.title"></h3>
-              <p class="project-item__tags" data-i18n="work.solari.tags"></p>
-            </div>
-          </article>
-          <article class="project-item reveal reveal-delay-4">
-            <div class="project-item__image">
-              <div class="project-item__placeholder project-item__placeholder--ashen"></div>
-            </div>
-            <div class="project-item__info">
-              <h3 class="project-item__title" data-i18n="work.ashen.title"></h3>
-              <p class="project-item__tags" data-i18n="work.ashen.tags"></p>
-            </div>
-          </article>
-        </div>
-
-      </div>
-    </section>
 
     <section id="services" class="section-gap" data-color="light">
       <div class="container">
@@ -237,6 +182,9 @@
                 <p class="team__bio" data-i18n="team.munevver.bio"></p>
               </div>
             </div>
+            <ul class="team__links">
+              <li><a class="team__link" href="https://munevver.xyz" target="_blank" rel="noopener">munevver.xyz</a></li>
+            </ul>
           </div>
         </article>
 
@@ -245,7 +193,7 @@
             <div class="team__photo">
               <div class="team__photo-placeholder team__photo-placeholder--partner"></div>
             </div>
-            <button class="team__toggle" aria-expanded="false" aria-controls="bio-partner" aria-label="Show Studio Partner bio">
+            <button class="team__toggle" aria-expanded="false" aria-controls="bio-partner" aria-label="Show Ferit Tunçer bio">
               <span class="team__toggle-icon">+</span>
             </button>
           </div>
@@ -257,6 +205,10 @@
                 <p class="team__bio" data-i18n="team.partner.bio"></p>
               </div>
             </div>
+            <ul class="team__links">
+              <li><a class="team__link" href="https://github.com/0xferit" target="_blank" rel="noopener">github.com/0xferit</a></li>
+              <li><a class="team__link" href="https://www.linkedin.com/in/ferit-tuncer/" target="_blank" rel="noopener">linkedin.com/in/ferit-tuncer</a></li>
+            </ul>
           </div>
         </article>
 
