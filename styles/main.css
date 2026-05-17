@@ -390,7 +390,6 @@ a {
 
 /* Grain / noise overlay — shared */
 .hero::after,
-.work::after,
 .team::after,
 .contact::after {
   content: '';
@@ -461,128 +460,6 @@ a {
   font-size: var(--t-sm);
   line-height: var(--leading-base);
   color: var(--text-on-dark-muted);
-  max-width: unset;
-}
-
-
-/* Work — dark-background staggered 2-column project grid */
-
-.work {
-  background-color: transparent;
-  color: var(--color-dark-fg);
-  padding-block: var(--space-3xl);
-  position: relative;
-}
-
-.work::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -7rem;
-  height: 7rem;
-  background: transparent;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.work > .container,
-.work > .work__grid {
-  position: relative;
-  z-index: 2;
-}
-
-.work .section__label {
-  color: var(--text-on-dark-muted);
-}
-
-.work__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.work__viewall {
-  font-size: var(--t-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--text-on-dark-muted);
-  cursor: default;
-}
-
-/* Full-width grid, aligned to container margins */
-.work__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(var(--space-lg), 3vw, var(--space-2xl));
-  padding-inline: var(--margin);
-  max-width: calc(var(--content-max) + var(--margin) * 2);
-  margin-inline: auto;
-  margin-block-start: var(--space-2xl);
-}
-
-.work__col {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-/* Right column drops lower — creates the stagger effect */
-.work__col--right {
-  padding-block-start: clamp(6rem, 22%, 14rem);
-}
-
-.project-item {
-  display: block;
-}
-
-.project-item__image {
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  position: relative;
-  background-color: var(--color-charcoal);
-}
-
-.project-item__placeholder {
-  position: absolute;
-  inset: 0;
-}
-
-.project-item__placeholder--nexora {
-  background: linear-gradient(135deg, #3d3530 0%, #1e1a17 100%);
-}
-
-.project-item__placeholder--kove {
-  background: linear-gradient(135deg, #1e2830 0%, #0f1519 100%);
-}
-
-.project-item__placeholder--solari {
-  background: linear-gradient(135deg, #1e2820 0%, #0f160f 100%);
-}
-
-.project-item__placeholder--ashen {
-  background: linear-gradient(135deg, #28201e 0%, #160f0f 100%);
-}
-
-.project-item__info {
-  padding-block-start: var(--space-md);
-  padding-block-end: var(--space-lg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.project-item__title {
-  font-size: var(--t-base);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-snug);
-  color: var(--color-dark-fg);
-  margin-block-end: var(--space-xs);
-}
-
-.project-item__tags {
-  font-size: var(--t-sm);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.50);
-  letter-spacing: 0.02em;
   max-width: unset;
 }
 
@@ -868,6 +745,34 @@ a {
   max-width: 52ch;
 }
 
+.team__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-block-start: var(--space-md);
+}
+
+.team__link {
+  display: inline-block;
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: lowercase;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  padding-block-end: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.team__link:hover,
+.team__link:focus-visible {
+  color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
 
 /* Contact — dark section, mirrors the hero as visual bookend */
 
@@ -979,6 +884,15 @@ a {
   color: rgba(255, 255, 255, 0.80);
 }
 
+.footer__legal {
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: var(--t-xs);
+  color: rgba(255, 255, 255, 0.32);
+  letter-spacing: 0.02em;
+}
+
 
 /* Scroll reveal */
 
@@ -1015,10 +929,6 @@ a {
 
   .hero__heading {
     font-size: var(--t-4xl);
-  }
-
-  .project-item__title {
-    font-size: var(--t-lg);
   }
 
   .services__lead {
@@ -1079,19 +989,6 @@ a {
     flex-direction: column;
     gap: var(--space-md);
     padding-block: var(--space-lg);
-  }
-
-  .work__head {
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .work__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .work__col--right {
-    padding-block-start: 0;
   }
 
   .service-item {
