@@ -1311,15 +1311,14 @@ a {
     gap: var(--space-lg);
   }
 
-  .team__member--partner .team__plate,
-  .team__member--partner .team__info {
+  .team__member--partner .team__plate {
     grid-column: 1;
+    grid-row: 1;
   }
 
-  .team__member--partner .team__plate { grid-row: 1; }
-  .team__member--partner .team__info { grid-row: 2; }
-
   .team__member--partner .team__info {
+    grid-column: 1;
+    grid-row: 2;
     align-items: flex-start;
     text-align: left;
   }
