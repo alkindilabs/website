@@ -851,33 +851,9 @@ a {
 .team__plate-corner--br::before { bottom: 0; }
 .team__plate-corner--br::after  { right: 0; }
 
-/* Cipher index — top-left, accent orange. "K—01" / "K—02" reads as
-   a serial code, the al-Kindi nod. */
-.team__cipher {
-  grid-column: 1;
-  grid-row: 1;
-  z-index: 2;
-  font-family: var(--font-sans);
-  font-size: var(--t-xs);
-  font-weight: 400;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-accent);
-  align-self: start;
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.05em;
-}
-
-.team__cipher-prefix {
-  color: rgba(255, 255, 255, 0.55);
-  margin-inline-end: 0.05em;
-}
-
 /* Locale tag — top-right, muted caps. */
 .team__locale {
-  grid-column: 2;
+  grid-column: 1 / -1;
   grid-row: 1;
   z-index: 2;
   font-family: var(--font-sans);
