@@ -413,6 +413,7 @@ a {
    uses softer scrim to let pattern return as visual bookend. */
 #services,
 .about,
+.origin,
 .team,
 .contact {
   position: relative;
@@ -421,6 +422,7 @@ a {
 
 #services::before,
 .about::before,
+.origin::before,
 .team::before,
 .contact::before {
   content: '';
@@ -575,7 +577,9 @@ a {
 }
 
 .service-list {
-  border-bottom: 1px solid var(--accent-rule);
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .service-item {
@@ -583,7 +587,6 @@ a {
   grid-template-columns: 2.5rem 1fr;
   gap: 0.3rem var(--space-lg);
   padding-block: var(--space-xl);
-  border-top: 1px solid var(--accent-rule);
   align-items: start;
   margin-inline: calc(-1 * var(--space-lg));
   padding-inline: var(--space-lg);
@@ -655,6 +658,41 @@ a {
   color: var(--text-on-dark-muted);
   line-height: var(--leading-base);
   max-width: 52ch;
+}
+
+
+/* Origin — short narrative on the al-Kindi name, reads as a quiet
+   interlude between About and Team. Single narrow column, opening
+   paragraph weighted as a lead. */
+
+.origin {
+  background-color: transparent;
+  color: var(--color-dark-fg);
+}
+
+.origin .section__label {
+  margin-block-end: var(--space-2xl);
+}
+
+.origin__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 60ch;
+}
+
+.origin__body {
+  font-size: var(--t-base);
+  color: var(--text-on-dark);
+  line-height: 1.7;
+  max-width: unset;
+}
+
+.origin__body:first-of-type {
+  font-size: var(--t-lg);
+  color: var(--text-on-dark-strong);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
 }
 
 

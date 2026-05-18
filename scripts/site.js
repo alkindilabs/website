@@ -158,7 +158,6 @@
   // visible blank gap.
   const SAFETY_DICT = Object.freeze({
     'lang.switch': 'Language',
-    'nav.work': 'Work',
     'nav.services': 'Services',
     'nav.about': 'About',
     'nav.team': 'Team',
@@ -167,11 +166,11 @@
     'hero.headingAria': 'Free, Fearless — Istanbul-born, Lisbon-grown',
     'hero.phrase1': 'Free, Fearless',
     'hero.phrase2': 'Istanbul-born, Lisbon-grown',
-    'hero.tagline': 'A design and technology studio focused on clear thinking and solid work.',
-    'hero.body': 'We build brands, products and digital experiences that feel natural to use and easy to understand.',
-    'work.label': 'Selected Projects',
+    'hero.tagline': 'A design and technology studio working from interfaces to smart contracts.',
+    'hero.body': 'We design brands, ship products, and engineer onchain systems that feel natural to use and easy to understand.',
     'services.label': 'Services',
     'about.label': 'About al-Kindi',
+    'origin.label': 'Origin',
     'team.label': 'Team',
     'contact.label': 'Contact',
   });
