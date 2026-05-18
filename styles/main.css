@@ -696,7 +696,10 @@ a {
 }
 
 
-/* Team — dark section, portrait photos with expandable bios */
+/* Team — cipher plates. Each member is a typographic dossier:
+   monogram, cipher index, locale tag, hairline crosshairs.
+   Pays tribute to al-Kindi's cryptographic legacy (see Origin).
+   Layout mirrors on the second card for editorial asymmetry. */
 
 .team {
   background-color: transparent;
@@ -724,64 +727,248 @@ a {
 
 .team__member {
   display: grid;
-  grid-template-columns: 42% 1fr;
-  gap: clamp(var(--space-lg), 4vw, var(--space-2xl));
+  grid-template-columns: 44% 1fr;
+  gap: clamp(var(--space-lg), 5vw, var(--space-3xl));
   padding-block: var(--space-3xl);
   position: relative;
+  align-items: stretch;
 }
 
-.team__photo-wrap {
+.team__member + .team__member {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Mirror the second card: info-left, plate-right. Creates the
+   alternating editorial rhythm that two photo-portrait cards alone
+   couldn't carry. */
+.team__member--partner {
+  grid-template-columns: 1fr 44%;
+}
+
+.team__member--partner .team__plate {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.team__member--partner .team__info {
+  grid-column: 1;
+  grid-row: 1;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.team__member--partner .team__name,
+.team__member--partner .team__bio,
+.team__member--partner .team__role {
+  margin-inline-start: auto;
+}
+
+.team__member--partner .team__links {
+  justify-content: flex-end;
+}
+
+.team__member--partner .team__role::before {
+  display: none;
+}
+
+.team__member--partner .team__role::after {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+
+/* Plate — the typographic dossier replacing the photo placeholder.
+   Background blends warm night tones with a subtle pattern echo. */
+
+.team__plate {
   position: relative;
-}
-
-.team__photo {
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background-color: var(--color-charcoal);
-  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(120% 80% at 30% 20%, rgba(179, 82, 0, 0.10) 0%, transparent 55%),
+    radial-gradient(110% 90% at 85% 95%, rgba(40, 30, 22, 0.45) 0%, transparent 60%),
+    linear-gradient(165deg, #14110d 0%, #0a0907 55%, #050403 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: clamp(var(--space-md), 2.4vw, var(--space-xl));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  transition: border-color 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.team__photo-placeholder {
+.team__plate::before {
+  content: '';
   position: absolute;
   inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.team__photo-placeholder--munevver {
-  background: linear-gradient(160deg, #1e1a14 0%, #0d0b09 100%);
+.team__member:hover .team__plate {
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
-.team__photo-placeholder--partner {
-  background: linear-gradient(160deg, #141a1e 0%, #090d10 100%);
-}
-
-.team__toggle {
+/* Crosshair frame — registration marks at the four corners. Reads
+   as drafting/blueprint, ties the plate to the technical half of
+   the studio identity. */
+.team__plate-frame {
   position: absolute;
-  bottom: var(--space-md);
-  right: var(--space-md);
-  width: 3rem;
-  height: 3rem;
+  inset: clamp(0.6rem, 1.2vw, 1rem);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.team__plate-corner {
+  position: absolute;
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.team__plate-corner::before,
+.team__plate-corner::after {
+  content: '';
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+.team__plate-corner::before { left: 0; right: 0; height: 1px; }
+.team__plate-corner::after  { top: 0; bottom: 0; width: 1px; }
+
+.team__plate-corner--tl { top: 0; left: 0; }
+.team__plate-corner--tl::before { top: 0; }
+.team__plate-corner--tl::after  { left: 0; }
+
+.team__plate-corner--tr { top: 0; right: 0; }
+.team__plate-corner--tr::before { top: 0; }
+.team__plate-corner--tr::after  { right: 0; }
+
+.team__plate-corner--bl { bottom: 0; left: 0; }
+.team__plate-corner--bl::before { bottom: 0; }
+.team__plate-corner--bl::after  { left: 0; }
+
+.team__plate-corner--br { bottom: 0; right: 0; }
+.team__plate-corner--br::before { bottom: 0; }
+.team__plate-corner--br::after  { right: 0; }
+
+/* Cipher index — top-left, accent orange. "K—01" / "K—02" reads as
+   a serial code, the al-Kindi nod. */
+.team__cipher {
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 2;
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  align-self: start;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.05em;
+}
+
+.team__cipher-prefix {
+  color: rgba(255, 255, 255, 0.55);
+  margin-inline-end: 0.05em;
+}
+
+/* Locale tag — top-right, muted caps. */
+.team__locale {
+  grid-column: 2;
+  grid-row: 1;
+  z-index: 2;
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  align-self: start;
+  justify-self: end;
+  text-align: right;
+}
+
+/* Monogram — the centerpiece. Single letter, light weight,
+   centered with slight optical offset for visual tension. */
+.team__monogram {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  z-index: 2;
+  font-family: var(--font-slogan);
+  font-size: clamp(8rem, 16vw, 16rem);
+  font-weight: 300;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+  align-self: center;
+  justify-self: center;
+  transform: translateY(-0.05em);
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+              letter-spacing 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  user-select: none;
+}
+
+.team__member:hover .team__monogram {
+  transform: translateY(-0.08em);
+  letter-spacing: -0.03em;
+}
+
+/* Toggle — bottom-right of plate. Smaller, sharper, accent on open. */
+.team__toggle {
+  grid-column: 2;
+  grid-row: 3;
+  z-index: 2;
+  justify-self: end;
+  align-self: end;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.30);
-  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(6, 5, 4, 0.45);
   color: var(--color-dark-fg);
-  font-size: var(--t-xl);
+  font-size: var(--t-lg);
   font-weight: 300;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  padding: 0;
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
-.team__toggle:hover {
-  border-color: rgba(255, 255, 255, 0.65);
-  background-color: rgba(255, 255, 255, 0.05);
+.team__toggle:hover,
+.team__toggle:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  outline: none;
 }
 
 .team__member--open .team__toggle {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.55);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: rgba(179, 82, 0, 0.08);
 }
+
+.team__toggle-icon {
+  display: block;
+  transform: translateY(-0.03em);
+}
+
+
+/* Info — role, name, bio, links. Justified to bottom of plate
+   so the name baseline aligns with the toggle. */
 
 .team__info {
   display: flex;
@@ -791,20 +978,33 @@ a {
 }
 
 .team__role {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-size: var(--t-xs);
+  font-weight: 400;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--color-accent);
   margin-block-end: var(--space-md);
+}
+
+.team__role::before {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background-color: currentColor;
+  flex-shrink: 0;
 }
 
 .team__name {
   font-size: var(--t-2xl);
   font-weight: 300;
-  letter-spacing: 0;
-  line-height: 1;
-  margin-block-end: var(--space-xl);
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  margin-block-end: var(--space-lg);
+  color: rgba(255, 255, 255, 0.98);
 }
 
 .team__bio-wrap {
@@ -823,7 +1023,7 @@ a {
 
 .team__bio {
   font-size: var(--t-sm);
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(255, 255, 255, 0.62);
   line-height: var(--leading-base);
   padding-block-start: var(--space-sm);
   max-width: 52ch;
@@ -832,29 +1032,47 @@ a {
 .team__links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md);
+  gap: var(--space-lg);
   list-style: none;
   padding: 0;
   margin: 0;
-  padding-block-start: var(--space-md);
+  padding-block-start: var(--space-lg);
 }
 
 .team__link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
   font-size: var(--t-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: lowercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   padding-block-end: 2px;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.team__link-mark {
+  display: inline-block;
+  font-size: 0.85em;
+  transform: translateY(-0.05em);
+  transition: transform 0.25s ease;
+  color: var(--color-accent);
+  opacity: 0.7;
 }
 
 .team__link:hover,
 .team__link:focus-visible {
-  color: rgba(255, 255, 255, 0.92);
-  border-color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.98);
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.team__link:hover .team__link-mark,
+.team__link:focus-visible .team__link-mark {
+  transform: translate(0.15em, -0.2em);
+  opacity: 1;
 }
 
 
@@ -1086,9 +1304,53 @@ a {
     padding-top: 0;
   }
 
-  .team__member {
+  .team__member,
+  .team__member--partner {
     grid-template-columns: 1fr;
     padding-block: var(--space-2xl);
+    gap: var(--space-lg);
+  }
+
+  .team__member--partner .team__plate,
+  .team__member--partner .team__info {
+    grid-column: 1;
+  }
+
+  .team__member--partner .team__plate { grid-row: 1; }
+  .team__member--partner .team__info { grid-row: 2; }
+
+  .team__member--partner .team__info {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .team__member--partner .team__name,
+  .team__member--partner .team__bio,
+  .team__member--partner .team__role {
+    margin-inline-start: 0;
+  }
+
+  .team__member--partner .team__links {
+    justify-content: flex-start;
+  }
+
+  .team__member--partner .team__role::after { display: none; }
+
+  .team__member--partner .team__role::before {
+    content: '';
+    display: inline-block;
+    width: 1.5rem;
+    height: 1px;
+    background-color: currentColor;
+    flex-shrink: 0;
+  }
+
+  .team__plate {
+    aspect-ratio: 5 / 4;
+  }
+
+  .team__monogram {
+    font-size: clamp(7rem, 28vw, 12rem);
   }
 
   .footer__inner,
