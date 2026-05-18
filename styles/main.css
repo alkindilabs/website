@@ -89,15 +89,19 @@ button { cursor: pointer; }
   --text-on-light-muted:  rgba(13, 13, 13, 0.50);
   --text-on-light-strong: rgba(13, 13, 13, 0.90);
 
-  /* Two-layer halos: a tight close drop for crisp glyph edge,
-     a wider diffuse glow for body in bright pattern regions.
-     Lets us drop the heavy hero overlay without losing legibility. */
+  /* Three-layer text halos carry legibility on the hero pattern
+     without any overlay. Crisp edge drop + medium contact halo +
+     wide diffuse glow. The body text on bright archway regions is
+     the worst case — this stack reads cleanly there with the
+     pattern fully visible underneath. */
   --shadow-text-soft:
-    0 1px 2px rgba(0, 0, 0, 0.88),
-    0 0 18px rgba(0, 0, 0, 0.55);
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 8px rgba(0, 0, 0, 0.78),
+    0 0 28px rgba(0, 0, 0, 0.62);
   --shadow-text-strong:
-    0 2px 4px rgba(0, 0, 0, 0.88),
-    0 0 30px rgba(0, 0, 0, 0.50);
+    0 2px 3px rgba(0, 0, 0, 0.95),
+    0 4px 14px rgba(0, 0, 0, 0.78),
+    0 0 42px rgba(0, 0, 0, 0.58);
 
   /* Reading scrim — feathered dark backdrop applied to text sections
      so the Münevver pattern is visible at section seams but recedes
@@ -393,28 +397,6 @@ a {
   overflow: hidden;
 }
 
-
-/* Hero vignette — sculpted radial that hugs only the bottom text foot,
-   replacing the older blanket linear wash. Most of the pattern stays
-   bright; the gradient peaks just where tagline + body sit and
-   feathers to nothing well before reaching the heading or top edge.
-   Pairs with layered text-shadow tokens so legibility doesn't lean on
-   this scrim alone. */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      90% 42% at 50% 100%,
-      rgba(var(--color-night-rgb), 0.58) 0%,
-      rgba(var(--color-night-rgb), 0.32) 42%,
-      rgba(var(--color-night-rgb), 0.10) 74%,
-      transparent 100%
-    );
-  z-index: 2;
-  pointer-events: none;
-}
 
 /* Reading-zone scrim — feathered dark backdrop on text sections.
    Pattern shows at the section seams (top/bottom 5rem) and dims under
