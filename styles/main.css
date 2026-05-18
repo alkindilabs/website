@@ -1227,16 +1227,6 @@ a {
   letter-spacing: 0.02em;
 }
 
-.footer__cipher {
-  font-family: var(--font-sans);
-  font-size: var(--t-xs);
-  font-weight: 400;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-accent);
-  opacity: 0.6;
-}
-
 
 /* Scroll reveal */
 
