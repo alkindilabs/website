@@ -1126,58 +1126,115 @@ a {
 }
 
 
-/* Footer — continues the dark contact section */
+/* Footer — editorial colophon. Top hairline anchors the section
+   as a closing breath; two-column top tier (brand + studio tagline)
+   with accent dashes echoing .section__label; bottom tier carries
+   the legal entity and a K—IX cipher mark — the al-Kindi century
+   index, threading the team cipher plates into the page bookend. */
 
 .site-footer {
   background-color: transparent;
-  border-top: none;
-  padding-block: var(--space-xl);
+  padding-block: var(--space-2xl) var(--space-lg);
   font-size: var(--t-xs);
   color: rgba(255, 255, 255, 0.85);
 }
 
 .footer__inner {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-md);
+  flex-direction: column;
+  gap: var(--space-lg);
 }
 
-.footer__right {
+.footer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+  padding-block-start: var(--space-lg);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.footer__col {
   display: flex;
   flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.footer__col--studio {
   align-items: flex-end;
-  gap: 0.35rem;
+  text-align: right;
+}
+
+.footer__mark,
+.footer__tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1;
 }
 
 .footer__tagline {
-  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
+}
+
+.footer__mark-rule {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background-color: var(--color-accent);
+  flex-shrink: 0;
 }
 
 .footer__credit {
   font-size: var(--t-xs);
-  color: rgba(255, 255, 255, 0.32);
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.02em;
+  line-height: var(--leading-snug);
+  max-width: 46ch;
 }
 
 .footer__credit a {
-  color: var(--text-on-dark-muted);
-  text-decoration: none;
-  transition: color 0.25s ease;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.15);
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
 }
 
 .footer__credit a:hover {
-  color: rgba(255, 255, 255, 0.80);
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration-color: var(--color-accent);
+}
+
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .footer__legal {
-  margin-block-start: var(--space-md);
-  padding-block-start: var(--space-md);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
   font-size: var(--t-xs);
-  color: rgba(255, 255, 255, 0.32);
+  color: rgba(255, 255, 255, 0.36);
   letter-spacing: 0.02em;
+}
+
+.footer__cipher {
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.6;
 }
 
 
@@ -1344,9 +1401,14 @@ a {
     font-size: clamp(7rem, 28vw, 12rem);
   }
 
-  .footer__inner,
-  .footer__right {
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .footer__col--studio {
     align-items: flex-start;
+    text-align: left;
   }
 }
 
