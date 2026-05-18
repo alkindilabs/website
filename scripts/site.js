@@ -145,7 +145,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v1';
+  const DICT_CACHE_VERSION = 'v2';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -254,8 +254,11 @@
   });
 
   const fetchDictOnce = async (lang) => {
-    const url = DICT_URLS[lang];
-    if (!url) throw new Error(`Unsupported lang: ${lang}`);
+    const base = DICT_URLS[lang];
+    if (!base) throw new Error(`Unsupported lang: ${lang}`);
+    // Append cache version to bypass HTTP cache when content shape changes.
+    // Must change in lock-step with the matching <link rel="preload"> in index.html.
+    const url = `${base}?v=${DICT_CACHE_VERSION}`;
 
     // Visibility-driven timeout: timer runs only while the tab is visible.
     // Each transition to hidden cancels the pending timer; each transition
