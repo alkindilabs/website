@@ -33,7 +33,7 @@
   "about.body1": "We prefer clear scope, honest dialogue and work that can stand on its own without big words. Sometimes that means adding a feature; sometimes it means simplifying and removing noise.",
   "about.body2": "We're not chasing trends. We're here to help you build something useful, consistent and well‑made.",
   "origin.label": "Origin",
-  "origin.body1": "al‑Kindi, the 9th‑century Baghdadi polymath, wrote on philosophy, music, optics — and pioneered the systematic study of ciphers. He kept design and craft on the same workbench: the same hand tuned an oud, translated Aristotle, and read enciphered letters.",
+  "origin.body1": "al‑Kindi, the 9th‑century Baghdadi polymath, wrote on philosophy, music, optics — and invented cryptanalysis. The frequency analysis he laid out in Baghdad broke every cipher humanity had built; no system resistant to it would emerge for seven centuries. The same hand tuned an oud, translated Aristotle, and read enciphered letters.",
   "origin.body2": "The same 'al‑' is everywhere in Portugal, where we work — Alfama, Algarve, Alentejo, Almada — quiet traces of the Arabic‑speaking world he came from.",
   "origin.body3": "Eleven centuries later, his work on ciphers is the foundation of every smart contract we deploy. We borrowed the name in tribute.",
   "team.label": "Team",
