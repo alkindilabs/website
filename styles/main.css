@@ -89,8 +89,15 @@ button { cursor: pointer; }
   --text-on-light-muted:  rgba(13, 13, 13, 0.50);
   --text-on-light-strong: rgba(13, 13, 13, 0.90);
 
-  --shadow-text-soft:   0 1px 6px rgba(0, 0, 0, 0.7);
-  --shadow-text-strong: 0 2px 24px rgba(0, 0, 0, 0.4);
+  /* Two-layer halos: a tight close drop for crisp glyph edge,
+     a wider diffuse glow for body in bright pattern regions.
+     Lets us drop the heavy hero overlay without losing legibility. */
+  --shadow-text-soft:
+    0 1px 2px rgba(0, 0, 0, 0.88),
+    0 0 18px rgba(0, 0, 0, 0.55);
+  --shadow-text-strong:
+    0 2px 4px rgba(0, 0, 0, 0.88),
+    0 0 30px rgba(0, 0, 0, 0.50);
 
   /* Reading scrim — feathered dark backdrop applied to text sections
      so the Münevver pattern is visible at section seams but recedes
@@ -387,21 +394,24 @@ a {
 }
 
 
-/* Hero foot gradient — a slim dark wash at the bottom 40% of the hero
-   so the tagline + body lines stay readable when the pattern crests
-   bright (moon, lanterns, sunlit ridges). The hero slogan itself sits
-   above this and lives directly on the pattern. */
+/* Hero vignette — sculpted radial that hugs only the bottom text foot,
+   replacing the older blanket linear wash. Most of the pattern stays
+   bright; the gradient peaks just where tagline + body sit and
+   feathers to nothing well before reaching the heading or top edge.
+   Pairs with layered text-shadow tokens so legibility doesn't lean on
+   this scrim alone. */
 .hero::before {
   content: '';
   position: absolute;
-  inset: auto 0 0 0;
-  height: 42%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(var(--color-night-rgb), 0.55) 70%,
-    rgba(var(--color-night-rgb), 0.72) 100%
-  );
+  inset: 0;
+  background:
+    radial-gradient(
+      90% 42% at 50% 100%,
+      rgba(var(--color-night-rgb), 0.58) 0%,
+      rgba(var(--color-night-rgb), 0.32) 42%,
+      rgba(var(--color-night-rgb), 0.10) 74%,
+      transparent 100%
+    );
   z-index: 2;
   pointer-events: none;
 }
