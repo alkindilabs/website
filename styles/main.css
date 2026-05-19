@@ -788,8 +788,7 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.06);
   padding: clamp(var(--space-md), 2.4vw, var(--space-xl));
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   transition: border-color 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -853,7 +852,6 @@ a {
 
 /* Locale tag — top-right, muted caps. */
 .team__locale {
-  grid-column: 1 / -1;
   grid-row: 1;
   z-index: 2;
   font-family: var(--font-sans);
@@ -870,7 +868,6 @@ a {
 /* Monogram — the centerpiece. Single letter, light weight,
    centered with slight optical offset for visual tension. */
 .team__monogram {
-  grid-column: 1 / -1;
   grid-row: 2;
   z-index: 2;
   font-family: var(--font-slogan);
@@ -893,50 +890,8 @@ a {
   letter-spacing: -0.03em;
 }
 
-/* Toggle — bottom-right of plate. Smaller, sharper, accent on open. */
-.team__toggle {
-  grid-column: 2;
-  grid-row: 3;
-  z-index: 2;
-  justify-self: end;
-  align-self: end;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(6, 5, 4, 0.45);
-  color: var(--color-dark-fg);
-  font-size: var(--t-lg);
-  font-weight: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  padding: 0;
-  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
-}
-
-.team__toggle:hover,
-.team__toggle:focus-visible {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  outline: none;
-}
-
-.team__member--open .team__toggle {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  background-color: rgba(179, 82, 0, 0.08);
-}
-
-.team__toggle-icon {
-  display: block;
-  transform: translateY(-0.03em);
-}
-
-
 /* Info — role, name, bio, links. Justified to bottom of plate
-   so the name baseline aligns with the toggle. */
+   so the name baseline aligns with the monogram. */
 
 .team__info {
   display: flex;
@@ -973,20 +928,6 @@ a {
   line-height: 0.95;
   margin-block-end: var(--space-lg);
   color: rgba(255, 255, 255, 0.98);
-}
-
-.team__bio-wrap {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s ease;
-}
-
-.team__member--open .team__bio-wrap {
-  grid-template-rows: 1fr;
-}
-
-.team__bio-inner {
-  overflow: hidden;
 }
 
 .team__bio {
@@ -1326,8 +1267,6 @@ a {
    ============================================================ */
 
 @media (scripting: none) {
-  .team__bio-wrap { grid-template-rows: 1fr; }
-  .team__toggle { display: none; }
   .lang-switch { display: none; }
 }
 /* Older browsers without (scripting: none) support fall back to
