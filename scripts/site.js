@@ -145,7 +145,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v3';
+  const DICT_CACHE_VERSION = 'v4';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -381,50 +381,7 @@
     return dictPromises[lang];
   };
 
-  const t = (key, params) => {
-    const raw = dicts[currentLang]?.[key] ?? dicts[SOURCE_LANG]?.[key];
-    if (raw === undefined) return undefined;
-    if (!params) return raw;
-    let value = raw;
-    Object.entries(params).forEach(([k, v]) => {
-      value = value.split(`{${k}}`).join(v);
-    });
-    return value;
-  };
-
-  const formatToggleLabel = (open, name) => {
-    const value = t(open ? 'team.bioHide' : 'team.bioShow', { name });
-    return value ?? `${open ? 'Hide' : 'Show'} ${name} bio`;
-  };
-
-  const teamToggles = Array.from(document.querySelectorAll('.team__toggle')).map((button) => {
-    const member = button.closest('.team__member');
-    const icon = button.querySelector('.team__toggle-icon');
-    const bio = document.getElementById(button.getAttribute('aria-controls'));
-
-    const setBioState = (open) => {
-      const name = member.querySelector('.team__name').textContent.trim();
-      member.classList.toggle('team__member--open', open);
-      button.setAttribute('aria-expanded', String(open));
-      if (name) button.setAttribute('aria-label', formatToggleLabel(open, name));
-      bio.setAttribute('aria-hidden', String(!open));
-      icon.textContent = open ? '−' : '+';
-    };
-
-    setBioState(button.getAttribute('aria-expanded') === 'true');
-
-    button.addEventListener('click', () => {
-      setBioState(button.getAttribute('aria-expanded') !== 'true');
-    });
-
-    bio.addEventListener('transitionend', (event) => {
-      if (event.target === bio && event.propertyName === 'grid-template-rows') {
-        refresh();
-      }
-    });
-
-    return { button, refresh: () => setBioState(button.getAttribute('aria-expanded') === 'true') };
-  });
+  const t = (key) => dicts[currentLang]?.[key] ?? dicts[SOURCE_LANG]?.[key];
 
   const applyTranslations = () => {
     document.documentElement.lang = currentLang;
@@ -436,7 +393,6 @@
       const value = t(el.dataset.i18nAria);
       if (value != null && value !== '') el.setAttribute('aria-label', value);
     });
-    teamToggles.forEach((entry) => entry.refresh());
   };
 
   const langItems = Array.from(document.querySelectorAll('.lang-switch__item'));
