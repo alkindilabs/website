@@ -478,14 +478,6 @@ a {
   padding-block-end: var(--space-2xl);
 }
 
-.hero__tagline {
-  font-size: var(--t-lg);
-  line-height: var(--leading-snug);
-  color: rgba(255, 255, 255, 0.92);
-  margin-block-start: var(--space-xl);
-  text-shadow: var(--shadow-text-soft);
-}
-
 .hero__body {
   flex: 1;
   min-width: 18rem;
