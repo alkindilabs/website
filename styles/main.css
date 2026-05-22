@@ -479,12 +479,10 @@ a {
 }
 
 .hero__tagline {
-  flex: 1;
-  min-width: 18rem;
   font-size: var(--t-lg);
   line-height: var(--leading-snug);
   color: rgba(255, 255, 255, 0.92);
-  max-width: unset;
+  margin-block-start: var(--space-xl);
   text-shadow: var(--shadow-text-soft);
 }
 
