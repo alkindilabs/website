@@ -26,7 +26,7 @@
 
 ## Required Rules
 
-- Do not commit inline `<script>` blocks in `index.html`, except for a single `<script type="application/ld+json">` block in `<head>` carrying structured data. JSON-LD has no `src=""` form in the HTML spec, and AI / SEO crawlers must be able to read it without executing JavaScript.
+- Do not commit inline `<script>` blocks in `index.html`, except for a single `<script type="application/ld+json">` block in `<head>` carrying structured data. Per the HTML spec, a `<script>` element used as a data block (which `application/ld+json` is) must embed the data inline and must not set the `src` attribute, so externalising the JSON-LD is not an option. Most structured-data consumers also expect the payload to be readable without executing JavaScript.
 - Do not commit inline `style=""` for production UI. Use classes, modifiers, CSS custom properties, or asset files instead.
 - Do not commit authored *visible body copy* in `index.html`. Add or edit `content/<lang>.json` instead. Documented exceptions, in HTML for a reason: the noscript fallback message (JS is what fetches the dictionaries), the static team-toggle `aria-label` (progressive a11y baseline that JS overrides at runtime), `<title>` and `<meta>`/`og:*` tags (consumed before any script runs), the logo `alt` text (referenced from a single source asset), and the `<head>` JSON-LD payload (structured data for AI and search crawlers, consumed before any script runs).
 - Do not duplicate copy, content lists, or behavior rules across HTML, CSS, and JS.
