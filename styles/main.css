@@ -86,8 +86,6 @@ button { cursor: pointer; }
   --text-on-dark-muted:   rgba(255, 255, 255, 0.62);
   --text-on-dark-strong:  rgba(255, 255, 255, 0.95);
   --decoration-on-dark:   rgba(255, 255, 255, 0.20);
-  --text-on-light-muted:  rgba(13, 13, 13, 0.50);
-  --text-on-light-strong: rgba(13, 13, 13, 0.90);
 
   /* Three-layer text halos carry legibility on the hero pattern
      without any overlay. Crisp edge drop + medium contact halo +
@@ -243,10 +241,6 @@ a {
   background: transparent;
 }
 
-.header--scrolled.header--light {
-  background: transparent;
-}
-
 .header--hidden {
   transform: translateY(-110%);
 }
@@ -266,16 +260,6 @@ a {
 }
 
 .nav__logo-img:hover {
-  opacity: 1;
-}
-
-/* Light-section override — toggled via JS */
-.header--light .nav__logo-img {
-  filter: brightness(0);
-  opacity: 0.75;
-}
-
-.header--light .nav__logo-img:hover {
   opacity: 1;
 }
 
@@ -323,10 +307,6 @@ a {
   width: 1em;
 }
 
-.header--light .nav__link { text-shadow: none; color: var(--text-on-light-muted); }
-.header--light .nav__link--active { color: var(--text-on-light-strong); }
-.header--light .nav__link:hover { color: rgba(13, 13, 13, 0.80); }
-
 .lang-switch {
   display: flex;
   align-items: center;
@@ -361,9 +341,6 @@ a {
   color: var(--text-on-dark-strong);
   cursor: default;
 }
-
-.header--light .lang-switch__item { text-shadow: none; color: var(--text-on-light-muted); }
-.header--light .lang-switch__item--active { color: var(--text-on-light-strong); }
 
 
 /* Hero heading — 2-phrase cycling animation */

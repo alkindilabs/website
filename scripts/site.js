@@ -3,7 +3,6 @@
   const SCROLL_DELTA_DEADBAND = 6;
   const ACTIVE_SECTION_VIEWPORT_RATIO = 0.35;
   const REVEAL_THRESHOLD = 0.08;
-  const HEADER_HIT_OFFSET = 2;
   const LANG_STORAGE_KEY = 'alkindi-lang';
   const SUPPORTED_LANGS = new Set(['en', 'tr']);
   const SOURCE_LANG = 'en';
@@ -25,31 +24,14 @@
     }))
     .filter((item) => item.section);
 
-  const allSections = Array.from(document.querySelectorAll('section[id]'));
-  let sectionRanges = [];
-  let headerHeight = 0;
   let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
 
   const recomputeLayout = () => {
-    sectionRanges = allSections.map((section) => {
-      const top = section.offsetTop;
-      return {
-        top,
-        bottom: top + section.offsetHeight,
-        isLight: section.dataset.color === 'light',
-      };
-    });
     navItems.forEach((item) => {
       item.top = item.section.offsetTop;
     });
-    headerHeight = header.offsetHeight;
-  };
-
-  const findColorRange = (scrollY) => {
-    const checkY = scrollY + headerHeight + HEADER_HIT_OFFSET;
-    return sectionRanges.find((range) => checkY >= range.top && checkY < range.bottom);
   };
 
   const findActiveLink = (scrollY) => {
@@ -63,7 +45,6 @@
 
   const updateHeader = () => {
     const scrollY = window.scrollY;
-    const colorRange = findColorRange(scrollY);
     const activeLink = findActiveLink(scrollY);
     const delta = scrollY - lastScrollY;
 
@@ -71,7 +52,6 @@
     else if (delta > SCROLL_DELTA_DEADBAND) isHidden = true;
     else if (delta < -SCROLL_DELTA_DEADBAND) isHidden = false;
 
-    header.classList.toggle('header--light', !!colorRange?.isLight);
     header.classList.toggle('header--scrolled', scrollY > SCROLL_THRESHOLD);
     header.classList.toggle('header--hidden', isHidden);
 
