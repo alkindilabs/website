@@ -1,8 +1,8 @@
-# alkindi.com — AI crawlers and search engines welcome.
-# Studio: https://www.alkindi.com/
+# www.alkindi.pt — AI crawlers and search engines welcome.
+# Studio: https://www.alkindi.pt/
 # Contact: ferit@alkindi.pt
 
 User-agent: *
 Allow: /
 
-Sitemap: https://www.alkindi.com/sitemap.xml
+Sitemap: https://www.alkindi.pt/sitemap.xml
