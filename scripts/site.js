@@ -24,7 +24,6 @@
     }))
     .filter((item) => item.section);
 
-  let headerHeight = 0;
   let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
@@ -33,7 +32,6 @@
     navItems.forEach((item) => {
       item.top = item.section.offsetTop;
     });
-    headerHeight = header.offsetHeight;
   };
 
   const findActiveLink = (scrollY) => {
