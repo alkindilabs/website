@@ -22,19 +22,20 @@
 - `styles/noscript.css` owns the no-JS fallback styles, loaded inside `<noscript>` in `index.html`.
 - `scripts/site.js` is the default home for browser behavior: DOM wiring, scroll/header behavior, reveal observers, team-member toggle interactions, and the i18n loader.
 - `assets/` should own images, logos, and fonts.
+- Root-level discovery files (`robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`) are machine-readable manifests for crawlers and AI assistants. They mirror, not replace, the authored copy in `content/<lang>.json`. When that copy or the page structure changes, refresh `sitemap.xml`'s `<lastmod>` and regenerate the prose in `llms-full.txt`.
 
 ## Required Rules
 
-- Do not commit inline `<script>` blocks in `index.html`.
+- Do not commit inline `<script>` blocks in `index.html`, except for a single `<script type="application/ld+json">` block in `<head>` carrying structured data. JSON-LD has no `src=""` form in the HTML spec, and AI / SEO crawlers must be able to read it without executing JavaScript.
 - Do not commit inline `style=""` for production UI. Use classes, modifiers, CSS custom properties, or asset files instead.
-- Do not commit authored *visible body copy* in `index.html`. Add or edit `content/<lang>.json` instead. Documented exceptions, in HTML for a reason: the noscript fallback message (JS is what fetches the dictionaries), the static team-toggle `aria-label` (progressive a11y baseline that JS overrides at runtime), `<title>` and `<meta>`/`og:*` tags (consumed before any script runs), and the logo `alt` text (referenced from a single source asset).
+- Do not commit authored *visible body copy* in `index.html`. Add or edit `content/<lang>.json` instead. Documented exceptions, in HTML for a reason: the noscript fallback message (JS is what fetches the dictionaries), the static team-toggle `aria-label` (progressive a11y baseline that JS overrides at runtime), `<title>` and `<meta>`/`og:*` tags (consumed before any script runs), the logo `alt` text (referenced from a single source asset), and the `<head>` JSON-LD payload (structured data for AI and search crawlers, consumed before any script runs).
 - Do not duplicate copy, content lists, or behavior rules across HTML, CSS, and JS.
 - Keep JavaScript out of marketing copy and visual design decisions.
 - Keep CSS out of content policy and business logic. CSS may express visual states, not authored meaning.
 - Preserve semantic markup, accessibility labels, and ARIA state when moving behavior out of HTML.
 - If a UI change needs new behavior, put the behavior in `scripts/site.js`, not in the HTML.
 - If a UI change needs new styling, put the styling in `styles/main.css`, not in JS.
-- New static files should not be added at repo root unless there is a strong reason.
+- New static files should not be added at repo root unless there is a strong reason. Protocol-mandated crawler discovery files are an explicit exception and belong at root: `robots.txt` (RFC 9309), `sitemap.xml`, `llms.txt`, and `llms-full.txt` (per llmstxt.org). Treat them as machine-readable infrastructure, not authored copy.
 
 ## Remaining Separation Debt
 
@@ -44,6 +45,10 @@
 
 ```text
 index.html
+robots.txt
+sitemap.xml
+llms.txt
+llms-full.txt
 styles/
   fonts.css
   main.css
@@ -87,6 +92,10 @@ content/
   - `curl -I http://127.0.0.1:4173/scripts/site.js`
   - `curl -I http://127.0.0.1:4173/content/en.json`
   - `curl -I http://127.0.0.1:4173/content/tr.json`
+  - `curl -I http://127.0.0.1:4173/robots.txt`
+  - `curl -I http://127.0.0.1:4173/sitemap.xml`
+  - `curl -I http://127.0.0.1:4173/llms.txt`
+  - `curl -I http://127.0.0.1:4173/llms-full.txt`
 - If assets were renamed or moved, also verify `curl -I` for each affected asset path.
 - If markup or interaction changed, do a browser sanity check for header behavior, reveal animations, and team-member toggles before finishing.
 
