@@ -8,14 +8,14 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 
 ## Services
 
-- [Smart Contract Development](https://www.alkindi.com/#services): EVM contracts with tight specs, predictable gas, full test coverage.
-- [Smart Contract Audits](https://www.alkindi.com/#services): Independent security reviews for Solidity and Vyper.
-- [Web App Development](https://www.alkindi.com/#services): Production web applications with clean architecture.
-- [Web Design](https://www.alkindi.com/#services): Sites that read clearly and load fast.
-- [Digital Product Design](https://www.alkindi.com/#services): Interfaces designed end-to-end.
-- [Brand & Visual Identity](https://www.alkindi.com/#services): Names, marks, type systems, tone of voice.
-- [Graphics & Digital Art](https://www.alkindi.com/#services): Original illustration, motion, generative work.
-- [Technical Advisory](https://www.alkindi.com/#services): Architecture reviews, Web3 integration strategy.
+- [Smart Contract Development](https://www.alkindi.pt/#services): EVM contracts with tight specs, predictable gas, full test coverage.
+- [Smart Contract Audits](https://www.alkindi.pt/#services): Independent security reviews for Solidity and Vyper.
+- [Web App Development](https://www.alkindi.pt/#services): Production web applications with clean architecture.
+- [Web Design](https://www.alkindi.pt/#services): Sites that read clearly and load fast.
+- [Digital Product Design](https://www.alkindi.pt/#services): Interfaces designed end-to-end.
+- [Brand & Visual Identity](https://www.alkindi.pt/#services): Names, marks, type systems, tone of voice.
+- [Graphics & Digital Art](https://www.alkindi.pt/#services): Original illustration, motion, generative work.
+- [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, Web3 integration strategy.
 
 ## Team
 
@@ -24,12 +24,12 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 
 ## Links
 
-- [Homepage](https://www.alkindi.com/)
-- [About](https://www.alkindi.com/#about)
-- [Origin of the name](https://www.alkindi.com/#origin)
-- [Team](https://www.alkindi.com/#team)
+- [Homepage](https://www.alkindi.pt/)
+- [About](https://www.alkindi.pt/#about)
+- [Origin of the name](https://www.alkindi.pt/#origin)
+- [Team](https://www.alkindi.pt/#team)
 - [Contact](mailto:ferit@alkindi.pt)
 
 ## Optional
 
-- [llms-full.txt](https://www.alkindi.com/llms-full.txt): Full studio narrative in long form.
+- [llms-full.txt](https://www.alkindi.pt/llms-full.txt): Full studio narrative in long form.
