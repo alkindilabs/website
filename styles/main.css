@@ -345,23 +345,6 @@ a {
 
 /* Hero heading — 2-phrase cycling animation */
 
-@keyframes phrase-1 {
-  0%   { opacity: 0; transform: translateY(8px); }
-  5%   { opacity: 1; transform: translateY(0); }
-  45%  { opacity: 1; transform: translateY(0); }
-  50%  { opacity: 0; transform: translateY(-8px); }
-  100% { opacity: 0; }
-}
-
-@keyframes phrase-2 {
-  0%   { opacity: 0; }
-  50%  { opacity: 0; transform: translateY(8px); }
-  55%  { opacity: 1; transform: translateY(0); }
-  95%  { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-8px); }
-}
-
-
 /* Hero — full viewport after nav; heading top, tagline + body bottom */
 
 .hero {
@@ -459,15 +442,7 @@ a {
   font-family: var(--font-slogan);
   color: rgba(255, 255, 255, 0.98);
   text-shadow: var(--shadow-text-strong);
-  opacity: 0;
-  animation-duration: 15s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: both;
 }
-
-.hero__phrase:first-child { animation-name: phrase-1; }
-.hero__phrase:nth-child(2) { animation-name: phrase-2; }
 
 .hero__foot {
   display: flex;
@@ -1259,7 +1234,5 @@ a {
     transition-delay: 0s !important;
   }
 
-  .hero__phrase { animation: none !important; transform: none !important; }
-  .hero__phrase:first-child { opacity: 1; }
-  .hero__phrase:nth-child(2) { display: none; }
+  .hero__phrase { transform: none !important; }
 }
