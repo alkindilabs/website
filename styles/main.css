@@ -433,12 +433,10 @@ a {
   font-size: var(--t-3xl);
   font-weight: 700;
   line-height: 0.95;
-  display: grid;
   margin-block-start: auto;
 }
 
 .hero__phrase {
-  grid-area: 1 / 1;
   font-family: var(--font-slogan);
   color: rgba(255, 255, 255, 0.98);
   text-shadow: var(--shadow-text-strong);

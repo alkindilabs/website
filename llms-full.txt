@@ -1,10 +1,10 @@
 # al-Kindi — Design & Technology Studio
 
-> A design and technology studio working from interfaces to smart contracts. Istanbul-born, Lisbon-grown.
+> A design and technology studio working from interfaces to smart contracts.
 
 al-Kindi is a small, focused studio with roots in software and a strong foundation in design. The studio designs brands, ships products, and engineers onchain systems that feel natural to use and easy to understand. Some days we draw screens, some days we deploy contracts; most days, we do both.
 
-Free, fearless. Istanbul-born, Lisbon-grown.
+Clear thinking. Elegant work.
 
 Legal entity: Alkindi, Unipessoal LDA. Based in Lisbon, Portugal.
 

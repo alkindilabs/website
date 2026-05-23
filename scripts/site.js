@@ -125,7 +125,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v4';
+  const DICT_CACHE_VERSION = 'v5';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -143,11 +143,11 @@
     'nav.team': 'Team',
     'nav.contact': 'Contact',
     'nav.main': 'Primary navigation',
-    'hero.headingAria': 'Free, Fearless — Istanbul-born, Lisbon-grown',
-    'hero.phrase1': 'Free, Fearless',
-    'hero.phrase2': 'Istanbul-born, Lisbon-grown',
-    'hero.tagline': 'A design and technology studio working from interfaces to smart contracts.',
-    'hero.body': 'We design brands, ship products, and engineer onchain systems that feel natural to use and easy to understand.',
+    'hero.headingAria': 'Clear thinking. Elegant work.',
+    'hero.line1': 'Clear thinking.',
+    'hero.line2': 'Elegant work.',
+    'hero.bodyLeft': 'A design and technology studio for products, brands, and systems that need clarity before execution.',
+    'hero.bodyRight': 'We search for the best definition of the problem, explore the possible answers, and build only what should be built.',
     'services.label': 'Services',
     'about.label': 'About al-Kindi',
     'origin.label': 'Origin',
