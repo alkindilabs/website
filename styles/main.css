@@ -358,6 +358,12 @@ a {
 }
 
 
+/* Hero composition: pattern carries the top half, voice cluster
+   (heading + bodies + CTA) anchors the bottom. Sizes are clamp-driven
+   so a single rule covers mobile through ultrawide without discrete
+   breakpoint overrides. */
+
+
 /* Reading-zone scrim — feathered dark backdrop on text sections.
    Pattern shows at the section seams (top/bottom 5rem) and dims under
    the reading column so long-form copy stays legible. ABA rhythm:
@@ -424,16 +430,19 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-block-start: var(--space-3xl);
+  gap: var(--space-lg);
+  padding-block: var(--space-3xl) var(--space-2xl);
   position: relative;
   z-index: 3;
 }
 
 .hero__heading {
-  font-size: var(--t-3xl);
+  /* Fluid type: 2.25rem at 20rem viewport → 4.5rem at 90rem viewport.
+     slope = (4.5 - 2.25) / (90 - 20) = 0.0321 rem/rem → 3.21vw
+     offset = 2.25 - 3.21 * (20 / 100) = 1.608rem */
+  font-size: clamp(2.25rem, 1.61rem + 3.21vw, 4.5rem);
   font-weight: 700;
-  line-height: 0.95;
-  margin-block-start: auto;
+  line-height: 1.0;
 }
 
 .hero__phrase {
@@ -442,23 +451,52 @@ a {
   text-shadow: var(--shadow-text-strong);
 }
 
-.hero__foot {
-  display: flex;
-  gap: var(--space-xl);
-  flex-wrap: wrap;
-  align-items: flex-start;
-  margin-block-start: var(--space-xl);
-  padding-block-end: var(--space-2xl);
+.hero__body {
+  max-width: 55ch;
+  font-size: var(--t-base);
+  line-height: var(--leading-base);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: var(--shadow-text-soft);
 }
 
-.hero__body {
-  flex: 1;
-  min-width: 18rem;
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.6rem;
   font-size: var(--t-sm);
-  line-height: var(--leading-base);
-  color: rgba(255, 255, 255, 0.78);
-  max-width: unset;
-  text-shadow: var(--shadow-text-soft);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-dark-fg);
+  /* Tight shadow only — the global --shadow-text-soft adds a 28px
+     diffuse halo tuned for dark mural regions; on the bright dune
+     where this CTA lands it reads as a smudge in the background. */
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 4px rgba(0, 0, 0, 0.70);
+  transition: gap 0.3s ease;
+}
+
+.hero__cta-arrow {
+  color: inherit;
+  font-size: 1.1em;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.hero__cta:hover,
+.hero__cta:focus-visible {
+  /* Color stays white on hover — accent orange would blend into the
+     warm dune mural region the CTA sits on. Feedback comes from the
+     gap widening and arrow translate. */
+  gap: 0.9rem;
+  outline: none;
+}
+
+.hero__cta:hover .hero__cta-arrow,
+.hero__cta:focus-visible .hero__cta-arrow {
+  transform: translateX(0.15em);
 }
 
 
@@ -1069,10 +1107,6 @@ a {
     font-size: 17px;
   }
 
-  .hero__heading {
-    font-size: var(--t-4xl);
-  }
-
   .services__lead {
     font-size: var(--t-2xl);
   }
@@ -1093,10 +1127,6 @@ a {
 @media (min-width: 80rem) {
   html {
     font-size: 18px;
-  }
-
-  .hero__heading {
-    font-size: 7.5rem;
   }
 
   .team__intro {
@@ -1124,13 +1154,8 @@ a {
   }
 
   .hero__content {
-    padding-block-start: var(--space-2xl);
-  }
-
-  .hero__foot {
-    flex-direction: column;
     gap: var(--space-md);
-    padding-block: var(--space-lg);
+    padding-block: var(--space-2xl) var(--space-xl);
   }
 
   .service-item {

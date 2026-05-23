@@ -26,7 +26,7 @@
   <link rel="icon" href="assets/logos/alkindi.svg" type="image/svg+xml">
   <link
     rel="preload"
-    href="content/en.json?v=v8"
+    href="content/en.json?v=v9"
     as="fetch"
     type="application/json"
     crossorigin="anonymous">
@@ -127,10 +127,14 @@
         <span class="hero__phrase" data-i18n="hero.line1"></span><br>
         <span class="hero__phrase" data-i18n="hero.line2"></span>
       </h1>
-      <div class="hero__foot">
-        <p class="hero__body" data-i18n="hero.bodyLeft"></p>
-        <p class="hero__body" data-i18n="hero.bodyRight"></p>
-      </div>
+      <p class="hero__body">
+        <span data-i18n="hero.bodyLeft"></span>
+        <span data-i18n="hero.bodyRight"></span>
+      </p>
+      <a href="#contact" class="hero__cta">
+        <span data-i18n="hero.cta"></span>
+        <span class="hero__cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
     </div>
   </section>
 
