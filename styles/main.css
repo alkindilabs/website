@@ -83,7 +83,7 @@ button { cursor: pointer; }
   --color-night:   #060504;
   --color-night-rgb: 6, 5, 4;
   --color-charcoal: #111111;
-  --color-accent:  #b35200;
+  --color-accent:  #fcbb1e;
 
   /* Overlays (semantic; keep alpha values exact) */
   --text-on-dark:         rgba(255, 246, 232, 0.75);
@@ -114,7 +114,7 @@ button { cursor: pointer; }
      value so the pattern returns more visibly at the page close. */
   --scrim-night:        rgba(var(--color-night-rgb), 0.92);
   --scrim-night-soft:   rgba(var(--color-night-rgb), 0.78);
-  --accent-rule:        rgba(179, 82, 0, 0.22);
+  --accent-rule:        rgba(252, 187, 30, 0.22);
 
   --transition-color: color 0.35s ease;
 
@@ -764,7 +764,7 @@ a {
   overflow: hidden;
   isolation: isolate;
   background:
-    radial-gradient(120% 80% at 30% 20%, rgba(179, 82, 0, 0.10) 0%, transparent 55%),
+    radial-gradient(120% 80% at 30% 20%, rgba(252, 187, 30, 0.10) 0%, transparent 55%),
     radial-gradient(110% 90% at 85% 95%, rgba(40, 30, 22, 0.45) 0%, transparent 60%),
     linear-gradient(165deg, #14110d 0%, #0a0907 55%, #050403 100%);
   border: 1px solid rgba(255, 246, 232, 0.06);
@@ -1010,7 +1010,7 @@ a {
 
 .contact__link:hover {
   color: var(--color-accent);
-  text-decoration-color: rgba(179, 82, 0, 0.4);
+  text-decoration-color: rgba(252, 187, 30, 0.4);
 }
 
 .contact__link--sub {
