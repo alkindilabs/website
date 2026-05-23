@@ -49,7 +49,9 @@ button { cursor: pointer; }
 
   --t-xs:   0.75rem;
   --t-sm:   0.875rem;
-  --t-base: var(--type-base);
+  /* +1 px over --type-base — sub-perceptible bump for reading copy
+     density on the busy mural without affecting any heading scale. */
+  --t-base: 1.0625rem;
   --t-lg:   calc(var(--type-base) * pow(var(--type-ratio), 2));
   --t-xl:   calc(var(--type-base) * pow(var(--type-ratio), 3));
   --t-2xl:  calc(var(--type-base) * pow(var(--type-ratio), 4));
@@ -75,31 +77,36 @@ button { cursor: pointer; }
   --color-muted:   #585858;
   --color-border:  #e5e5e5;
   --color-dark:    #0d0d0d;
-  --color-dark-fg: #ffffff;
+  /* Warm off-white instead of pure white — harmonizes with the warm
+     mural tones underneath without changing perceived luminance. */
+  --color-dark-fg: #fff6e8;
   --color-night:   #060504;
   --color-night-rgb: 6, 5, 4;
   --color-charcoal: #111111;
   --color-accent:  #b35200;
 
   /* Overlays (semantic; keep alpha values exact) */
-  --text-on-dark:         rgba(255, 255, 255, 0.75);
-  --text-on-dark-muted:   rgba(255, 255, 255, 0.62);
-  --text-on-dark-strong:  rgba(255, 255, 255, 0.95);
-  --decoration-on-dark:   rgba(255, 255, 255, 0.20);
+  --text-on-dark:         rgba(255, 246, 232, 0.75);
+  --text-on-dark-muted:   rgba(255, 246, 232, 0.62);
+  --text-on-dark-strong:  rgba(255, 246, 232, 0.95);
+  --decoration-on-dark:   rgba(255, 246, 232, 0.20);
 
   /* Three-layer text halos carry legibility on the hero pattern
      without any overlay. Crisp edge drop + medium contact halo +
      wide diffuse glow. The body text on bright archway regions is
      the worst case — this stack reads cleanly there with the
-     pattern fully visible underneath. */
+     pattern fully visible underneath. Base color is a deep coffee
+     tone (not pure black) so the halo blends with the dark valleys
+     of both the green sky and the warm dune rather than punching
+     a neutral hole through them. */
   --shadow-text-soft:
-    0 1px 2px rgba(0, 0, 0, 0.95),
-    0 2px 8px rgba(0, 0, 0, 0.78),
-    0 0 28px rgba(0, 0, 0, 0.62);
+    0 1px 2px rgba(20, 12, 6, 0.95),
+    0 2px 8px rgba(20, 12, 6, 0.78),
+    0 0 28px rgba(20, 12, 6, 0.62);
   --shadow-text-strong:
-    0 2px 3px rgba(0, 0, 0, 0.95),
-    0 4px 14px rgba(0, 0, 0, 0.78),
-    0 0 42px rgba(0, 0, 0, 0.58);
+    0 2px 3px rgba(20, 12, 6, 0.95),
+    0 4px 14px rgba(20, 12, 6, 0.78),
+    0 0 42px rgba(20, 12, 6, 0.58);
 
   /* Reading scrim — feathered dark backdrop applied to text sections
      so the Münevver pattern is visible at section seams but recedes
@@ -138,6 +145,12 @@ body {
   font-size: var(--t-base);
   font-weight: 500;
   line-height: var(--leading-base);
+  /* Micro-tracking opens letters slightly to fight the busy mural;
+     feature settings enable kerning, ligatures, and contextual
+     alternates where the font supports them. Both inherit down to
+     paragraph copy; headings override with --tracking-tight. */
+  letter-spacing: 0.005em;
+  font-feature-settings: 'kern' on, 'liga' on, 'calt' on;
   color: var(--color-fg);
   background-color: var(--color-night);
   background-image: image-set(
@@ -291,7 +304,7 @@ a {
 }
 
 .nav__link:hover {
-  color: rgba(255, 255, 255, 0.90);
+  color: rgba(255, 246, 232, 0.90);
 }
 
 .nav__arrow {
@@ -447,7 +460,7 @@ a {
 
 .hero__phrase {
   font-family: var(--font-slogan);
-  color: rgba(255, 255, 255, 0.98);
+  color: rgba(255, 246, 232, 0.98);
   text-shadow: var(--shadow-text-strong);
 }
 
@@ -455,48 +468,39 @@ a {
   max-width: 55ch;
   font-size: var(--t-base);
   line-height: var(--leading-base);
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 246, 232, 1);
   text-shadow: var(--shadow-text-soft);
 }
 
+/* Hero CTA — hairline chip. The site otherwise has no buttons (every
+   action elsewhere is typographic + hairline rules + arrows), so the
+   CTA stays in that register: thin warm-white border, low-alpha dark
+   fill that does just enough to lift legibility off the dune mural,
+   generous padding for hit area. Hover deepens the fill and brightens
+   the border. */
 .hero__cta {
-  display: inline-flex;
-  align-items: center;
   align-self: flex-start;
-  gap: 0.6rem;
+  padding: 0.95em 1.4em;
   font-size: var(--t-sm);
   font-weight: 500;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--color-dark-fg);
-  /* Tight shadow only — the global --shadow-text-soft adds a 28px
-     diffuse halo tuned for dark mural regions; on the bright dune
-     where this CTA lands it reads as a smudge in the background. */
   text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.95),
-    0 2px 4px rgba(0, 0, 0, 0.70);
-  transition: gap 0.3s ease;
-}
-
-.hero__cta-arrow {
-  color: inherit;
-  font-size: 1.1em;
-  line-height: 1;
-  transition: transform 0.3s ease;
+    0 1px 2px rgba(20, 12, 6, 0.95),
+    0 2px 4px rgba(20, 12, 6, 0.70);
+  background-color: rgba(20, 12, 6, 0.22);
+  border: 1px solid rgba(255, 246, 232, 0.30);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .hero__cta:hover,
 .hero__cta:focus-visible {
-  /* Color stays white on hover — accent orange would blend into the
-     warm dune mural region the CTA sits on. Feedback comes from the
-     gap widening and arrow translate. */
-  gap: 0.9rem;
+  background-color: rgba(20, 12, 6, 0.40);
+  border-color: rgba(255, 246, 232, 0.65);
   outline: none;
-}
-
-.hero__cta:hover .hero__cta-arrow,
-.hero__cta:focus-visible .hero__cta-arrow {
-  transform: translateX(0.15em);
 }
 
 
@@ -705,7 +709,7 @@ a {
 }
 
 .team__member + .team__member {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 246, 232, 0.06);
 }
 
 /* Mirror the second card: info-left, plate-right. Creates the
@@ -763,7 +767,7 @@ a {
     radial-gradient(120% 80% at 30% 20%, rgba(179, 82, 0, 0.10) 0%, transparent 55%),
     radial-gradient(110% 90% at 85% 95%, rgba(40, 30, 22, 0.45) 0%, transparent 60%),
     linear-gradient(165deg, #14110d 0%, #0a0907 55%, #050403 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 246, 232, 0.06);
   padding: clamp(var(--space-md), 2.4vw, var(--space-xl));
   display: grid;
   grid-template-rows: auto 1fr;
@@ -783,7 +787,7 @@ a {
 }
 
 .team__member:hover .team__plate {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 246, 232, 0.14);
 }
 
 /* Crosshair frame — registration marks at the four corners. Reads
@@ -806,7 +810,7 @@ a {
 .team__plate-corner::after {
   content: '';
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.22);
+  background-color: rgba(255, 246, 232, 0.22);
 }
 
 .team__plate-corner::before { left: 0; right: 0; height: 1px; }
@@ -837,7 +841,7 @@ a {
   font-weight: 400;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 246, 232, 0.55);
   align-self: start;
   justify-self: end;
   text-align: right;
@@ -853,7 +857,7 @@ a {
   font-weight: 300;
   line-height: 0.85;
   letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.96);
+  color: rgba(255, 246, 232, 0.96);
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
   align-self: center;
   justify-self: center;
@@ -905,12 +909,12 @@ a {
   letter-spacing: -0.01em;
   line-height: 0.95;
   margin-block-end: var(--space-lg);
-  color: rgba(255, 255, 255, 0.98);
+  color: rgba(255, 246, 232, 0.98);
 }
 
 .team__bio {
   font-size: var(--t-sm);
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 246, 232, 0.62);
   line-height: var(--leading-base);
   padding-block-start: var(--space-sm);
   max-width: 52ch;
@@ -933,10 +937,10 @@ a {
   font-size: var(--t-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: lowercase;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 246, 232, 0.65);
   text-decoration: none;
   padding-block-end: 2px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 246, 232, 0.14);
   transition: color 0.25s ease, border-color 0.25s ease;
 }
 
@@ -951,7 +955,7 @@ a {
 
 .team__link:hover,
 .team__link:focus-visible {
-  color: rgba(255, 255, 255, 0.98);
+  color: rgba(255, 246, 232, 0.98);
   border-color: var(--color-accent);
   outline: none;
 }
@@ -983,7 +987,7 @@ a {
 
 .contact__sub {
   font-size: var(--t-base);
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 246, 232, 0.65);
   max-width: 48ch;
   margin-block-end: var(--space-2xl);
 }
@@ -1011,13 +1015,13 @@ a {
 
 .contact__link--sub {
   font-size: var(--t-base);
-  color: rgba(255, 255, 255, 0.60);
+  color: rgba(255, 246, 232, 0.60);
   text-decoration-color: var(--decoration-on-dark);
 }
 
 .contact__link--sub:hover {
-  color: rgba(255, 255, 255, 0.85);
-  text-decoration-color: rgba(255, 255, 255, 0.50);
+  color: rgba(255, 246, 232, 0.85);
+  text-decoration-color: rgba(255, 246, 232, 0.50);
 }
 
 
@@ -1028,7 +1032,7 @@ a {
 .site-footer {
   background-color: transparent;
   padding-block: var(--space-3xl) var(--space-xl);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 246, 232, 0.08);
   margin-block-start: var(--space-2xl);
 }
 
@@ -1045,11 +1049,11 @@ a {
 }
 
 .footer__line--primary {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 246, 232, 0.78);
 }
 
 .footer__line--secondary {
-  color: rgba(255, 255, 255, 0.40);
+  color: rgba(255, 246, 232, 0.40);
 }
 
 .footer__sep {
@@ -1060,16 +1064,16 @@ a {
 }
 
 .footer__line--secondary a {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 246, 232, 0.65);
   text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.18);
+  text-decoration-color: rgba(255, 246, 232, 0.18);
   text-underline-offset: 0.18em;
   white-space: nowrap;
   transition: color 0.25s ease, text-decoration-color 0.25s ease;
 }
 
 .footer__line--secondary a:hover {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 246, 232, 0.95);
   text-decoration-color: var(--color-accent);
 }
 
