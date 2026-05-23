@@ -125,7 +125,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v6';
+  const DICT_CACHE_VERSION = 'v7';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -146,7 +146,7 @@
     'hero.headingAria': 'Clear thinking. Elegant work.',
     'hero.line1': 'Clear thinking.',
     'hero.line2': 'Elegant work.',
-    'hero.bodyLeft': 'Alkindi is a software engineering and visual communication design studio for digital products, brands, and systems that need clarity before execution.',
+    'hero.bodyLeft': 'Alkindi is a digital product studio working from interfaces to smart contracts.',
     'hero.bodyRight': 'We search for the best definition of the problem, explore the possible answers, and build only what should be built.',
     'services.label': 'Services',
     'about.label': 'About al-Kindi',

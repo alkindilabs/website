@@ -1,6 +1,6 @@
 # al-Kindi
 
-> A software engineering and visual communication design studio working from interfaces to smart contracts.
+> A digital product studio working from interfaces to smart contracts.
 
 al-Kindi is a small, focused studio that designs brands, ships products, and engineers onchain systems. The studio is named after Abu Yusuf Yaʻqub ibn Ishaq al-Kindi, the 9th-century Baghdadi polymath who invented cryptanalysis.
 

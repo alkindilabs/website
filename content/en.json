@@ -8,7 +8,7 @@
   "hero.headingAria": "Clear thinking. Elegant work.",
   "hero.line1": "Clear thinking.",
   "hero.line2": "Elegant work.",
-  "hero.bodyLeft": "Alkindi is a software engineering and visual communication design studio for digital products, brands, and systems that need clarity before execution.",
+  "hero.bodyLeft": "Alkindi is a digital product studio working from interfaces to smart contracts.",
   "hero.bodyRight": "We search for the best definition of the problem, explore the possible answers, and build only what should be built.",
   "services.label": "Services",
   "services.lead": "We like projects with a clear purpose and long‑term value.",
@@ -52,7 +52,7 @@
   "contact.sub": "Tell us where you are and where you want to go — we'll help you design the path.",
   "contact.cta.primary": "Book a free consultation",
   "contact.cta.secondary": "Send a project brief",
-  "footer.tagline": "Software Engineering & Visual Communication Design",
+  "footer.tagline": "Digital Product Studio",
   "footer.creditPrefix": "Branding, Graphics & UI Design by",
   "footer.legal": "Alkindi, Unipessoal LDA · Lisbon"
 }
