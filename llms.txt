@@ -1,6 +1,6 @@
 # al-Kindi
 
-> A design and technology studio working from interfaces to smart contracts.
+> A software engineering and visual communication design studio working from interfaces to smart contracts.
 
 al-Kindi is a small, focused studio that designs brands, ships products, and engineers onchain systems. The studio is named after Abu Yusuf Yaʻqub ibn Ishaq al-Kindi, the 9th-century Baghdadi polymath who invented cryptanalysis.
 
@@ -19,8 +19,8 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 
 ## Team
 
-- Münevver Aslan: Designer & Digital Artist (Istanbul · Lisbon)
-- Ferit Tunçer: Founder & Lead Engineer (Lisbon)
+- Münevver Aslan: Digital Product Designer (Istanbul · Lisbon)
+- Ferit Tunçer: Lead & Software Engineer (Lisbon)
 
 ## Links
 

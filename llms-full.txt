@@ -1,6 +1,6 @@
-# al-Kindi — Design & Technology Studio
+# al-Kindi — Software Engineering & Visual Communication Design Studio
 
-> A design and technology studio working from interfaces to smart contracts.
+> A software engineering and visual communication design studio working from interfaces to smart contracts.
 
 al-Kindi is a small, focused studio with roots in software and a strong foundation in design. The studio designs brands, ships products, and engineers onchain systems that feel natural to use and easy to understand. Some days we draw screens, some days we deploy contracts; most days, we do both.
 
@@ -64,11 +64,11 @@ Eleven centuries later, his work on ciphers is the foundation of every smart con
 
 Two cities. One studio.
 
-### Münevver Aslan — Designer & Digital Artist
+### Münevver Aslan — Digital Product Designer
 
 Istanbul · Lisbon. Münevver brings a multidisciplinary eye to every project, spanning brand systems, interaction design, and the fine line between clarity and character. Born in Istanbul, now based between Lisbon and wherever the work takes her.
 
-### Ferit Tunçer — Founder & Lead Engineer
+### Ferit Tunçer — Lead & Software Engineer
 
 Lisbon. The engineering half of al-Kindi and founder of the studio. Ten years building production software with deep focus on Ethereum: smart contract development, security review, and gas-sensitive protocol work. Cypherpunk by orientation, computer science by training. Based in Lisbon.
 
