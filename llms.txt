@@ -8,12 +8,14 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 
 ## Services
 
-- [Smart Contract Development](https://www.alkindi.pt/#services): EVM contracts with tight specs, predictable gas, full test coverage.
-- [Smart Contract Audits](https://www.alkindi.pt/#services): Independent security reviews for Solidity and Vyper.
+- [Smart Contract Development](https://www.alkindi.pt/#services): Smart contracts written for the Ethereum Virtual Machine (EVM).
+- [Smart Contract Audits](https://www.alkindi.pt/#services): Rigorous security reviews for EVM smart contracts.
 - [Web App Development](https://www.alkindi.pt/#services): Production web applications with clean architecture.
 - [Web Design](https://www.alkindi.pt/#services): Sites that read clearly and load fast.
-- [Digital Product Design](https://www.alkindi.pt/#services): Interfaces designed end-to-end.
+- [User Interface Design](https://www.alkindi.pt/#services): Components, design systems, prototypes.
+- [User Experience Design](https://www.alkindi.pt/#services): Research, journey maps, information architecture, usability testing.
 - [Brand & Visual Identity](https://www.alkindi.pt/#services): Names, marks, type systems, tone of voice.
+- [Copywriting](https://www.alkindi.pt/#services): Brand voice, marketing copy, UI microcopy, long-form content.
 - [Graphics & Digital Art](https://www.alkindi.pt/#services): Original illustration, motion, generative work.
 - [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, Web3 integration strategy.
 

@@ -10,15 +10,15 @@ Legal entity: Alkindi, Unipessoal LDA. Based in Lisbon, Portugal.
 
 ## Services
 
-The studio takes on projects with a clear purpose and long-term value.
+Here are the services the studio offers.
 
 ### 01. Smart Contract Development
 
-EVM contracts written with intent: tight specs, predictable gas, full test coverage. Tokens, vaults, governance, custom protocol logic.
+Smart contracts written for the Ethereum Virtual Machine (EVM).
 
 ### 02. Smart Contract Audits
 
-Independent security reviews for Solidity and Vyper. Threat models, invariant tests, written reports you can hand to investors and users.
+Rigorous security reviews for Ethereum Virtual Machine smart contracts.
 
 ### 03. Web App Development
 
@@ -28,19 +28,27 @@ Production web applications with clean architecture. From first prototype to cod
 
 Sites that read clearly and load fast. Calm layouts, considered typography, attention to the surfaces people actually touch.
 
-### 05. Digital Product Design
+### 05. User Interface Design
 
-Interfaces designed end-to-end: research, flows, components, prototypes. Built so engineering can ship without guessing.
+Components, design systems, prototypes. The screen-level execution that turns flows and decisions into product surfaces.
 
-### 06. Brand & Visual Identity
+### 06. User Experience Design
+
+User research, journey maps, information architecture, usability testing. The studio frames the problem clearly so design and engineering can solve the right one.
+
+### 07. Brand & Visual Identity
 
 Names, marks, type systems, tone of voice. Identity systems with a quiet confidence, ready for product surfaces.
 
-### 07. Graphics & Digital Art
+### 08. Copywriting
+
+Brand voice, marketing copy, UI microcopy, long-form content. Words that carry the same care as the interfaces they live in.
+
+### 09. Graphics & Digital Art
 
 Original illustration, motion pieces, generative work. Visual systems with a point of view, not stock-feeling filler.
 
-### 08. Technical Advisory
+### 10. Technical Advisory
 
 Architecture reviews, Web3 integration strategy, technology decisions. Honest trade-offs, not deliverables for their own sake.
 
