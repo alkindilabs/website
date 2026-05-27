@@ -12,45 +12,45 @@ Legal entity: Alkindi, Unipessoal LDA. Based in Lisbon, Portugal.
 
 Here are the services the studio offers.
 
-### 01. Smart Contract Development
-
-Smart contracts written for the Ethereum Virtual Machine (EVM).
-
-### 02. Smart Contract Audits
-
-Rigorous security reviews for Ethereum Virtual Machine smart contracts.
-
-### 03. Web App Development
-
-Production web applications with clean architecture. From first prototype to codebases that survive scale and hand-offs.
-
-### 04. Web Design
-
-Sites that read clearly and load fast. Calm layouts, considered typography, attention to the surfaces people actually touch.
-
-### 05. User Interface Design
-
-Components, design systems, prototypes. The screen-level execution that turns flows and decisions into product surfaces.
-
-### 06. User Experience Design
-
-User research, journey maps, information architecture, usability testing. The studio frames the problem clearly so design and engineering can solve the right one.
-
-### 07. Brand & Visual Identity
+### 01. Brand & Visual Identity
 
 Names, marks, type systems, tone of voice. Identity systems with a quiet confidence, ready for product surfaces.
 
-### 08. Copywriting
+### 02. Copywriting
 
 Brand voice, marketing copy, UI microcopy, long-form content. Words that carry the same care as the interfaces they live in.
 
-### 09. Graphics & Digital Art
+### 03. Web Design
+
+Sites that read clearly and load fast. Calm layouts, considered typography, attention to the surfaces people actually touch.
+
+### 04. Graphics & Digital Art
 
 Original illustration, motion pieces, generative work. Visual systems with a point of view, not stock-feeling filler.
 
-### 10. Technical Advisory
+### 05. User Experience Design
+
+User research, journey maps, information architecture, usability testing. The studio frames the problem clearly so design and engineering can solve the right one.
+
+### 06. User Interface Design
+
+Components, design systems, prototypes. The screen-level execution that turns flows and decisions into product surfaces.
+
+### 07. Web App Development
+
+Production web applications with clean architecture. From first prototype to codebases that survive scale and hand-offs.
+
+### 08. Technical Advisory
 
 Architecture reviews, Web3 integration strategy, technology decisions. Honest trade-offs, not deliverables for their own sake.
+
+### 09. Smart Contract Development
+
+Smart contracts written for the Ethereum Virtual Machine (EVM).
+
+### 10. Smart Contract Audits
+
+Rigorous security reviews for Ethereum Virtual Machine smart contracts.
 
 ## About al-Kindi
 
