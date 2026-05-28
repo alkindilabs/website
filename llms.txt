@@ -8,16 +8,16 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 
 ## Services
 
-- [Brand & Visual Identity](https://www.alkindi.pt/#services): Names, marks, type systems, tone of voice.
-- [Copywriting](https://www.alkindi.pt/#services): Brand voice, marketing copy, UI microcopy, long-form content.
-- [Web Design](https://www.alkindi.pt/#services): Sites that read clearly and load fast.
-- [Graphics & Digital Art](https://www.alkindi.pt/#services): Original illustration, motion, generative work.
-- [User Experience Design](https://www.alkindi.pt/#services): Research, journey maps, information architecture, usability testing.
-- [User Interface Design](https://www.alkindi.pt/#services): Components, design systems, prototypes.
-- [Web App Development](https://www.alkindi.pt/#services): Production web applications with clean architecture.
-- [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, Web3 integration strategy.
-- [Smart Contract Development](https://www.alkindi.pt/#services): Smart contracts written for the Ethereum Virtual Machine (EVM).
-- [Smart Contract Audits](https://www.alkindi.pt/#services): Rigorous security reviews for EVM smart contracts.
+- [Brand & Visual Identity](https://www.alkindi.pt/#services): Brand systems made to be used, not just admired. Naming, marks, type, color, voice, designed as one and built to last.
+- [Copywriting](https://www.alkindi.pt/#services): Plain words for complex products. Brand voice, landing pages, UI microcopy, long-form, written to land on first read.
+- [Web Design](https://www.alkindi.pt/#services): Strategy, design, build, and ship; one studio handles every layer, from sitemap to semantic markup to deployment.
+- [Graphics & Digital Art](https://www.alkindi.pt/#services): Original illustration, motion, and motifs. By hand or by code, never from a stock library.
+- [User Experience Design](https://www.alkindi.pt/#services): Research, synthesis, structure, validation. The right problem framed before it is solved.
+- [User Interface Design](https://www.alkindi.pt/#services): Interfaces that do not need a guide, a tutorial, or a tooltip. Components, tokens, states, prototypes, drawn and shipped intact.
+- [Web App Development](https://www.alkindi.pt/#services): Web apps shipped with everything a new team needs to take over: code, docs, tests, deploy pipeline. Smallest codebase that does the job.
+- [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
+- [Smart Contract Development](https://www.alkindi.pt/#services): EVM contracts shipped audit-ready. Invariants written before the contracts, every state path covered before deploy.
+- [Smart Contract Audits](https://www.alkindi.pt/#services): EVM contract audits that end in remediation, not just findings. Each finding root-caused, each fix reviewed.
 
 ## Team
 

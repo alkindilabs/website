@@ -1,4 +1,4 @@
-# al-Kindi — Digital Product Studio
+# al-Kindi: Digital Product Studio
 
 > A digital product studio working from interfaces to smart contracts.
 
@@ -14,43 +14,43 @@ Here are the services the studio offers.
 
 ### 01. Brand & Visual Identity
 
-Names, marks, type systems, tone of voice. Identity systems with a quiet confidence, ready for product surfaces.
+Brand systems made to be used, not just admired. The studio designs naming, marks, type systems, color, and voice as one piece, built to last.
 
 ### 02. Copywriting
 
-Brand voice, marketing copy, UI microcopy, long-form content. Words that carry the same care as the interfaces they live in.
+Plain words for complex products. From brand voice to landing pages, UI microcopy to long-form content, the studio writes copy that lands on first read.
 
 ### 03. Web Design
 
-Sites that read clearly and load fast. Calm layouts, considered typography, attention to the surfaces people actually touch.
+The studio handles every layer of a web project: strategy (sitemap, information architecture, content hierarchy), design (layout, type, motion), build (semantic markup, performance, accessibility), and ship (deployment, maintenance).
 
 ### 04. Graphics & Digital Art
 
-Original illustration, motion pieces, generative work. Visual systems with a point of view, not stock-feeling filler.
+Original illustration, motion, and motifs. The studio draws by hand or writes the generative code; nothing is pulled from a stock library.
 
 ### 05. User Experience Design
 
-User research, journey maps, information architecture, usability testing. The studio frames the problem clearly so design and engineering can solve the right one.
+Research (interviews, observation), synthesis (journey maps, problem statements), structure (information architecture, user flows), validation (prototypes, usability testing). The studio frames the right problem before solving it.
 
 ### 06. User Interface Design
 
-Components, design systems, prototypes. The screen-level execution that turns flows and decisions into product surfaces.
+Interfaces that do not need a guide, a tutorial, or a tooltip. Components, tokens, states, and prototypes drawn and shipped intact.
 
 ### 07. Web App Development
 
-Production web applications with clean architecture. From first prototype to codebases that survive scale and hand-offs.
+Web apps shipped with everything a new team needs to take over: code, docs, tests, deploy pipeline. The studio builds with the smallest codebase that does the job.
 
 ### 08. Technical Advisory
 
-Architecture reviews, Web3 integration strategy, technology decisions. Honest trade-offs, not deliverables for their own sake.
+Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
 
 ### 09. Smart Contract Development
 
-Smart contracts written for the Ethereum Virtual Machine (EVM).
+EVM contracts shipped audit-ready: spec, source, invariant tests, fuzz suite, deploy scripts. The studio writes invariants before the contracts and covers every state path before deploy.
 
 ### 10. Smart Contract Audits
 
-Rigorous security reviews for Ethereum Virtual Machine smart contracts.
+EVM contract audits that end in remediation, not just findings. Manual review, fuzzing, invariant testing, and economic analysis: each finding root-caused, each fix reviewed.
 
 ## About al-Kindi
 
@@ -62,7 +62,7 @@ The studio is not chasing trends. The aim is to help clients build something use
 
 ## Origin of the name
 
-al-Kindi — Abu Yusuf Yaʻqub ibn Ishaq al-Kindi — was a 9th-century Baghdadi polymath who wrote on philosophy, music, optics, and invented cryptanalysis. The frequency analysis he laid out in Baghdad broke every cipher humanity had built; no system resistant to it would emerge for seven centuries. The same hand tuned an oud, translated Aristotle, and read enciphered letters.
+al-Kindi, Abu Yusuf Yaʻqub ibn Ishaq al-Kindi, was a 9th-century Baghdadi polymath who wrote on philosophy, music, optics, and invented cryptanalysis. The frequency analysis he laid out in Baghdad broke every cipher humanity had built; no system resistant to it would emerge for seven centuries. The same hand tuned an oud, translated Aristotle, and read enciphered letters.
 
 The same "al-" is everywhere in Portugal, where the studio works: Alfama, Algarve, Alentejo, Almada; quiet traces of the Arabic-speaking world he came from.
 
@@ -72,11 +72,11 @@ Eleven centuries later, his work on ciphers is the foundation of every smart con
 
 Two cities. One studio.
 
-### Münevver Aslan — Digital Product Designer
+### Münevver Aslan, Digital Product Designer
 
 Istanbul · Lisbon. Münevver brings a multidisciplinary eye to every project, spanning brand systems, interaction design, and the fine line between clarity and character. Born in Istanbul, now based between Lisbon and wherever the work takes her.
 
-### Ferit Tunçer — Lead & Software Engineer
+### Ferit Tunçer, Lead & Software Engineer
 
 Lisbon. The engineering half of al-Kindi and founder of the studio. Ten years building production software with deep focus on Ethereum: smart contract development, security review, and gas-sensitive protocol work. Cypherpunk by orientation, computer science by training. Based in Lisbon.
 
