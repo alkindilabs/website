@@ -36,6 +36,7 @@
 - If a UI change needs new behavior, put the behavior in `scripts/site.js`, not in the HTML.
 - If a UI change needs new styling, put the styling in `styles/main.css`, not in JS.
 - New static files should not be added at repo root unless there is a strong reason. Protocol-mandated crawler discovery files are an explicit exception and belong at root: `robots.txt` (RFC 9309), `sitemap.xml`, `llms.txt`, and `llms-full.txt` (per llmstxt.org). Treat them as machine-readable infrastructure, not authored copy.
+- Any change to `content/<lang>.json` must bump `DICT_CACHE_VERSION` in `scripts/site.js` and the matching `content/en.json?v=...` preload URL in `index.html`, in lock-step, in the same commit. Returning visitors are served the dictionary cached under the old version token (localStorage plus `force-cache` fetch, with no revalidation path), so an unbumped version ships stale copy indefinitely; renumbered keys make it wrong copy, not just old copy.
 
 ## Remaining Separation Debt
 
