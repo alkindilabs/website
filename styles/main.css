@@ -708,6 +708,14 @@ a {
   margin-block-end: var(--space-sm);
 }
 
+.service-group--aside .service-item {
+  padding-block: var(--space-lg);
+}
+
+.service-group--aside .service-item__title {
+  font-size: var(--t-base);
+}
+
 
 /* About */
 
@@ -1271,6 +1279,12 @@ a {
     font-size: 18px;
   }
 
+  .service-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-2xl);
+  }
+
   .team__intro {
     font-size: 5rem;
   }
@@ -1289,6 +1303,14 @@ a {
 
   .site-header {
     padding: var(--space-md);
+  }
+
+  .nav__links {
+    gap: 0;
+  }
+
+  .nav__link {
+    padding-block: 0.45rem;
   }
 
   .lang-switch {
