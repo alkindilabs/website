@@ -1,5 +1,5 @@
 /scripts/*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: private, max-age=0, must-revalidate
 
 /styles/*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: private, max-age=0, must-revalidate
