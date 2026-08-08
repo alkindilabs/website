@@ -593,6 +593,22 @@ a {
   margin-top: var(--space-sm);
 }
 
+.cta-inline {
+  display: inline-block;
+  margin-block-start: var(--space-lg);
+  font-size: var(--t-base);
+  color: var(--color-dark-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--decoration-on-dark);
+  text-underline-offset: 0.2em;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.cta-inline:hover {
+  color: var(--color-accent);
+  text-decoration-color: rgba(252, 187, 30, 0.4);
+}
+
 
 /* Services */
 
