@@ -18,6 +18,7 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 - [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
 - [Smart Contract Development](https://www.alkindi.pt/#services): EVM contracts shipped audit-ready. Invariants written before the contracts, every state path covered before deploy.
 - [Smart Contract Audits](https://www.alkindi.pt/#services): EVM contract audits that end in remediation, not just findings. Each finding root-caused, each fix reviewed.
+- [Hi-Fi Listening Rooms](https://www.alkindi.pt/#services): Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. One listening room built to measure, not just to look good.
 
 ## Team
 

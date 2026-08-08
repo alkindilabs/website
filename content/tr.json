@@ -33,6 +33,8 @@
   "services.09.desc": "Denetime hazır teslim edilen EVM sözleşmeleri: şartname, kaynak, invariant testleri, fuzz takımı, dağıtım betikleri. İnvariantlar sözleşmelerden önce yazılır, her durum yolu yayından önce test edilir.",
   "services.10.title": "Akıllı Sözleşme Denetimleri",
   "services.10.desc": "Bulgularla bitmeyen, düzeltmeye giden EVM sözleşme denetimleri. Manuel inceleme, fuzz, invariant testleri, ekonomik analiz: her bulgu kök nedene inilir, her düzeltme incelenir.",
+  "services.11.title": "Hi-Fi Dinleme Odaları",
+  "services.11.desc": "Oda düzeni, ekipman seçimi ve satın alma, sistem kurulumu, akustik ölçüm ve ayarlama. Sadece iyi görünen değil, ölçülüp doğrulanmış bir dinleme odası.",
   "about.label": "al‑Kindi Hakkında",
   "about.lead": "Yazılımdan beslenen, tasarımda sağlam bir temele sahip; küçük ve odaklı bir stüdyo.",
   "about.body1": "Net kapsamı, dürüst diyaloğu ve büyük sözlere ihtiyaç duymadan kendi başına durabilen işi tercih ediyoruz. Bazen bu, bir özellik eklemek; bazen sadeleştirip gürültüyü azaltmak demek.",

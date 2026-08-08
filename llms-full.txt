@@ -52,6 +52,10 @@ EVM contracts shipped audit-ready: spec, source, invariant tests, fuzz suite, de
 
 EVM contract audits that end in remediation, not just findings. Manual review, fuzzing, invariant testing, and economic analysis: each finding root-caused, each fix reviewed.
 
+### 11. Hi-Fi Listening Rooms
+
+Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. The studio builds one listening room at a time, measured to actually sound right, not just to look good.
+
 ## About al-Kindi
 
 A small, focused studio with roots in software and a strong foundation in design.

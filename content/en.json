@@ -33,6 +33,8 @@
   "services.09.desc": "EVM contracts shipped audit-ready: spec, source, invariant tests, fuzz suite, deploy scripts. Invariants written before the contracts, every state path covered before deploy.",
   "services.10.title": "Smart Contract Audits",
   "services.10.desc": "EVM contract audits that end in remediation, not just findings. Manual review, fuzzing, invariant testing, economic analysis: each finding root-caused, each fix reviewed.",
+  "services.11.title": "Hi-Fi Listening Rooms",
+  "services.11.desc": "Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. One listening room built to measure, not just to look good.",
   "about.label": "About al‑Kindi",
   "about.lead": "A small, focused studio with roots in software and a strong foundation in design.",
   "about.body1": "We prefer clear scope, honest dialogue and work that can stand on its own without big words. Sometimes that means adding a feature; sometimes it means simplifying and removing noise.",
