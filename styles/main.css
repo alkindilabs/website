@@ -604,6 +604,7 @@ a {
 
 .cta-chip {
   display: inline-block;
+  align-self: flex-start;
   padding: 0.95em 1.4em;
   font-size: var(--t-sm);
   font-weight: 500;
