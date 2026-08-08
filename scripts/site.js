@@ -116,7 +116,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v13';
+  const DICT_CACHE_VERSION = 'v14';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -138,7 +138,7 @@
     'hero.headingAria': 'Sound reasoning. Elegant engineering.',
     'hero.line1': 'Sound reasoning.',
     'hero.line2': 'Elegant engineering.',
-    'hero.bodyLeft': 'Alkindi is a digital product studio working from interfaces to smart contracts.',
+    'hero.bodyLeft': "Alkindi is a digital product studio with a polymath's range, working from interfaces to smart contracts.",
     'hero.bodyRight': 'We search for the best definition of the problem, explore the possible answers, and build only what should be built.',
     'hero.cta': 'Start a project',
     'cta.book': 'Book a free consultation',

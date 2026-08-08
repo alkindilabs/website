@@ -1,6 +1,6 @@
 # al-Kindi: Digital Product Studio
 
-> A digital product studio working from interfaces to smart contracts.
+> A digital product studio with a polymath's range, working from interfaces to smart contracts.
 
 al-Kindi is a small, focused studio with roots in software and a strong foundation in design. The studio designs brands, ships products, and engineers onchain systems that feel natural to use and easy to understand. Some days we draw screens, some days we deploy contracts; most days, we do both.
 
@@ -64,15 +64,15 @@ Web apps shipped with everything a new team needs to take over: code, docs, test
 
 ### 11. Hi-Fi Listening Rooms
 
-Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. The studio builds one listening room at a time, measured to actually sound right, not just to look good.
+Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. The studio's namesake tuned the oud; the studio tunes listening rooms.
 
 ## About al-Kindi
 
-A small, focused studio with roots in software and a strong foundation in design.
+A polymath studio: roots in software, a strong foundation in design.
 
 The studio prefers clear scope, honest dialogue, and work that can stand on its own without big words. Sometimes that means adding a feature; sometimes it means simplifying and removing noise.
 
-The studio is not chasing trends. The aim is to help clients build something useful, consistent, and well-made.
+The studio is not chasing trends. Like its namesake, who wrote on philosophy, music, optics, and ciphers, it ranges across crafts: brand, product, protocol. Most of its decade was spent where mistakes are expensive, a posture it brings to everything it builds.
 
 ## Origin of the name
 

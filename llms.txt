@@ -1,6 +1,6 @@
 # al-Kindi
 
-> A digital product studio working from interfaces to smart contracts.
+> A digital product studio with a polymath's range, working from interfaces to smart contracts.
 
 al-Kindi is a small, focused studio that designs brands, ships products, and engineers onchain systems. The studio is named after Abu Yusuf Yaʻqub ibn Ishaq al-Kindi, the 9th-century Baghdadi polymath who invented cryptanalysis.
 
@@ -23,7 +23,7 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 - [User Experience Design](https://www.alkindi.pt/#services): Research, synthesis, structure, validation. The right problem framed before it is solved.
 - [User Interface Design](https://www.alkindi.pt/#services): Interfaces that do not need a guide, a tutorial, or a tooltip. Components, tokens, states, prototypes, drawn and shipped intact.
 - [Web App Development](https://www.alkindi.pt/#services): Web apps shipped with everything a new team needs to take over: code, docs, tests, deploy pipeline. Smallest codebase that does the job.
-- [Hi-Fi Listening Rooms](https://www.alkindi.pt/#services): Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. One listening room built to measure, not just to look good.
+- [Hi-Fi Listening Rooms](https://www.alkindi.pt/#services): Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. The studio's namesake tuned the oud; the studio tunes listening rooms.
 
 ## Team
 
