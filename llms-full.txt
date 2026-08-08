@@ -90,11 +90,13 @@ Two cities. One studio.
 
 Istanbul · Lisbon. Münevver brings a multidisciplinary eye to every project, spanning brand systems, interaction design, and the fine line between clarity and character. Born in Istanbul, now based between Lisbon and wherever the work takes her.
 
-### Ferit Tunçer, Lead & Software Engineer
+### Ferit Tunçer, Founder & Smart Contract Engineer
 
 Lisbon. The engineering half of al-Kindi and founder of the studio. Ten years building production software with deep focus on Ethereum: smart contract development, security review, and gas-sensitive protocol work. Cypherpunk by orientation, computer science by training. Based in Lisbon.
 
 ## Contact
+
+Trusted by Golem Foundation and Kleros.
 
 Launching a protocol, shipping contracts that will hold real value, or building the product around them? Tell us where you are and where you want to go; we'll help you design the path.
 
