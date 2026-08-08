@@ -125,7 +125,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v10';
+  const DICT_CACHE_VERSION = 'v11';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -138,6 +138,7 @@
   // visible blank gap.
   const SAFETY_DICT = Object.freeze({
     'lang.switch': 'Language',
+    'nav.work': 'Work',
     'nav.services': 'Services',
     'nav.about': 'About',
     'nav.team': 'Team',
@@ -149,6 +150,8 @@
     'hero.bodyLeft': 'Alkindi is a digital product studio working from interfaces to smart contracts.',
     'hero.bodyRight': 'We search for the best definition of the problem, explore the possible answers, and build only what should be built.',
     'hero.cta': 'Start a project',
+    'cta.book': 'Book a free consultation',
+    'work.label': 'Selected Work',
     'services.label': 'Services',
     'about.label': 'About al-Kindi',
     'origin.label': 'Origin',
