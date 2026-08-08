@@ -100,6 +100,10 @@ content/
 - If assets were renamed or moved, also verify `curl -I` for each affected asset path.
 - If markup or interaction changed, do a browser sanity check for header behavior, reveal animations, and team-member toggles before finishing.
 
+## Deployment
+
+- The site is served by Cloudflare Pages, auto-deploying every push to `main`. The linkage is configured in the Cloudflare dashboard and is intentionally invisible in this repo: no workflow file, no CNAME, no deploy config. Pushing to `main` is deploying to production at https://www.alkindi.pt/.
+
 ## Non-Goals
 
 - This document is not a redesign brief.
