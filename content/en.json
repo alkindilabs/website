@@ -15,6 +15,7 @@
   "cta.book": "Book a free consultation",
   "work.label": "Selected Work",
   "work.lead": "Systems in production, holding real value.",
+  "work.link.commits": "our commits",
   "work.01.client": "Golem Foundation",
   "work.01.role": "Public goods funding contracts, design through deployment",
   "work.01.desc": "Public goods funding contracts for Octant, the Golem Foundation's participatory funding platform: designed, implemented, tested, and deployed by the studio. One accountable hand from specification to mainnet.",

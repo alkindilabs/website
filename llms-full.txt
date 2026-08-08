@@ -14,9 +14,13 @@ Legal entity: Alkindi, Unipessoal LDA. Based in Lisbon, Portugal.
 
 Public goods funding contracts for Octant, the Golem Foundation's participatory funding platform: designed, implemented, tested, and deployed by the studio. One accountable hand from specification to mainnet.
 
+Proof of work: https://github.com/golemfoundation/octant-v2-core/commits?author=0xferit
+
 ### Cooperative Kleros
 
 Arbitration and token distribution contracts for Kleros, the decentralized dispute resolution protocol, together with the fullstack application around them: from contract storage layout to the interface users touch.
+
+Proof of work: https://github.com/kleros/kleros/commits?author=0xferit
 
 ## Services
 

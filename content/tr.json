@@ -15,6 +15,7 @@
   "cta.book": "Ücretsiz danışmanlık alın",
   "work.label": "Seçili İşler",
   "work.lead": "Üretimde çalışan, gerçek değer taşıyan sistemler.",
+  "work.link.commits": "commit'lerimiz",
   "work.01.client": "Golem Foundation",
   "work.01.role": "Kamu yararı fonlama sözleşmeleri, tasarımdan dağıtıma",
   "work.01.desc": "Golem protokolünün arkasındaki vakfın katılımcı fonlama platformu Octant için kamu yararı fonlama sözleşmeleri: stüdyo tarafından tasarlandı, geliştirildi, test edildi ve dağıtıldı. Şartnameden mainnet'e tek sorumlu el.",
