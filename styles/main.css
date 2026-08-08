@@ -545,13 +545,6 @@ a {
   margin-block-end: var(--space-2xl);
 }
 
-.work__lead {
-  font-size: var(--t-xl);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
-  max-width: 38ch;
-}
-
 .work-list {
   list-style: none;
   padding: 0;
@@ -624,6 +617,7 @@ a {
   margin-block-end: var(--space-2xl);
 }
 
+.work__lead,
 .services__lead {
   font-size: var(--t-xl);
   line-height: var(--leading-snug);
@@ -674,8 +668,12 @@ a {
   margin-top: var(--space-sm);
 }
 
-.service-group + .service-group {
+.service-group {
   margin-block-start: var(--space-2xl);
+}
+
+.services__top + .service-group {
+  margin-block-start: 0;
 }
 
 .service-group__label {
@@ -1208,6 +1206,7 @@ a {
     font-size: 17px;
   }
 
+  .work__lead,
   .services__lead {
     font-size: var(--t-2xl);
   }
