@@ -1038,7 +1038,8 @@ a {
   max-width: 52ch;
 }
 
-.team__links {
+.team__links,
+.work-item__links {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-lg);
@@ -1048,7 +1049,12 @@ a {
   padding-block-start: var(--space-lg);
 }
 
-.team__link {
+.work-item__links {
+  padding-block-start: var(--space-sm);
+}
+
+.team__link,
+.work-item__link {
   display: inline-flex;
   align-items: baseline;
   gap: 0.4rem;
@@ -1062,7 +1068,8 @@ a {
   transition: color 0.25s ease, border-color 0.25s ease;
 }
 
-.team__link-mark {
+.team__link-mark,
+.work-item__link-mark {
   display: inline-block;
   font-size: 0.85em;
   transform: translateY(-0.05em);
@@ -1072,14 +1079,18 @@ a {
 }
 
 .team__link:hover,
-.team__link:focus-visible {
+.team__link:focus-visible,
+.work-item__link:hover,
+.work-item__link:focus-visible {
   color: rgba(255, 246, 232, 0.98);
   border-color: var(--color-accent);
   outline: none;
 }
 
 .team__link:hover .team__link-mark,
-.team__link:focus-visible .team__link-mark {
+.team__link:focus-visible .team__link-mark,
+.work-item__link:hover .work-item__link-mark,
+.work-item__link:focus-visible .work-item__link-mark {
   transform: translate(0.15em, -0.2em);
   opacity: 1;
 }
