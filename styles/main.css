@@ -593,6 +593,19 @@ a {
   margin-top: var(--space-sm);
 }
 
+.service-group + .service-group {
+  margin-block-start: var(--space-2xl);
+}
+
+.service-group__label {
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+  margin-block-end: var(--space-sm);
+}
+
 
 /* About */
 
