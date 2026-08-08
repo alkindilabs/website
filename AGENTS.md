@@ -104,6 +104,7 @@ content/
 
 - The site is served by Cloudflare Pages, auto-deploying every push to `main`. The linkage is configured in the Cloudflare dashboard and is intentionally invisible in this repo: no workflow file, no CNAME, no deploy config. Pushing to `main` is deploying to production at https://www.alkindi.pt/.
 - Pages deploys the repository verbatim, so internal files would be publicly served. `_redirects` at repo root is Cloudflare Pages' redirect manifest (platform-mandated location, same root-file exception as the crawler files) and the single authoritative list of internal paths kept off production via redirects to `/`. New internal files or directories must be added there in the same commit that introduces them.
+- `_headers` at repo root (same platform-mandated exception) overrides Pages' 4-hour default asset cache so `scripts/*` and `styles/*` revalidate on every load; without it, deploys ship stale JS/CSS to returning visitors for up to 4 hours. See ARCHITECTURE.md for the decision record.
 
 ## Non-Goals
 

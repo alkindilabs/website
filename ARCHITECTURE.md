@@ -1,5 +1,31 @@
 # Architecture Decisions
 
+## 2026-08-08 — JS and CSS are served with revalidate-always caching via `_headers`
+
+**Decision.** Cloudflare Pages' default caches static assets for 4 hours
+(`max-age=14400`) while HTML gets `max-age=0`. After a deploy, returning
+visitors could run stale JS/CSS against fresh HTML for up to 4 hours —
+observed live: an old `scripts/site.js` painted an outdated dictionary,
+leaving new sections empty and CTAs invisible. A `_headers` file at repo
+root overrides `scripts/*` and `styles/*` to
+`Cache-Control: public, max-age=0, must-revalidate`, so browsers revalidate
+on every load and HTML, JS, and CSS always deploy atomically from the
+visitor's point of view.
+
+**Alternatives weighed.**
+- *Accept the 4-hour window:* rejected; renumbered i18n keys mean stale JS
+  renders wrong content, not merely old content.
+- *Content-hashed asset filenames:* rejected; requires a build step this
+  repo deliberately avoids.
+- *Manual version query strings on asset URLs:* rejected; hand-maintained
+  cache busting is exactly what already failed once (the
+  `DICT_CACHE_VERSION` misses).
+
+**Consequences accepted.** Every page load costs one conditional request per
+asset (304 from the Cloudflare edge when unchanged); the site loses 4-hour
+offline-ish asset caching for repeat visits, a fair trade for a
+marketing-critical site deployed straight from `main`.
+
 ## 2026-08-08 — Internal docs are kept off production via a `_redirects` manifest
 
 **Decision.** Cloudflare Pages deploys this repository verbatim (no build
