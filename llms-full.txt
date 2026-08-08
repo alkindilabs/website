@@ -12,11 +12,11 @@ Legal entity: Alkindi, Unipessoal LDA. Based in Lisbon, Portugal.
 
 ### Golem Foundation
 
-A smart contract solution for the foundation behind the Golem protocol: designed, implemented, tested, and deployed by the studio. One accountable hand from specification to mainnet.
+Public goods funding contracts for Octant, the Golem Foundation's participatory funding platform: designed, implemented, tested, and deployed by the studio. One accountable hand from specification to mainnet.
 
-### Kleros
+### Cooperative Kleros
 
-A smart contract solution for the decentralized dispute resolution protocol, designed, implemented, tested, and deployed, together with the fullstack application around it: from contract storage layout to the interface users touch.
+Arbitration and token distribution contracts for Kleros, the decentralized dispute resolution protocol, together with the fullstack application around them: from contract storage layout to the interface users touch.
 
 ## Services
 
@@ -96,7 +96,7 @@ Lisbon. The engineering half of al-Kindi and founder of the studio. Ten years bu
 
 ## Contact
 
-Trusted by Golem Foundation and Kleros.
+Trusted by Golem Foundation and Cooperative Kleros.
 
 Launching a protocol, shipping contracts that will hold real value, or building the product around them? Tell us where you are and where you want to go; we'll help you design the path.
 

@@ -8,8 +8,8 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 
 ## Selected Work
 
-- [Golem Foundation](https://www.alkindi.pt/#work): Smart contract solution, design through deployment. Deployed to mainnet.
-- [Kleros](https://www.alkindi.pt/#work): Smart contracts and fullstack implementation. Deployed to mainnet.
+- [Golem Foundation](https://www.alkindi.pt/#work): Public goods funding contracts, design through deployment. Deployed to mainnet.
+- [Cooperative Kleros](https://www.alkindi.pt/#work): Arbitration contracts and fullstack implementation. Deployed to mainnet.
 
 ## Services
 
