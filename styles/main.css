@@ -382,6 +382,7 @@ a {
    the reading column so long-form copy stays legible. ABA rhythm:
    hero opens with full pattern, scrimmed middle for reading, contact
    uses softer scrim to let pattern return as visual bookend. */
+#work,
 #services,
 .about,
 .origin,
@@ -391,6 +392,7 @@ a {
   isolation: isolate;
 }
 
+#work::before,
 #services::before,
 .about::before,
 .origin::before,
@@ -526,6 +528,69 @@ a {
   height: 1px;
   background-color: currentColor;
   flex-shrink: 0;
+}
+
+
+/* Selected work */
+
+#work {
+  background-color: transparent;
+  color: var(--color-dark-fg);
+}
+
+.work__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-block-end: var(--space-2xl);
+}
+
+.work__lead {
+  font-size: var(--t-xl);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  max-width: 38ch;
+}
+
+.work-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.work-item {
+  display: grid;
+  gap: 0.3rem;
+  padding-block: var(--space-xl);
+}
+
+.work-item__client {
+  font-size: var(--t-xs);
+  color: var(--color-accent);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.work-item__role {
+  font-size: var(--t-lg);
+  font-weight: 400;
+  line-height: var(--leading-snug);
+}
+
+.work-item__desc {
+  font-size: var(--t-sm);
+  color: var(--text-on-dark-muted);
+  line-height: var(--leading-base);
+  max-width: 56ch;
+  margin-top: var(--space-sm);
+}
+
+.work-item__status {
+  font-size: var(--t-xs);
+  color: var(--text-on-dark-muted);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  margin-top: var(--space-sm);
 }
 
 
