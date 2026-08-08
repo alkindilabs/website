@@ -6,8 +6,16 @@ al-Kindi is a small, focused studio that designs brands, ships products, and eng
 
 The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal LDA.
 
+## Selected Work
+
+- [Golem Foundation](https://www.alkindi.pt/#work): Smart contract solution, design through deployment. Deployed to mainnet.
+- [Kleros](https://www.alkindi.pt/#work): Smart contracts and fullstack implementation. Deployed to mainnet.
+
 ## Services
 
+- [Smart Contract Development](https://www.alkindi.pt/#services): EVM contracts shipped audit-ready. Invariants written before the contracts, every state path covered before deploy.
+- [Smart Contract Audits](https://www.alkindi.pt/#services): EVM contract audits that end in remediation, not just findings. Each finding root-caused, each fix reviewed.
+- [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
 - [Brand & Visual Identity](https://www.alkindi.pt/#services): Brand systems made to be used, not just admired. Naming, marks, type, color, voice, designed as one and built to last.
 - [Copywriting](https://www.alkindi.pt/#services): Plain words for complex products. Brand voice, landing pages, UI microcopy, long-form, written to land on first read.
 - [Web Design](https://www.alkindi.pt/#services): Strategy, design, build, and ship; one studio handles every layer, from sitemap to semantic markup to deployment.
@@ -15,9 +23,6 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 - [User Experience Design](https://www.alkindi.pt/#services): Research, synthesis, structure, validation. The right problem framed before it is solved.
 - [User Interface Design](https://www.alkindi.pt/#services): Interfaces that do not need a guide, a tutorial, or a tooltip. Components, tokens, states, prototypes, drawn and shipped intact.
 - [Web App Development](https://www.alkindi.pt/#services): Web apps shipped with everything a new team needs to take over: code, docs, tests, deploy pipeline. Smallest codebase that does the job.
-- [Technical Advisory](https://www.alkindi.pt/#services): Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
-- [Smart Contract Development](https://www.alkindi.pt/#services): EVM contracts shipped audit-ready. Invariants written before the contracts, every state path covered before deploy.
-- [Smart Contract Audits](https://www.alkindi.pt/#services): EVM contract audits that end in remediation, not just findings. Each finding root-caused, each fix reviewed.
 - [Hi-Fi Listening Rooms](https://www.alkindi.pt/#services): Room layout, gear sourcing and purchasing, system assembly, acoustic measurement, and tuning. One listening room built to measure, not just to look good.
 
 ## Team
@@ -28,6 +33,7 @@ The studio works between Lisbon and Istanbul. Legal entity: Alkindi, Unipessoal 
 ## Links
 
 - [Homepage](https://www.alkindi.pt/)
+- [Selected Work](https://www.alkindi.pt/#work)
 - [About](https://www.alkindi.pt/#about)
 - [Origin of the name](https://www.alkindi.pt/#origin)
 - [Team](https://www.alkindi.pt/#team)

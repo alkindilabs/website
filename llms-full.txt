@@ -8,49 +8,59 @@ Sound reasoning. Elegant engineering.
 
 Legal entity: Alkindi, Unipessoal LDA. Based in Lisbon, Portugal.
 
+## Selected Work
+
+### Golem Foundation
+
+A smart contract solution for the foundation behind the Golem protocol: designed, implemented, tested, and deployed by the studio. One accountable hand from specification to mainnet.
+
+### Kleros
+
+A smart contract solution for the decentralized dispute resolution protocol, designed, implemented, tested, and deployed, together with the fullstack application around it: from contract storage layout to the interface users touch.
+
 ## Services
 
-Here are the services the studio offers.
+Contracts that hold value can't be almost right. We build to that standard, onchain and off.
 
-### 01. Brand & Visual Identity
-
-Brand systems made to be used, not just admired. The studio designs naming, marks, type systems, color, and voice as one piece, built to last.
-
-### 02. Copywriting
-
-Plain words for complex products. From brand voice to landing pages, UI microcopy to long-form content, the studio writes copy that lands on first read.
-
-### 03. Web Design
-
-The studio handles every layer of a web project: strategy (sitemap, information architecture, content hierarchy), design (layout, type, motion), build (semantic markup, performance, accessibility), and ship (deployment, maintenance).
-
-### 04. Graphics & Digital Art
-
-Original illustration, motion, and motifs. The studio draws by hand or writes the generative code; nothing is pulled from a stock library.
-
-### 05. User Experience Design
-
-Research (interviews, observation), synthesis (journey maps, problem statements), structure (information architecture, user flows), validation (prototypes, usability testing). The studio frames the right problem before solving it.
-
-### 06. User Interface Design
-
-Interfaces that do not need a guide, a tutorial, or a tooltip. Components, tokens, states, and prototypes drawn and shipped intact.
-
-### 07. Web App Development
-
-Web apps shipped with everything a new team needs to take over: code, docs, tests, deploy pipeline. The studio builds with the smallest codebase that does the job.
-
-### 08. Technical Advisory
-
-Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
-
-### 09. Smart Contract Development
+### 01. Smart Contract Development
 
 EVM contracts shipped audit-ready: spec, source, invariant tests, fuzz suite, deploy scripts. The studio writes invariants before the contracts and covers every state path before deploy.
 
-### 10. Smart Contract Audits
+### 02. Smart Contract Audits
 
 EVM contract audits that end in remediation, not just findings. Manual review, fuzzing, invariant testing, and economic analysis: each finding root-caused, each fix reviewed.
+
+### 03. Technical Advisory
+
+Architecture reviews, tech decisions, Web3 integration, security posture. Written assessments with a recommendation, including 'don't' when that is the answer.
+
+### 04. Brand & Visual Identity
+
+Brand systems made to be used, not just admired. The studio designs naming, marks, type systems, color, and voice as one piece, built to last.
+
+### 05. Copywriting
+
+Plain words for complex products. From brand voice to landing pages, UI microcopy to long-form content, the studio writes copy that lands on first read.
+
+### 06. Web Design
+
+The studio handles every layer of a web project: strategy (sitemap, information architecture, content hierarchy), design (layout, type, motion), build (semantic markup, performance, accessibility), and ship (deployment, maintenance).
+
+### 07. Graphics & Digital Art
+
+Original illustration, motion, and motifs. The studio draws by hand or writes the generative code; nothing is pulled from a stock library.
+
+### 08. User Experience Design
+
+Research (interviews, observation), synthesis (journey maps, problem statements), structure (information architecture, user flows), validation (prototypes, usability testing). The studio frames the right problem before solving it.
+
+### 09. User Interface Design
+
+Interfaces that do not need a guide, a tutorial, or a tooltip. Components, tokens, states, and prototypes drawn and shipped intact.
+
+### 10. Web App Development
+
+Web apps shipped with everything a new team needs to take over: code, docs, tests, deploy pipeline. The studio builds with the smallest codebase that does the job.
 
 ### 11. Hi-Fi Listening Rooms
 
@@ -86,7 +96,7 @@ Lisbon. The engineering half of al-Kindi and founder of the studio. Ten years bu
 
 ## Contact
 
-Have a product to launch, a brand to refine, or a service that needs better structure? Tell us where you are and where you want to go; we'll help you design the path.
+Launching a protocol, shipping contracts that will hold real value, or building the product around them? Tell us where you are and where you want to go; we'll help you design the path.
 
 - Email: ferit@alkindi.pt
 - Web: https://www.alkindi.pt/
