@@ -1,8 +1,8 @@
 (() => {
   const SCROLL_THRESHOLD = 80;
-  const SCROLL_DELTA_DEADBAND = 6;
   const ACTIVE_SECTION_VIEWPORT_RATIO = 0.35;
-  const REVEAL_THRESHOLD = 0.08;
+  const REVEAL_THRESHOLD = 0;
+  const REVEAL_ROOT_MARGIN = '0px 0px 12% 0px';
   const LANG_STORAGE_KEY = 'alkindi-lang';
   const SUPPORTED_LANGS = new Set(['en', 'tr']);
   const SOURCE_LANG = 'en';
@@ -24,8 +24,6 @@
     }))
     .filter((item) => item.section);
 
-  let lastScrollY = window.scrollY;
-  let isHidden = false;
   let ticking = false;
 
   const recomputeLayout = () => {
@@ -46,14 +44,8 @@
   const updateHeader = () => {
     const scrollY = window.scrollY;
     const activeLink = findActiveLink(scrollY);
-    const delta = scrollY - lastScrollY;
-
-    if (scrollY < SCROLL_THRESHOLD) isHidden = false;
-    else if (delta > SCROLL_DELTA_DEADBAND) isHidden = true;
-    else if (delta < -SCROLL_DELTA_DEADBAND) isHidden = false;
 
     header.classList.toggle('header--scrolled', scrollY > SCROLL_THRESHOLD);
-    header.classList.toggle('header--hidden', isHidden);
 
     navItems.forEach(({ link }) => {
       const active = link === activeLink;
@@ -62,7 +54,6 @@
       else link.removeAttribute('aria-current');
     });
 
-    lastScrollY = scrollY;
     ticking = false;
   };
 
@@ -91,7 +82,7 @@
         entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       });
-    }, { threshold: REVEAL_THRESHOLD });
+    }, { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN });
     revealElements.forEach((el) => observer.observe(el));
   } else {
     revealElements.forEach((el) => el.classList.add('is-visible'));

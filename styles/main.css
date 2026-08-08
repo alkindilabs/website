@@ -254,10 +254,6 @@ a {
   background: transparent;
 }
 
-.header--hidden {
-  transform: translateY(-110%);
-}
-
 .nav__logo {
   pointer-events: auto;
   padding-top: 0.1em;
@@ -1230,17 +1226,17 @@ a {
   transform: translateY(0);
 }
 
-.reveal-enabled .reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-enabled .reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-enabled .reveal-delay-3 { transition-delay: 0.32s; }
-.reveal-enabled .reveal-delay-4 { transition-delay: 0.44s; }
-.reveal-enabled .reveal-delay-5 { transition-delay: 0.56s; }
-.reveal-enabled .reveal-delay-6 { transition-delay: 0.68s; }
-.reveal-enabled .reveal-delay-7 { transition-delay: 0.80s; }
-.reveal-enabled .reveal-delay-8 { transition-delay: 0.92s; }
-.reveal-enabled .reveal-delay-9 { transition-delay: 1.04s; }
-.reveal-enabled .reveal-delay-10 { transition-delay: 1.16s; }
-.reveal-enabled .reveal-delay-11 { transition-delay: 1.28s; }
+.reveal-enabled .reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-enabled .reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-enabled .reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-enabled .reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-enabled .reveal-delay-5,
+.reveal-enabled .reveal-delay-6,
+.reveal-enabled .reveal-delay-7,
+.reveal-enabled .reveal-delay-8,
+.reveal-enabled .reveal-delay-9,
+.reveal-enabled .reveal-delay-10,
+.reveal-enabled .reveal-delay-11 { transition-delay: 0.32s; }
 
 
 /* ============================================================
