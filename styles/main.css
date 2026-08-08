@@ -602,6 +602,32 @@ a {
   text-decoration-color: rgba(252, 187, 30, 0.4);
 }
 
+.cta-chip {
+  display: inline-block;
+  padding: 0.95em 1.4em;
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-dark-fg);
+  background-color: rgba(255, 246, 232, 0.06);
+  border: 1px solid rgba(255, 246, 232, 0.30);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.cta-chip:hover,
+.cta-chip:focus-visible {
+  background-color: rgba(255, 246, 232, 0.12);
+  border-color: rgba(255, 246, 232, 0.65);
+  outline: none;
+}
+
+#work .cta-chip {
+  margin-block-start: var(--space-lg);
+}
+
 
 /* Services */
 
