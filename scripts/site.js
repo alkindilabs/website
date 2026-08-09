@@ -590,7 +590,7 @@
       return method.toLocaleUpperCase(currentLang).replace(/[^\p{L}\p{N} ]/gu, '');
     };
 
-    const refresh = () => {
+    const refreshPlate = () => {
       const text = plateText();
       if (!text || text === lastText) return;
       lastText = text;
@@ -626,7 +626,7 @@
       plateObserver.observe(plate);
     }
 
-    return { refresh };
+    return { refresh: refreshPlate };
   })();
 
   // Living colophon — the footer's ruled row of facts the page
