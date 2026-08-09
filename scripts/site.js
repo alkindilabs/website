@@ -102,8 +102,8 @@
   // historical ciphers behaved anyway. Rendering always emits the
   // original character once cracked.
   const CIPHER_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  const CIPHER_STEP_MS = 180;
-  const CIPHER_HOLD_MS = 600;
+  const CIPHER_STEP_MS = 153;
+  const CIPHER_HOLD_MS = 510;
   // Reveals pre-trigger 12% below the viewport so cards are already
   // moving when they enter; a crack that starts down there plays its
   // enciphered hold while the element is still invisible. Ciphers
