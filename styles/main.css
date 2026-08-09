@@ -123,7 +123,8 @@ button { cursor: pointer; }
   /* Typography */
   --font-fallback: system-ui, -apple-system, sans-serif;
   --font-sans:    'UnivaNova', var(--font-fallback);
-  --font-slogan:  'Bricolage Grotesque', 'UnivaNova', var(--font-fallback);
+  --font-slogan:  'Aref Ruqaa', 'UnivaNova', var(--font-fallback);
+  --font-slogan-lead: 'Eagle Lake', var(--font-slogan);
   --font-mono:    'Spline Sans Mono', ui-monospace, 'SF Mono', monospace;
   --leading-tight:  1.05;
   --leading-snug:   1.35;
@@ -491,6 +492,10 @@ a {
   font-family: var(--font-slogan);
   color: rgba(255, 246, 232, 0.98);
   text-shadow: var(--shadow-text-strong);
+}
+
+.hero__phrase:first-of-type {
+  font-family: var(--font-slogan-lead);
 }
 
 .hero__body {
