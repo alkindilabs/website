@@ -88,66 +88,108 @@
     revealElements.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // Cipher reveal — section labels arrive enciphered under a random
-  // substitution and are cracked the way the namesake's frequency
-  // analysis works: one stable ciphertext, symbols resolved in
-  // descending plaintext frequency, every occurrence of a symbol
+  // Cipher reveal — [data-cipher] lines arrive enciphered under a
+  // random substitution and are cracked the way the namesake's
+  // frequency analysis works: one stable ciphertext, symbols resolved
+  // in descending plaintext frequency, every occurrence of a symbol
   // decoding at once. Text is correct before and after; only the
   // transition is decorative, so reduced-motion and no-observer
   // paths skip it.
-  const CIPHER_GLYPHS = 'AEHKLMNORSTUXZ0179';
+  //
+  // Substitution is keyed on case-folded characters so mixed-case
+  // lines stay within the glyph pool; folding two plaintext letters
+  // onto one symbol only merges their ciphertext, which is how
+  // historical ciphers behaved anyway. Rendering always emits the
+  // original character once cracked.
+  const CIPHER_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const CIPHER_STEP_MS = 180;
   const CIPHER_HOLD_MS = 600;
+  // The proof line at #contact is far longer than a section label; a
+  // faster step keeps the booking chip arming within ~2.5s.
+  const PROOF_STEP_MS = 90;
   const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const decipher = (el) => {
-    const finalText = el.textContent;
-    if (!finalText) return;
+  const foldChar = (ch) => ch.toUpperCase();
 
-    const uniqueChars = [...new Set(finalText)].filter((ch) => ch !== ' ');
+  const buildCipherRun = (text) => {
+    const frequency = new Map();
+    for (const ch of text) {
+      if (ch === ' ') continue;
+      const folded = foldChar(ch);
+      frequency.set(folded, (frequency.get(folded) ?? 0) + 1);
+    }
+    const symbols = [...frequency.keys()];
     const glyphPool = [...CIPHER_GLYPHS];
-    if (uniqueChars.length > glyphPool.length) return;
+    if (symbols.length > glyphPool.length) return null;
     for (let i = glyphPool.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
       [glyphPool[i], glyphPool[j]] = [glyphPool[j], glyphPool[i]];
     }
-    const substitution = new Map(uniqueChars.map((ch, i) => [ch, glyphPool[i]]));
+    const substitution = new Map(symbols.map((sym, i) => [sym, glyphPool[i]]));
+    const crackOrder = symbols.sort((a, b) => frequency.get(b) - frequency.get(a));
+    return { substitution, crackOrder, frequency };
+  };
 
-    const frequency = new Map();
-    for (const ch of finalText) {
-      if (ch !== ' ') frequency.set(ch, (frequency.get(ch) ?? 0) + 1);
-    }
-    const crackOrder = [...frequency.keys()].sort((a, b) => frequency.get(b) - frequency.get(a));
+  // One live run per element; replacing the token cancels the old run
+  // (a language switch mid-crack would otherwise corrupt the text).
+  const cipherTokens = new WeakMap();
+  const crackedCiphers = new Set();
+
+  const decipher = (el, { stepMs = CIPHER_STEP_MS, holdMs = CIPHER_HOLD_MS, onDone } = {}) => {
+    const finalText = el.textContent;
+    if (!finalText) return;
+    const run = buildCipherRun(finalText);
+    if (!run) return;
+    const token = Symbol('cipher-run');
+    cipherTokens.set(el, token);
 
     const cracked = new Set();
     const render = () => {
       let out = '';
       for (const ch of finalText) {
-        out += ch === ' ' || cracked.has(ch) ? ch : substitution.get(ch);
+        out += ch === ' ' || cracked.has(foldChar(ch)) ? ch : run.substitution.get(foldChar(ch));
       }
       el.textContent = out;
     };
 
     let step = 0;
     const tick = () => {
-      cracked.add(crackOrder[step]);
+      if (cipherTokens.get(el) !== token) return;
+      cracked.add(run.crackOrder[step]);
       step += 1;
       render();
-      if (step < crackOrder.length) setTimeout(tick, CIPHER_STEP_MS);
+      if (step < run.crackOrder.length) {
+        setTimeout(tick, stepMs);
+      } else {
+        crackedCiphers.add(el);
+        onDone?.();
+      }
     };
     render();
-    setTimeout(tick, CIPHER_HOLD_MS);
+    setTimeout(tick, holdMs);
   };
+
+  // The proof cracks last — when the trusted-by line at #contact
+  // finishes decoding, the section is marked proved: the plate corners
+  // register and the booking chip arms (styles/main.css). The method
+  // verifies the client proof, then the CTA lights.
+  const contactSection = document.getElementById('contact');
+  const contactProof = contactSection?.querySelector('.contact__proof');
+  const armContact = () => contactSection?.classList.add('contact--proved');
+  const cipherOpts = (el) =>
+    (el === contactProof ? { stepMs: PROOF_STEP_MS, onDone: armContact } : {});
 
   if ('IntersectionObserver' in globalThis && !prefersReducedMotion) {
     const cipherObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         cipherObserver.unobserve(entry.target);
-        decipher(entry.target);
+        decipher(entry.target, cipherOpts(entry.target));
       });
     }, { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN });
     document.querySelectorAll('[data-cipher]').forEach((el) => cipherObserver.observe(el));
+  } else {
+    armContact();
   }
 
   const safeStorage = (() => {
@@ -178,7 +220,7 @@
   //    dictionary so translatable nodes never stay blank.
 
   const DICT_CACHE_PREFIX = 'alkindi-i18n:';
-  const DICT_CACHE_VERSION = 'v15';
+  const DICT_CACHE_VERSION = 'v16';
   const DICT_TIMEOUT_VISIBLE_MS = 8000;
   const DICT_RETRY_MAX = 2;
   const DICT_RETRY_BACKOFF_MS = 250;
@@ -420,6 +462,245 @@
 
   const t = (key) => dicts[currentLang]?.[key] ?? dicts[SOURCE_LANG]?.[key];
 
+  // Frequency Plate — Fig. 1 in Origin runs the namesake's actual
+  // attack on the studio's method statement (origin.freq.plaintext).
+  // The ciphertext and histogram are built here from the dictionary;
+  // bars fill on entry, then symbols crack in descending frequency,
+  // every occurrence resolving at once. Hovering a histogram row
+  // highlights that symbol's occurrences; the run button reshuffles
+  // the substitution and replays.
+  const FREQ_STEP_MS = 350;
+  const FREQ_HOLD_MS = 600;
+
+  const freqPlate = (() => {
+    const plate = document.querySelector('[data-freq-plate]');
+    const cipherEl = plate?.querySelector('[data-freq-cipher]');
+    const barsEl = plate?.querySelector('[data-freq-bars]');
+    const runBtn = plate?.querySelector('[data-freq-run]');
+    if (!plate || !cipherEl || !barsEl) return null;
+
+    const instantMode = prefersReducedMotion || !('IntersectionObserver' in globalThis);
+
+    let revealed = false;
+    let seq = 0;
+    let lastText = null;
+    let symbolSpans = new Map();
+    let barRows = new Map();
+    let crackOrder = [];
+
+    const build = (text) => {
+      const run = buildCipherRun(text);
+      if (!run) return false;
+      crackOrder = run.crackOrder;
+      symbolSpans = new Map(crackOrder.map((sym) => [sym, []]));
+      barRows = new Map();
+
+      cipherEl.textContent = '';
+      for (const ch of text) {
+        if (ch === ' ') {
+          cipherEl.append(' ');
+          continue;
+        }
+        const sym = foldChar(ch);
+        const span = document.createElement('span');
+        span.dataset.sym = sym;
+        span.dataset.plain = ch;
+        span.textContent = run.substitution.get(sym);
+        symbolSpans.get(sym).push(span);
+        cipherEl.append(span);
+      }
+
+      barsEl.textContent = '';
+      const maxCount = run.frequency.get(crackOrder[0]);
+      crackOrder.forEach((sym, i) => {
+        const row = document.createElement('li');
+        row.className = 'freq-plate__bar';
+        row.dataset.sym = sym;
+        const rank = document.createElement('span');
+        rank.textContent = String(i + 1).padStart(2, '0');
+        const glyph = document.createElement('span');
+        glyph.textContent = run.substitution.get(sym);
+        const track = document.createElement('span');
+        track.className = 'freq-plate__bar-track';
+        const fill = document.createElement('span');
+        fill.className = 'freq-plate__bar-fill';
+        fill.style.setProperty('--bar-width', `${(run.frequency.get(sym) / maxCount) * 100}%`);
+        track.append(fill);
+        const eq = document.createElement('span');
+        eq.textContent = '= ?';
+        row.append(rank, glyph, track, eq);
+        barsEl.append(row);
+        barRows.set(sym, { row, eq });
+      });
+      plate.classList.remove('is-measured');
+      return true;
+    };
+
+    const crackSymbol = (sym) => {
+      symbolSpans.get(sym)?.forEach((span) => {
+        span.textContent = span.dataset.plain;
+        span.classList.add('is-cracked');
+      });
+      const bar = barRows.get(sym);
+      if (bar) {
+        bar.row.classList.add('is-cracked');
+        bar.eq.textContent = `= ${sym}`;
+      }
+    };
+
+    const finish = () => {
+      plate.classList.add('is-measured');
+      crackOrder.forEach(crackSymbol);
+    };
+
+    const play = () => {
+      const token = ++seq;
+      requestAnimationFrame(() => {
+        if (token === seq) plate.classList.add('is-measured');
+      });
+      let step = 0;
+      const tick = () => {
+        if (token !== seq) return;
+        crackSymbol(crackOrder[step]);
+        step += 1;
+        if (step < crackOrder.length) setTimeout(tick, FREQ_STEP_MS);
+      };
+      setTimeout(tick, FREQ_HOLD_MS);
+    };
+
+    const rerun = () => {
+      if (!lastText) return;
+      seq += 1;
+      if (!build(lastText)) return;
+      if (instantMode) finish();
+      else play();
+    };
+
+    // The plate runs on the method statement the reader just met in
+    // origin.body3 — same dictionary key, presented as a historical
+    // cryptogram: uppercased per locale, punctuation dropped.
+    const plateText = () => {
+      const method = t('origin.method');
+      if (!method) return null;
+      return method.toLocaleUpperCase(currentLang).replace(/[^\p{L}\p{N} ]/gu, '');
+    };
+
+    const refresh = () => {
+      const text = plateText();
+      if (!text || text === lastText) return;
+      lastText = text;
+      seq += 1;
+      if (!build(text)) return;
+      if (instantMode) finish();
+      else if (revealed) play();
+    };
+
+    const setHot = (sym, hot) => {
+      symbolSpans.get(sym)?.forEach((span) => span.classList.toggle('is-hot', hot));
+    };
+    barsEl.addEventListener('mouseover', (event) => {
+      const row = event.target.closest('.freq-plate__bar');
+      if (row) setHot(row.dataset.sym, true);
+    });
+    barsEl.addEventListener('mouseout', (event) => {
+      const row = event.target.closest('.freq-plate__bar');
+      if (row) setHot(row.dataset.sym, false);
+    });
+
+    runBtn?.addEventListener('click', rerun);
+
+    if (!instantMode) {
+      const plateObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          plateObserver.unobserve(entry.target);
+          revealed = true;
+          if (lastText) play();
+        });
+      }, { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN });
+      plateObserver.observe(plate);
+    }
+
+    return { refresh };
+  })();
+
+  // Living colophon — the footer's ruled row of facts the page
+  // computes about itself: dictionary size, the most frequent letter
+  // (recomputed per language, the namesake's first move), which mural
+  // asset this viewport was actually served, and the typefaces.
+  // Labels and value templates live in content/<lang>.json; every
+  // number here is genuinely measured, never hardcoded.
+  const LETTER_PATTERN = /\p{L}/u;
+  const MURAL_FILE_PATTERN = /([\w-]+\.(?:avif|webp))/;
+
+  const fillTemplate = (key, substitutions) => {
+    let out = t(key) ?? '';
+    for (const [name, value] of Object.entries(substitutions)) {
+      out = out.replace(`{${name}}`, value);
+    }
+    return out;
+  };
+
+  const renderColophonMural = () => {
+    const muralEl = document.querySelector('[data-colophon-mural]');
+    if (!muralEl) return;
+    const muralMatch = getComputedStyle(document.body).backgroundImage.match(MURAL_FILE_PATTERN);
+    if (muralMatch) muralEl.textContent = muralMatch[1];
+  };
+
+  const renderColophon = () => {
+    const root = document.querySelector('[data-colophon]');
+    const dict = dicts[currentLang];
+    if (!root || !dict) return;
+
+    const corpus = Object.values(dict).join('');
+    const letterCounts = new Map();
+    for (const ch of corpus.toLocaleUpperCase(currentLang)) {
+      if (LETTER_PATTERN.test(ch)) letterCounts.set(ch, (letterCounts.get(ch) ?? 0) + 1);
+    }
+    let totalLetters = 0;
+    let topLetter = '';
+    let topCount = 0;
+    letterCounts.forEach((count, ch) => {
+      totalLetters += count;
+      if (count > topCount) {
+        topCount = count;
+        topLetter = ch;
+      }
+    });
+    const topShare = totalLetters ? (topCount / totalLetters) * 100 : 0;
+
+    root.querySelector('[data-colophon-corpus]').textContent = fillTemplate('footer.colophon.corpusValue', {
+      langs: SUPPORTED_LANGS.size,
+      keys: Object.keys(dict).length,
+      glyphs: corpus.length.toLocaleString(currentLang),
+    });
+    root.querySelector('[data-colophon-frequent]').textContent = fillTemplate('footer.colophon.frequentValue', {
+      letter: topLetter,
+      pct: topShare.toLocaleString(currentLang, { minimumFractionDigits: 1, maximumFractionDigits: 1 }),
+    });
+    renderColophonMural();
+    const firstFamily = (varName) => getComputedStyle(document.documentElement)
+      .getPropertyValue(varName)
+      .split(',')[0]
+      .trim()
+      .replaceAll("'", '');
+    document.querySelector('[data-colophon-type]').textContent =
+      ['--font-sans', '--font-slogan', '--font-mono'].map(firstFamily).join(' · ');
+  };
+
+  // The served mural variant follows CSS breakpoints; keep the
+  // colophon's mural line honest across window resizes.
+  let colophonResizePending = false;
+  window.addEventListener('resize', () => {
+    if (colophonResizePending) return;
+    colophonResizePending = true;
+    requestAnimationFrame(() => {
+      colophonResizePending = false;
+      renderColophonMural();
+    });
+  }, { passive: true });
+
   const applyTranslations = () => {
     document.documentElement.lang = currentLang;
     document.querySelectorAll('[data-i18n]').forEach((el) => {
@@ -430,6 +711,8 @@
       const value = t(el.dataset.i18nAria);
       if (value != null && value !== '') el.setAttribute('aria-label', value);
     });
+    freqPlate?.refresh();
+    renderColophon();
   };
 
   const langItems = Array.from(document.querySelectorAll('.lang-switch__item'));
@@ -453,9 +736,22 @@
     if (token !== langSeq) return;
     currentLang = lang;
     writeLangPref(lang);
+    // Cancel any in-flight cracks before the copy swaps underneath them.
+    document.querySelectorAll('[data-cipher]').forEach((el) => cipherTokens.delete(el));
     applyTranslations();
     refreshLangButtons();
     refresh();
+    // Re-encipherment — labels already cracked and still on screen are
+    // re-encoded and cracked again in the new language: the analyst
+    // re-runs frequency analysis on a new alphabet. Offscreen labels
+    // swap silently.
+    if (!prefersReducedMotion) {
+      crackedCiphers.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+        if (inView) decipher(el, cipherOpts(el));
+      });
+    }
   };
 
   langItems.forEach((item) => {

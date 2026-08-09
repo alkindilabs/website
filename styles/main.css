@@ -108,15 +108,17 @@ button { cursor: pointer; }
     0 4px 14px rgba(20, 12, 6, 0.78),
     0 0 42px rgba(20, 12, 6, 0.58);
 
-  /* Reading scrim — feathered dark backdrop applied to text sections
-     so the Münevver pattern is visible at section seams but recedes
-     where long-form copy sits. Bookend (.contact) uses the softer
-     value so the pattern returns more visibly at the page close. */
-  --scrim-night:        rgba(var(--color-night-rgb), 0.92);
-  --scrim-night-soft:   rgba(var(--color-night-rgb), 0.78);
   --accent-rule:        rgba(252, 187, 30, 0.22);
 
   --transition-color: color 0.35s ease;
+
+  /* Mural — the single asset-per-breakpoint mapping. Everything that
+     paints the mural (body background, section crops) consumes this
+     property; the media ladder below is its only definition. */
+  --mural-image: image-set(
+    url('../assets/images/munevver-pattern-1536.avif') type('image/avif'),
+    url('../assets/images/munevver-pattern-1536.webp') type('image/webp')
+  );
 
   /* Typography */
   --font-fallback: system-ui, -apple-system, sans-serif;
@@ -128,6 +130,42 @@ button { cursor: pointer; }
   --leading-base:   1.65;
   --tracking-tight: 0;
   --tracking-wide:  0.1em;
+}
+
+@media (min-width: 769px) {
+  :root {
+    --mural-image: image-set(
+      url('../assets/images/munevver-pattern-2880.avif') type('image/avif'),
+      url('../assets/images/munevver-pattern-2880.webp') type('image/webp')
+    );
+  }
+}
+
+@media (min-width: 1441px) {
+  :root {
+    --mural-image: image-set(
+      url('../assets/images/munevver-pattern-3840.avif') type('image/avif'),
+      url('../assets/images/munevver-pattern-3840.webp') type('image/webp')
+    );
+  }
+}
+
+@media (min-width: 1921px) {
+  :root {
+    --mural-image: image-set(
+      url('../assets/images/munevver-pattern-4800.avif') type('image/avif'),
+      url('../assets/images/munevver-pattern-4800.webp') type('image/webp')
+    );
+  }
+}
+
+@media (min-width: 2401px) {
+  :root {
+    --mural-image: image-set(
+      url('../assets/images/munevver-pattern-6528.avif') type('image/avif'),
+      url('../assets/images/munevver-pattern-6528.webp') type('image/webp')
+    );
+  }
 }
 
 
@@ -154,51 +192,12 @@ body {
   font-feature-settings: 'kern' on, 'liga' on, 'calt' on;
   color: var(--color-fg);
   background-color: var(--color-night);
-  background-image: image-set(
-    url('../assets/images/munevver-pattern-1536.avif') type('image/avif'),
-    url('../assets/images/munevver-pattern-1536.webp') type('image/webp')
-  );
+  background-image: var(--mural-image);
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center top;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-@media (min-width: 769px) {
-  body {
-    background-image: image-set(
-      url('../assets/images/munevver-pattern-2880.avif') type('image/avif'),
-      url('../assets/images/munevver-pattern-2880.webp') type('image/webp')
-    );
-  }
-}
-
-@media (min-width: 1441px) {
-  body {
-    background-image: image-set(
-      url('../assets/images/munevver-pattern-3840.avif') type('image/avif'),
-      url('../assets/images/munevver-pattern-3840.webp') type('image/webp')
-    );
-  }
-}
-
-@media (min-width: 1921px) {
-  body {
-    background-image: image-set(
-      url('../assets/images/munevver-pattern-4800.avif') type('image/avif'),
-      url('../assets/images/munevver-pattern-4800.webp') type('image/webp')
-    );
-  }
-}
-
-@media (min-width: 2401px) {
-  body {
-    background-image: image-set(
-      url('../assets/images/munevver-pattern-6528.avif') type('image/avif'),
-      url('../assets/images/munevver-pattern-6528.webp') type('image/webp')
-    );
-  }
 }
 
 h1, h2, h3, h4 {
@@ -374,20 +373,36 @@ a {
    breakpoint overrides. */
 
 
-/* Reading-zone scrim — feathered dark backdrop on text sections.
-   Pattern shows at the section seams (top/bottom 5rem) and dims under
-   the reading column so long-form copy stays legible. ABA rhythm:
-   hero opens with full pattern, scrimmed middle for reading, contact
-   uses softer scrim to let pattern return as visual bookend. */
+/* Tonal score — each section is a room with its own darkness, feather
+   width, and warmth (amber mixed into the scrim reads as light
+   temperature, not tint). The middle three sit in a tight reading
+   band; Origin and Contact open unambiguously so scrolling ends in a
+   slow dawn toward the booking CTA. Deepest dark sits under the
+   densest text (Services). */
 #work,
 #services,
 .about,
 .origin,
 .team,
 .contact {
+  --scrim-alpha: 0.92;
+  --scrim-feather: 5rem;
+  --scrim-warmth: 0%;
+  --scrim-color: color-mix(
+    in srgb,
+    var(--color-accent) var(--scrim-warmth),
+    rgba(var(--color-night-rgb), var(--scrim-alpha))
+  );
   position: relative;
   isolation: isolate;
 }
+
+#work    { --scrim-alpha: 0.90; }
+#services { --scrim-alpha: 0.95; }
+.about   { --scrim-alpha: 0.93; }
+.origin  { --scrim-alpha: 0.84; --scrim-feather: 8rem; --scrim-warmth: 2%; }
+.team    { --scrim-alpha: 0.93; }
+.contact { --scrim-alpha: 0.72; --scrim-feather: 9rem; --scrim-warmth: 3%; }
 
 #work::before,
 #services::before,
@@ -398,28 +413,43 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background-color: var(--scrim-night);
+  background-color: var(--scrim-color);
+  background-repeat: no-repeat;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    black 5rem,
-    black calc(100% - 5rem),
+    black var(--scrim-feather),
+    black calc(100% - var(--scrim-feather)),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    black 5rem,
-    black calc(100% - 5rem),
+    black var(--scrim-feather),
+    black calc(100% - var(--scrim-feather)),
     transparent 100%
   );
   z-index: -1;
   pointer-events: none;
 }
 
+/* The mural returns on purpose — Origin and Contact carry their own
+   deliberate crops of the same mural under their opened scrims (dense
+   geometry behind the lore, a calmer dawn behind the close). The crop
+   rides the scrim's ::before under the same feathered mask, so it
+   fades to the body mural at the seams instead of cutting against it.
+   Same artwork, recropped; the asset is the exact file already in
+   cache from the body background at every breakpoint. */
+.origin::before,
 .contact::before {
-  background-color: var(--scrim-night-soft);
+  background-image:
+    linear-gradient(var(--scrim-color), var(--scrim-color)),
+    var(--mural-image);
+  background-size: auto, cover;
 }
+
+.origin::before  { background-position: 0 0, center 30%; }
+.contact::before { background-position: 0 0, center 75%; }
 
 
 /* Grain / noise overlay — shared */
@@ -527,6 +557,24 @@ a {
   flex-shrink: 0;
 }
 
+/* Folio mark — every section is a numbered plate in one bound volume.
+   The counter lives in the ::after, which the cipher animation's
+   textContent rewrites never touch, so the catalog number holds steady
+   while the label decrypts beside it. */
+main {
+  counter-reset: plate;
+}
+
+.section__label::after {
+  counter-increment: plate;
+  content: counter(plate, decimal-leading-zero);
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-on-dark-muted);
+}
+
 
 /* Selected work */
 
@@ -629,6 +677,21 @@ a {
     border-color 0.3s ease;
 }
 
+/* Armed state — the booking chip warms only after the proof line has
+   been cracked (.contact--proved, set by scripts/site.js): the method
+   verifies the client proof, then the CTA lights. Declared before the
+   hover rule so hover still takes precedence. */
+.contact .cta-chip {
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.contact--proved .cta-chip {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background-color: rgba(255, 246, 232, 0.09);
+}
+
 .cta-chip:hover,
 .cta-chip:focus-visible {
   background-color: rgba(255, 246, 232, 0.12);
@@ -725,12 +788,66 @@ a {
   margin-block-end: var(--space-sm);
 }
 
-.service-group--aside .service-item {
+/* Two-register ledger — the three onchain services (the reason a
+   protocol founder is on this page) read as full-width ledger rows
+   with oversized numerals; the seven product services compress into
+   a ruled index; the aside is typeset as what it is: a footnote. */
+
+.service-group--onchain .service-list {
+  display: block;
+}
+
+.service-group--onchain .service-item {
+  grid-template-columns: clamp(4.5rem, 9vw, 7.5rem) 1fr;
+  border-top: 1px solid rgba(255, 246, 232, 0.08);
+  padding-block: var(--space-xl);
+}
+
+.service-group--onchain .service-item:last-child {
+  border-bottom: 1px solid rgba(255, 246, 232, 0.08);
+}
+
+.service-group--onchain .service-item__index {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 300;
+  line-height: 0.85;
+  padding-top: 0;
+  color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+.service-group--onchain .service-item__title {
+  font-size: var(--t-xl);
+}
+
+.service-group--product .service-item {
+  border-top: 1px solid rgba(255, 246, 232, 0.06);
   padding-block: var(--space-lg);
+}
+
+.service-group--aside .service-list {
+  display: block;
+}
+
+.service-group--aside .service-item {
+  grid-template-columns: 1.25rem 1fr;
+  padding-block: var(--space-md);
+  border-top: 1px solid rgba(255, 246, 232, 0.06);
 }
 
 .service-group--aside .service-item__title {
   font-size: var(--t-base);
+}
+
+.service-group--aside .service-item__desc {
+  font-size: var(--t-xs);
+}
+
+.service-item__dagger {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  color: var(--color-accent);
 }
 
 
@@ -800,6 +917,7 @@ a {
   color: var(--text-on-dark);
   line-height: 1.7;
   max-width: unset;
+  text-shadow: var(--shadow-text-soft);
 }
 
 .origin__body:first-of-type {
@@ -807,6 +925,113 @@ a {
   color: var(--text-on-dark-strong);
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-tight);
+}
+
+
+/* Frequency Plate — Fig. 1: the namesake's attack, run live on the
+   studio's method statement. Ciphertext line above, letter-frequency
+   histogram below; bars fill on entry, then symbols crack in
+   descending frequency order, every occurrence resolving at once.
+   All content is built by scripts/site.js from content/<lang>.json. */
+
+.freq-plate {
+  position: relative;
+  isolation: isolate;
+  margin-block-start: var(--space-2xl);
+  padding: var(--space-xl);
+  background:
+    radial-gradient(120% 80% at 30% 20%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 55%),
+    linear-gradient(165deg, rgba(20, 17, 13, 0.72) 0%, rgba(5, 4, 3, 0.55) 100%);
+  border: 1px solid rgba(255, 246, 232, 0.06);
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.freq-plate__label {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+}
+
+.freq-plate__cipher {
+  font-family: var(--font-mono);
+  font-size: var(--t-base);
+  letter-spacing: 0.14em;
+  line-height: 1.9;
+  max-width: unset;
+  overflow-wrap: break-word;
+}
+
+.freq-plate__cipher [data-sym] {
+  color: rgba(255, 246, 232, 0.42);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.freq-plate__cipher [data-sym].is-cracked {
+  color: var(--text-on-dark-strong);
+}
+
+.freq-plate__cipher [data-sym].is-hot {
+  background-color: rgba(252, 187, 30, 0.18);
+}
+
+.freq-plate__bars {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.freq-plate__bar {
+  display: grid;
+  grid-template-columns: 1.6rem 1.4rem 1fr 4.5rem;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255, 246, 232, 0.55);
+}
+
+.freq-plate__bar-track {
+  height: 2px;
+  background-color: rgba(255, 246, 232, 0.08);
+}
+
+.freq-plate__bar-fill {
+  display: block;
+  height: 2px;
+  width: 0;
+  background-color: rgba(252, 187, 30, 0.35);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+}
+
+.freq-plate.is-measured .freq-plate__bar-fill {
+  width: var(--bar-width);
+}
+
+.freq-plate__bar.is-cracked {
+  color: var(--text-on-dark-strong);
+}
+
+.freq-plate__bar.is-cracked .freq-plate__bar-fill {
+  background-color: var(--color-accent);
+}
+
+.freq-plate__run {
+  justify-self: start;
+}
+
+@media (min-width: 48rem) {
+  .freq-plate {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: var(--space-2xl);
+  }
+
+  .freq-plate__label,
+  .freq-plate__run {
+    grid-column: 1 / -1;
+  }
 }
 
 
@@ -972,6 +1197,58 @@ a {
 .plate-corner--br::before { bottom: 0; }
 .plate-corner--br::after  { right: 0; }
 
+/* Registration pass — corner marks draw themselves after the plate's
+   reveal lands: horizontal tick then vertical, sweeping clockwise, the
+   plate being registered on the press. Hidden state is scoped under
+   .reveal-enabled so the no-JS path keeps static corners. The contact
+   plate's corners instead draw when the proof line finishes cracking
+   (.contact--proved, set by scripts/site.js). On hover the frame seats
+   inward against the content. */
+.plate-frame {
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.work-item:hover .plate-frame,
+.team__member:hover .team__plate .plate-frame {
+  transform: scale(0.985);
+}
+
+.plate-corner--tl::before,
+.plate-corner--bl::before { transform-origin: left; }
+.plate-corner--tr::before,
+.plate-corner--br::before { transform-origin: right; }
+.plate-corner--tl::after,
+.plate-corner--tr::after  { transform-origin: top; }
+.plate-corner--bl::after,
+.plate-corner--br::after  { transform-origin: bottom; }
+
+.reveal-enabled :is(.reveal, .contact__plate) .plate-corner::before {
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-enabled :is(.reveal, .contact__plate) .plate-corner::after {
+  transform: scaleY(0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner::before {
+  transform: scaleX(1);
+}
+
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner::after {
+  transform: scaleY(1);
+}
+
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--tl::before { transition-delay: 0.45s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--tl::after  { transition-delay: 0.51s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--tr::before { transition-delay: 0.57s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--tr::after  { transition-delay: 0.63s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--br::before { transition-delay: 0.69s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--br::after  { transition-delay: 0.75s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--bl::before { transition-delay: 0.81s; }
+.reveal-enabled :is(.reveal.is-visible, .contact--proved .contact__plate) .plate-corner--bl::after  { transition-delay: 0.87s; }
+
 /* Locale tag — top-right, muted caps. */
 .team__locale {
   grid-row: 1;
@@ -1106,6 +1383,13 @@ a {
   transition: color 0.25s ease, border-color 0.25s ease;
 }
 
+/* Long repository URLs must be able to break mid-string, or their
+   min-content width pushes the whole card past narrow viewports. */
+.team__link-text,
+.work-item__link-text {
+  overflow-wrap: anywhere;
+}
+
 .team__link-mark,
 .work-item__link-mark {
   display: inline-block;
@@ -1134,11 +1418,20 @@ a {
 }
 
 
-/* Contact — dark section, mirrors the hero as visual bookend */
+/* Contact — the framed close. The whole block sits inside one last
+   registration-corner plate over the most opened scrim (where the
+   mural dawn returns), and the closing question is promoted to the
+   slogan face so the page's typographic energy peaks once at the open
+   and once at the close. */
 
 .contact {
   background-color: transparent;
   color: var(--color-dark-fg);
+}
+
+.contact__plate {
+  position: relative;
+  padding: clamp(var(--space-lg), 5vw, var(--space-3xl));
 }
 
 .contact .section__label {
@@ -1150,20 +1443,26 @@ a {
   font-size: var(--t-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--text-on-dark-muted);
+  color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  text-shadow: var(--shadow-text-soft);
   margin-block-end: var(--space-lg);
 }
 
 .contact__heading {
-  font-size: var(--t-xl);
-  line-height: var(--leading-snug);
-  max-width: 22ch;
+  font-family: var(--font-slogan);
+  font-weight: 300;
+  font-size: clamp(1.85rem, 1rem + 3vw, 3.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  max-width: 20ch;
+  text-shadow: var(--shadow-text-strong);
   margin-block-end: var(--space-lg);
 }
 
 .contact__sub {
   font-size: var(--t-base);
   color: rgba(255, 246, 232, 0.65);
+  text-shadow: var(--shadow-text-soft);
   max-width: 48ch;
   margin-block-end: var(--space-2xl);
 }
@@ -1210,6 +1509,32 @@ a {
   padding-block: var(--space-3xl) var(--space-xl);
   border-top: 1px solid rgba(255, 246, 232, 0.08);
   margin-block-start: var(--space-2xl);
+}
+
+/* Living colophon — a ruled row of mono facts the page computes about
+   itself at load (dictionary size, letter frequency, which mural asset
+   this viewport was served, the typefaces). Values are machine facts
+   filled by scripts/site.js; labels come from content/<lang>.json. */
+.colophon {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-md) var(--space-lg);
+  margin-block-end: var(--space-xl);
+}
+
+.colophon dt {
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 246, 232, 0.40);
+}
+
+.colophon dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.02em;
+  color: rgba(255, 246, 232, 0.78);
 }
 
 .footer__line {
@@ -1302,10 +1627,6 @@ a {
   .team__name {
     font-size: var(--t-3xl);
   }
-
-  .contact__heading {
-    font-size: var(--t-3xl);
-  }
 }
 
 @media (min-width: 80rem) {
@@ -1319,6 +1640,20 @@ a {
     column-gap: var(--space-2xl);
   }
 
+  .service-group--product .service-list {
+    position: relative;
+  }
+
+  .service-group--product .service-list::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255, 246, 232, 0.06);
+  }
+
   .work-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1327,8 +1662,7 @@ a {
     font-size: 5rem;
   }
 
-  .team__name,
-  .contact__heading {
+  .team__name {
     font-size: var(--t-4xl);
   }
 }
@@ -1337,6 +1671,17 @@ a {
   :root {
     --margin: 1.25rem;
     --space-3xl: 5rem;
+  }
+
+  /* Feathers wider than the 5rem section padding would overlap the
+     reading column on small screens. */
+  #work,
+  #services,
+  .about,
+  .origin,
+  .team,
+  .contact {
+    --scrim-feather: 4rem;
   }
 
   .site-header {
@@ -1376,6 +1721,43 @@ a {
 
   .service-item__index {
     padding-top: 0;
+  }
+
+  /* The oversized numeral IS the ledger event; keep it beside the
+     title even on phones instead of stacking it. Same for the
+     footnote dagger. */
+  .service-group--onchain .service-item {
+    grid-template-columns: clamp(3.5rem, 14vw, 5rem) 1fr;
+  }
+
+  .service-group--onchain .service-item__index,
+  .service-item__dagger {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .service-group--onchain .service-item__title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .service-group--onchain .service-item__desc {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .service-group--aside .service-item {
+    grid-template-columns: 1.25rem 1fr;
+  }
+
+  .service-group--aside .service-item__title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .service-group--aside .service-item__desc {
+    grid-column: 2;
+    grid-row: 2;
   }
 
   .team__member,
@@ -1460,4 +1842,8 @@ a {
   }
 
   .hero__phrase { transform: none !important; }
+
+  /* The Frequency Plate renders fully cracked under reduced motion;
+     a replay button would have nothing to show. */
+  .freq-plate__run { display: none; }
 }

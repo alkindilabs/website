@@ -58,7 +58,11 @@
   "origin.label": "Köken",
   "origin.body1": "al‑Kindi, 9. yüzyıl Bağdatlı çok yönlü bilgini; felsefe, müzik, optik üzerine yazdı. Ve kriptanalizi icat etti. Bağdat'ta ortaya koyduğu frekans analizi o güne dek yazılmış her şifreyi kırdı; ona dayanıklı bir sistem yedi yüzyıl boyunca ortaya çıkmadı. Aynı el ud düzenledi, Aristoteles çevirdi, şifreli mektupları okudu.",
   "origin.body2": "Aynı 'al‑' Portekiz'de de her yana sinmiş: çalıştığımız topraklarda Alfama, Algarve, Alentejo, Almada. Bunlar, onun çıktığı Arapça konuşan dünyanın bugün hâlâ yaşayan sessiz izleri.",
-  "origin.body3": "On bir yüzyıl sonra, şifreler üzerine yaptığı çalışma, deploy ettiğimiz her akıllı sözleşmenin temelinde duruyor; yöntemimiz de onun alışkanlığı: her sistemin kırılabileceğini varsay, sonra nerede kırılacağını kanıtla. Adı saygıyla ödünç aldık.",
+  "origin.body3.pre": "On bir yüzyıl sonra, şifreler üzerine yaptığı çalışma, deploy ettiğimiz her akıllı sözleşmenin temelinde duruyor; yöntemimiz de onun alışkanlığı: ",
+  "origin.method": "her sistemin kırılabileceğini varsay, sonra nerede kırılacağını kanıtla",
+  "origin.body3.post": ". Adı saygıyla ödünç aldık.",
+  "origin.freq.label": "Şek. 1 · Frekans analizi, al‑Kindi'nin yöntemi, y. 850",
+  "origin.freq.run": "Analizi yeniden çalıştır",
   "team.label": "Ekip",
   "team.intro1": "İki şehir.",
   "team.intro2": "Bir stüdyo.",
@@ -77,5 +81,11 @@
   "contact.cta.secondary": "Proje brifi gönderin",
   "footer.tagline": "Dijital Ürün Stüdyosu",
   "footer.creditPrefix": "Markalama, Grafik ve Arayüz Tasarımı:",
-  "footer.legal": "Alkindi, Unipessoal LDA · Lizbon"
+  "footer.legal": "Alkindi, Unipessoal LDA · Lizbon",
+  "footer.colophon.corpus": "Derlem",
+  "footer.colophon.corpusValue": "{langs} dil · {keys} anahtar · {glyphs} glif",
+  "footer.colophon.frequent": "En sık harf",
+  "footer.colophon.frequentValue": "{letter} · %{pct} · al‑Kindi buradan başlardı",
+  "footer.colophon.mural": "Desen",
+  "footer.colophon.type": "Dizgi"
 }

@@ -26,7 +26,7 @@
   <link rel="icon" href="assets/logos/alkindi.svg" type="image/svg+xml">
   <link
     rel="preload"
-    href="content/en.json?v=v15"
+    href="content/en.json?v=v16"
     as="fetch"
     type="application/json"
     crossorigin="anonymous">
@@ -217,7 +217,7 @@
           <h2 class="section__label" data-cipher data-i18n="services.label">Services</h2>
           <p class="services__lead" data-i18n="services.lead"></p>
         </div>
-        <div class="service-group reveal">
+        <div class="service-group service-group--onchain reveal">
           <h3 class="service-group__label" data-i18n="services.group.onchain"></h3>
           <ul class="service-list">
 
@@ -243,7 +243,7 @@
         </div>
         <a href="https://calendar.proton.me/bookings#-P9VzWmJxO3FHJPeV9sXe2qVUXfIPvD3Ni4K6wH2R_I=" class="cta-inline reveal reveal-delay-4" data-i18n="cta.book" target="_blank" rel="noopener"></a>
 
-        <div class="service-group reveal">
+        <div class="service-group service-group--product reveal">
           <h3 class="service-group__label" data-i18n="services.group.product"></h3>
           <ul class="service-list">
 
@@ -297,7 +297,7 @@
           <ul class="service-list">
 
             <li class="service-item reveal reveal-delay-1">
-              <span class="service-item__index">11</span>
+              <span class="service-item__dagger" aria-hidden="true">†</span>
               <h4 class="service-item__title" data-i18n="services.11.title"></h4>
               <p class="service-item__desc" data-i18n="services.11.desc"></p>
             </li>
@@ -326,9 +326,22 @@
         <div class="origin__layout">
           <p class="origin__body reveal reveal-delay-1" data-i18n="origin.body1"></p>
           <p class="origin__body reveal reveal-delay-2" data-i18n="origin.body2"></p>
-          <p class="origin__body reveal reveal-delay-3" data-i18n="origin.body3"></p>
+          <p class="origin__body reveal reveal-delay-3"><span data-i18n="origin.body3.pre"></span><span data-i18n="origin.method"></span><span data-i18n="origin.body3.post"></span></p>
         </div>
-        <a href="https://calendar.proton.me/bookings#-P9VzWmJxO3FHJPeV9sXe2qVUXfIPvD3Ni4K6wH2R_I=" class="cta-inline reveal reveal-delay-4" data-i18n="cta.book" target="_blank" rel="noopener"></a>
+        <figure class="freq-plate reveal reveal-delay-4" data-freq-plate>
+          <div class="plate-frame" aria-hidden="true">
+            <span class="plate-corner plate-corner--tl"></span>
+            <span class="plate-corner plate-corner--tr"></span>
+            <span class="plate-corner plate-corner--bl"></span>
+            <span class="plate-corner plate-corner--br"></span>
+          </div>
+          <figcaption class="freq-plate__label" data-i18n="origin.freq.label"></figcaption>
+          <p class="freq-plate__cipher" data-freq-cipher aria-hidden="true"></p>
+          <span class="visually-hidden" data-i18n="origin.method"></span>
+          <ol class="freq-plate__bars" data-freq-bars aria-hidden="true"></ol>
+          <button type="button" class="cta-chip freq-plate__run" data-freq-run data-i18n="origin.freq.run"></button>
+        </figure>
+        <a href="https://calendar.proton.me/bookings#-P9VzWmJxO3FHJPeV9sXe2qVUXfIPvD3Ni4K6wH2R_I=" class="cta-inline reveal reveal-delay-5" data-i18n="cta.book" target="_blank" rel="noopener"></a>
       </div>
     </section>
 
@@ -339,7 +352,7 @@
       </div>
       <div class="team__list">
 
-        <article class="team__member team__member--munevver">
+        <article class="team__member team__member--munevver reveal">
           <div class="team__plate">
             <div class="plate-frame" aria-hidden="true">
               <span class="plate-corner plate-corner--tl"></span>
@@ -360,7 +373,7 @@
           </div>
         </article>
 
-        <article class="team__member team__member--partner">
+        <article class="team__member team__member--partner reveal">
           <div class="team__plate">
             <div class="plate-frame" aria-hidden="true">
               <span class="plate-corner plate-corner--tl"></span>
@@ -387,13 +400,21 @@
 
     <section id="contact" class="section-gap contact">
       <div class="container">
-        <h2 class="section__label reveal" data-cipher data-i18n="contact.label">Contact</h2>
-        <p class="contact__proof reveal reveal-delay-1" data-i18n="contact.proof"></p>
-        <h2 class="contact__heading reveal reveal-delay-2" data-i18n="contact.heading"></h2>
-        <p class="contact__sub reveal reveal-delay-3" data-i18n="contact.sub"></p>
-        <div class="contact__links reveal reveal-delay-4">
-          <a href="https://calendar.proton.me/bookings#-P9VzWmJxO3FHJPeV9sXe2qVUXfIPvD3Ni4K6wH2R_I=" class="cta-chip" data-i18n="cta.book" target="_blank" rel="noopener">Book a free consultation</a>
-          <a href="mailto:ferit@alkindi.pt?subject=Project%20brief" class="contact__link contact__link--sub" data-i18n="contact.cta.secondary">Send a project brief</a>
+        <div class="contact__plate">
+          <div class="plate-frame" aria-hidden="true">
+            <span class="plate-corner plate-corner--tl"></span>
+            <span class="plate-corner plate-corner--tr"></span>
+            <span class="plate-corner plate-corner--bl"></span>
+            <span class="plate-corner plate-corner--br"></span>
+          </div>
+          <h2 class="section__label reveal" data-cipher data-i18n="contact.label">Contact</h2>
+          <p class="contact__proof reveal reveal-delay-1" data-cipher data-i18n="contact.proof"></p>
+          <h2 class="contact__heading reveal reveal-delay-2" data-i18n="contact.heading"></h2>
+          <p class="contact__sub reveal reveal-delay-3" data-i18n="contact.sub"></p>
+          <div class="contact__links reveal reveal-delay-4">
+            <a href="https://calendar.proton.me/bookings#-P9VzWmJxO3FHJPeV9sXe2qVUXfIPvD3Ni4K6wH2R_I=" class="cta-chip" data-i18n="cta.book" target="_blank" rel="noopener">Book a free consultation</a>
+            <a href="mailto:ferit@alkindi.pt?subject=Project%20brief" class="contact__link contact__link--sub" data-i18n="contact.cta.secondary">Send a project brief</a>
+          </div>
         </div>
       </div>
     </section>
@@ -402,6 +423,24 @@
 
   <footer class="site-footer">
     <div class="container">
+      <dl class="colophon" data-colophon>
+        <div class="colophon__item">
+          <dt data-i18n="footer.colophon.corpus"></dt>
+          <dd data-colophon-corpus></dd>
+        </div>
+        <div class="colophon__item">
+          <dt data-i18n="footer.colophon.frequent"></dt>
+          <dd data-colophon-frequent></dd>
+        </div>
+        <div class="colophon__item">
+          <dt data-i18n="footer.colophon.mural"></dt>
+          <dd data-colophon-mural></dd>
+        </div>
+        <div class="colophon__item">
+          <dt data-i18n="footer.colophon.type"></dt>
+          <dd data-colophon-type></dd>
+        </div>
+      </dl>
       <p class="footer__line footer__line--primary">
         <span>© <span id="footer-year">2026</span> al-Kindi</span><span class="footer__sep" aria-hidden="true">·</span><span data-i18n="footer.tagline"></span>
       </p>

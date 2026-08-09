@@ -84,7 +84,9 @@ al-Kindi, Abu Yusuf Yaʻqub ibn Ishaq al-Kindi, was a 9th-century Baghdadi polym
 
 The same "al-" is everywhere in Portugal, where the studio works: Alfama, Algarve, Alentejo, Almada; quiet traces of the Arabic-speaking world he came from.
 
-Eleven centuries later, his work on ciphers is the foundation of every smart contract the studio deploys. The studio borrowed the name in tribute.
+Eleven centuries later, his work on ciphers is the foundation of every smart contract the studio deploys, and his habit is the studio's method: assume any system can be broken, then prove where. The studio borrowed the name in tribute.
+
+The Origin section of the website carries an interactive figure (Fig. 1) that runs al-Kindi's frequency analysis live: the studio's method statement arrives under a random substitution cipher and is cracked symbol by symbol in descending letter frequency.
 
 ## Team
 

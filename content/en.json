@@ -58,7 +58,11 @@
   "origin.label": "Origin",
   "origin.body1": "al‑Kindi, the 9th‑century Baghdadi polymath, wrote on philosophy, music, optics. And invented cryptanalysis. The frequency analysis he laid out in Baghdad broke every cipher humanity had built; no system resistant to it would emerge for seven centuries. The same hand tuned an oud, translated Aristotle, and read enciphered letters.",
   "origin.body2": "The same 'al‑' is everywhere in Portugal, where we work: Alfama, Algarve, Alentejo, Almada. Quiet traces of the Arabic‑speaking world he came from.",
-  "origin.body3": "Eleven centuries later, his work on ciphers is the foundation of every smart contract we deploy, and his habit is our method: assume any system can be broken, then prove where. We borrowed the name in tribute.",
+  "origin.body3.pre": "Eleven centuries later, his work on ciphers is the foundation of every smart contract we deploy, and his habit is our method: ",
+  "origin.method": "assume any system can be broken, then prove where",
+  "origin.body3.post": ". We borrowed the name in tribute.",
+  "origin.freq.label": "Fig. 1 · Frequency analysis, the method of al‑Kindi, c. 850 CE",
+  "origin.freq.run": "Run the analysis again",
   "team.label": "Team",
   "team.intro1": "Two cities.",
   "team.intro2": "One studio.",
@@ -77,5 +81,11 @@
   "contact.cta.secondary": "Send a project brief",
   "footer.tagline": "Digital Product Studio",
   "footer.creditPrefix": "Branding, Graphics & UI Design by",
-  "footer.legal": "Alkindi, Unipessoal LDA · Lisbon"
+  "footer.legal": "Alkindi, Unipessoal LDA · Lisbon",
+  "footer.colophon.corpus": "Corpus",
+  "footer.colophon.corpusValue": "{langs} languages · {keys} keys · {glyphs} glyphs",
+  "footer.colophon.frequent": "Most frequent letter",
+  "footer.colophon.frequentValue": "{letter} · {pct}% · al‑Kindi would start here",
+  "footer.colophon.mural": "Mural",
+  "footer.colophon.type": "Set in"
 }
