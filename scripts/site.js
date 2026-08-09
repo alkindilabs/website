@@ -96,7 +96,8 @@
   // transition is decorative, so reduced-motion and no-observer
   // paths skip it.
   const CIPHER_GLYPHS = 'AEHKLMNORSTUXZ0179';
-  const CIPHER_STEP_MS = 70;
+  const CIPHER_STEP_MS = 180;
+  const CIPHER_HOLD_MS = 600;
   const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const decipher = (el) => {
@@ -135,7 +136,7 @@
       if (step < crackOrder.length) setTimeout(tick, CIPHER_STEP_MS);
     };
     render();
-    setTimeout(tick, CIPHER_STEP_MS);
+    setTimeout(tick, CIPHER_HOLD_MS);
   };
 
   if ('IntersectionObserver' in globalThis && !prefersReducedMotion) {
