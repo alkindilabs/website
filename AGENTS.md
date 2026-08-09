@@ -1,113 +1,23 @@
 # Repository Instructions
 
-## Project Framing
+[CONTRIBUTING.md](CONTRIBUTING.md) is the single authoritative contract
+for working in this repository: core separation (which file owns what),
+required rules, JavaScript and CSS practices, verification, deployment,
+and workflow. Read it before changing anything and follow it exactly;
+nothing in it is restated here.
 
-- This repository is a simple static studio site.
-- Keep it simple on purpose.
-- Do not introduce frameworks, bundlers, or build tooling without a clear, repo-specific need.
+## Agent-specific notes
 
-## Instruction Scope
-
-- This root file applies to the whole repository by default.
-- If the repo grows, subdirectories may add `AGENTS.md` or `AGENTS.override.md` only when that subtree genuinely needs narrower local rules.
-- Nested instruction files should refine local behavior, not exist for one-off tasks or temporary notes.
-- When a nested instruction file exists for the files being edited, follow the most specific applicable instructions without ignoring the repo-wide contract.
-
-## Core Separation
-
-- `index.html` owns semantic structure, section order, links, and asset references. It carries `data-i18n` / `data-i18n-aria` attributes on the elements that receive translatable strings, but no authored copy.
-- `content/en.json` and `content/tr.json` own all visible authored copy, keyed by `data-i18n` / `data-i18n-aria` attributes. Adding a language means adding `content/<lang>.json` with the same keys.
-- `styles/fonts.css` owns external font imports and local `@font-face` declarations.
-- `styles/main.css` owns design tokens, layout, component styling, animation, responsive behavior, and visual state classes.
-- `styles/noscript.css` owns the no-JS fallback styles, loaded inside `<noscript>` in `index.html`.
-- `scripts/site.js` is the default home for browser behavior: DOM wiring, scroll/header behavior, reveal observers, team-member toggle interactions, and the i18n loader.
-- `assets/` should own images, logos, and fonts.
-- Root-level discovery files (`robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`) are machine-readable manifests for crawlers and AI assistants. They mirror, not replace, the authored copy in `content/<lang>.json`. When that copy or the page structure changes, refresh `sitemap.xml`'s `<lastmod>` and regenerate the prose in `llms-full.txt`.
-
-## Required Rules
-
-- Do not commit inline `<script>` blocks in `index.html`, except for a single `<script type="application/ld+json">` block in `<head>` carrying structured data. Per the HTML spec, a `<script>` element used as a data block (which `application/ld+json` is) must embed the data inline and must not set the `src` attribute, so externalising the JSON-LD is not an option. Most structured-data consumers also expect the payload to be readable without executing JavaScript.
-- Do not commit inline `style=""` for production UI. Use classes, modifiers, CSS custom properties, or asset files instead.
-- Do not commit authored *visible body copy* in `index.html`. Add or edit `content/<lang>.json` instead. Documented exceptions, in HTML for a reason: the noscript fallback message (JS is what fetches the dictionaries), the static team-toggle `aria-label` (progressive a11y baseline that JS overrides at runtime), `<title>` and `<meta>`/`og:*` tags (consumed before any script runs), the logo `alt` text (referenced from a single source asset), and the `<head>` JSON-LD payload (structured data for AI and search crawlers, consumed before any script runs).
-- Do not duplicate copy, content lists, or behavior rules across HTML, CSS, and JS.
-- Keep JavaScript out of marketing copy and visual design decisions.
-- Keep CSS out of content policy and business logic. CSS may express visual states, not authored meaning.
-- Preserve semantic markup, accessibility labels, and ARIA state when moving behavior out of HTML.
-- If a UI change needs new behavior, put the behavior in `scripts/site.js`, not in the HTML.
-- If a UI change needs new styling, put the styling in `styles/main.css`, not in JS.
-- New static files should not be added at repo root unless there is a strong reason. Protocol-mandated crawler discovery files are an explicit exception and belong at root: `robots.txt` (RFC 9309), `sitemap.xml`, `llms.txt`, and `llms-full.txt` (per llmstxt.org). Treat them as machine-readable infrastructure, not authored copy.
-- Any change to `content/<lang>.json` must bump `DICT_CACHE_VERSION` in `scripts/site.js` and the matching `content/en.json?v=...` preload URL in `index.html`, in lock-step, in the same commit. Returning visitors are served the dictionary cached under the old version token (localStorage plus `force-cache` fetch, with no revalidation path), so an unbumped version ships stale copy indefinitely; renumbered keys make it wrong copy, not just old copy.
-
-## Remaining Separation Debt
-
-- Placeholder gradients are class-driven now. Replace them with real assets when actual project and team imagery is ready.
-
-## Preferred Minimal Structure
-
-```text
-index.html
-robots.txt
-sitemap.xml
-llms.txt
-llms-full.txt
-styles/
-  fonts.css
-  main.css
-  noscript.css
-scripts/
-  site.js
-assets/
-  logos/
-  images/
-  fonts/
-content/
-  en.json
-  tr.json
-```
-
-## Working Contract
-
-- HTML = structure (no authored copy)
-- content = authored copy per language
-- CSS = visual system
-- JS = interaction wiring + i18n loader
-- assets = binary and static resources
-
-## Review Scenarios
-
-- A copy-only edit should land in `content/<lang>.json` and should not touch HTML, CSS, or JS.
-- A styling-only edit should not require rewriting document structure beyond classes.
-- Interaction changes should land in `scripts/site.js`.
-- New images, fonts, and logos should land under `assets/`.
-- Adding a language means adding `content/<lang>.json` with the same keys as the existing dictionaries and registering the lang in `SUPPORTED_LANGS` + `DICT_URLS` in `scripts/site.js`.
-
-## Verification
-
-- There is no build step in this repo. Verify changes with a local static server.
-- From the repo root, run `python3 -m http.server 4173`.
-- After HTML, CSS, JS, or path changes, verify at minimum:
-  - `curl -I http://127.0.0.1:4173/`
-  - `curl -I http://127.0.0.1:4173/styles/fonts.css`
-  - `curl -I http://127.0.0.1:4173/styles/main.css`
-  - `curl -I http://127.0.0.1:4173/styles/noscript.css`
-  - `curl -I http://127.0.0.1:4173/scripts/site.js`
-  - `curl -I http://127.0.0.1:4173/content/en.json`
-  - `curl -I http://127.0.0.1:4173/content/tr.json`
-  - `curl -I http://127.0.0.1:4173/robots.txt`
-  - `curl -I http://127.0.0.1:4173/sitemap.xml`
-  - `curl -I http://127.0.0.1:4173/llms.txt`
-  - `curl -I http://127.0.0.1:4173/llms-full.txt`
-- If assets were renamed or moved, also verify `curl -I` for each affected asset path.
-- If markup or interaction changed, do a browser sanity check for header behavior, reveal animations, and team-member toggles before finishing.
-
-## Deployment
-
-- The site is served by Cloudflare Pages, auto-deploying every push to `main`. The linkage is configured in the Cloudflare dashboard and is intentionally invisible in this repo: no workflow file, no CNAME, no deploy config. Pushing to `main` is deploying to production at https://www.alkindi.pt/.
-- Pages deploys the repository verbatim, so internal files would be publicly served. `_redirects` at repo root is Cloudflare Pages' redirect manifest (platform-mandated location, same root-file exception as the crawler files) and the single authoritative list of internal paths kept off production via redirects to `/`. New internal files or directories must be added there in the same commit that introduces them.
-- `_headers` at repo root (same platform-mandated exception) overrides Pages' 4-hour default asset cache so `scripts/*` and `styles/*` revalidate on every load; without it, deploys ship stale JS/CSS to returning visitors for up to 4 hours. See ARCHITECTURE.md for the decision record.
-
-## Non-Goals
-
-- This document is not a redesign brief.
-- This document is not a framework migration plan.
-- This document does not require splitting `styles/main.css` further unless actual change pressure justifies it.
+- `CLAUDE.md` is a symlink to this file; both names load the same
+  instructions.
+- This root file applies to the whole repository by default. If the repo
+  grows, subdirectories may add `AGENTS.md` or `AGENTS.override.md` only
+  when that subtree genuinely needs narrower local rules. Nested
+  instruction files should refine local behavior, not exist for one-off
+  tasks or temporary notes. When a nested instruction file exists for
+  the files being edited, follow the most specific applicable
+  instructions without ignoring the repo-wide contract.
+- Before claiming any change done, run the Verification section of
+  CONTRIBUTING.md and confirm the Required Rules that apply to the
+  touched files — the dictionary cache-version bump is the one most
+  often missed.
