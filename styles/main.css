@@ -122,6 +122,7 @@ button { cursor: pointer; }
   --font-fallback: system-ui, -apple-system, sans-serif;
   --font-sans:    'UnivaNova', var(--font-fallback);
   --font-slogan:  'Bricolage Grotesque', 'UnivaNova', var(--font-fallback);
+  --font-mono:    'Spline Sans Mono', ui-monospace, 'SF Mono', monospace;
   --leading-tight:  1.05;
   --leading-snug:   1.35;
   --leading-base:   1.65;
@@ -541,16 +542,29 @@ a {
   margin-block-end: var(--space-2xl);
 }
 
+
 .work-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  gap: var(--space-lg);
 }
 
 .work-item {
+  position: relative;
   display: grid;
   gap: 0.3rem;
-  padding-block: var(--space-xl);
+  padding: var(--space-xl);
+  background:
+    radial-gradient(120% 80% at 30% 20%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 55%),
+    linear-gradient(165deg, rgba(20, 17, 13, 0.72) 0%, rgba(5, 4, 3, 0.55) 100%);
+  border: 1px solid rgba(255, 246, 232, 0.06);
+  transition: border-color 0.4s ease;
+}
+
+.work-item:hover {
+  border-color: rgba(255, 246, 232, 0.14);
 }
 
 .work-item__client {
@@ -575,6 +589,7 @@ a {
 }
 
 .work-item__status {
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
   color: var(--text-on-dark-muted);
   letter-spacing: var(--tracking-wide);
@@ -617,7 +632,8 @@ a {
 .cta-chip:hover,
 .cta-chip:focus-visible {
   background-color: rgba(255, 246, 232, 0.12);
-  border-color: rgba(255, 246, 232, 0.65);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent);
   outline: none;
 }
 
@@ -667,6 +683,7 @@ a {
 .service-item__index {
   grid-column: 1;
   grid-row: 1;
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
   color: var(--color-accent);
   letter-spacing: var(--tracking-wide);
@@ -916,50 +933,50 @@ a {
 /* Crosshair frame — registration marks at the four corners. Reads
    as drafting/blueprint, ties the plate to the technical half of
    the studio identity. */
-.team__plate-frame {
+.plate-frame {
   position: absolute;
   inset: clamp(0.6rem, 1.2vw, 1rem);
   pointer-events: none;
   z-index: 1;
 }
 
-.team__plate-corner {
+.plate-corner {
   position: absolute;
   width: 0.85rem;
   height: 0.85rem;
 }
 
-.team__plate-corner::before,
-.team__plate-corner::after {
+.plate-corner::before,
+.plate-corner::after {
   content: '';
   position: absolute;
   background-color: rgba(255, 246, 232, 0.22);
 }
 
-.team__plate-corner::before { left: 0; right: 0; height: 1px; }
-.team__plate-corner::after  { top: 0; bottom: 0; width: 1px; }
+.plate-corner::before { left: 0; right: 0; height: 1px; }
+.plate-corner::after  { top: 0; bottom: 0; width: 1px; }
 
-.team__plate-corner--tl { top: 0; left: 0; }
-.team__plate-corner--tl::before { top: 0; }
-.team__plate-corner--tl::after  { left: 0; }
+.plate-corner--tl { top: 0; left: 0; }
+.plate-corner--tl::before { top: 0; }
+.plate-corner--tl::after  { left: 0; }
 
-.team__plate-corner--tr { top: 0; right: 0; }
-.team__plate-corner--tr::before { top: 0; }
-.team__plate-corner--tr::after  { right: 0; }
+.plate-corner--tr { top: 0; right: 0; }
+.plate-corner--tr::before { top: 0; }
+.plate-corner--tr::after  { right: 0; }
 
-.team__plate-corner--bl { bottom: 0; left: 0; }
-.team__plate-corner--bl::before { bottom: 0; }
-.team__plate-corner--bl::after  { left: 0; }
+.plate-corner--bl { bottom: 0; left: 0; }
+.plate-corner--bl::before { bottom: 0; }
+.plate-corner--bl::after  { left: 0; }
 
-.team__plate-corner--br { bottom: 0; right: 0; }
-.team__plate-corner--br::before { bottom: 0; }
-.team__plate-corner--br::after  { right: 0; }
+.plate-corner--br { bottom: 0; right: 0; }
+.plate-corner--br::before { bottom: 0; }
+.plate-corner--br::after  { right: 0; }
 
 /* Locale tag — top-right, muted caps. */
 .team__locale {
   grid-row: 1;
   z-index: 2;
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
   font-weight: 400;
   letter-spacing: var(--tracking-wide);
@@ -1070,6 +1087,7 @@ a {
 
 .work-item__links {
   padding-block-start: var(--space-sm);
+  gap: var(--space-sm) var(--space-lg);
 }
 
 .team__link,
@@ -1077,6 +1095,7 @@ a {
   display: inline-flex;
   align-items: baseline;
   gap: 0.4rem;
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: lowercase;
@@ -1127,6 +1146,7 @@ a {
 }
 
 .contact__proof {
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -1297,6 +1317,10 @@ a {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--space-2xl);
+  }
+
+  .work-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .team__intro {

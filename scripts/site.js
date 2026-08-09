@@ -88,6 +88,45 @@
     revealElements.forEach((el) => el.classList.add('is-visible'));
   }
 
+  // Cipher reveal — section labels settle from cipher glyphs into
+  // plaintext as they enter view, a nod to the namesake's frequency
+  // analysis. Text is correct before and after; only the transition
+  // is decorative, so reduced-motion and no-observer paths skip it.
+  const CIPHER_GLYPHS = 'AKLMNRSTUXZ0179';
+  const CIPHER_FRAME_MS = 34;
+  const CIPHER_MAX_FRAMES = 18;
+  const CIPHER_SETTLE_FRAMES = 4;
+  const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const decipher = (el) => {
+    const finalText = el.textContent;
+    if (!finalText) return;
+    const frames = Math.min(CIPHER_MAX_FRAMES, finalText.length + CIPHER_SETTLE_FRAMES);
+    let frame = 0;
+    const tick = () => {
+      frame += 1;
+      const fixedCount = Math.floor((frame / frames) * finalText.length);
+      let out = finalText.slice(0, fixedCount);
+      for (let i = fixedCount; i < finalText.length; i += 1) {
+        out += finalText[i] === ' ' ? ' ' : CIPHER_GLYPHS[Math.floor(Math.random() * CIPHER_GLYPHS.length)];
+      }
+      el.textContent = out;
+      if (fixedCount < finalText.length) setTimeout(tick, CIPHER_FRAME_MS);
+    };
+    tick();
+  };
+
+  if ('IntersectionObserver' in globalThis && !prefersReducedMotion) {
+    const cipherObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        cipherObserver.unobserve(entry.target);
+        decipher(entry.target);
+      });
+    }, { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN });
+    document.querySelectorAll('[data-cipher]').forEach((el) => cipherObserver.observe(el));
+  }
+
   const safeStorage = (() => {
     try {
       const probe = '__alkindi__';
