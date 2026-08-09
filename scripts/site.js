@@ -104,6 +104,11 @@
   const CIPHER_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const CIPHER_STEP_MS = 180;
   const CIPHER_HOLD_MS = 600;
+  // Reveals pre-trigger 12% below the viewport so cards are already
+  // moving when they enter; a crack that starts down there plays its
+  // enciphered hold while the element is still invisible. Ciphers
+  // instead wait until the line is genuinely on screen.
+  const CIPHER_ROOT_MARGIN = '0px 0px -12% 0px';
   // The proof line at #contact is far longer than a section label; a
   // faster step keeps the booking chip arming within ~2.5s.
   const PROOF_STEP_MS = 90;
@@ -186,7 +191,7 @@
         cipherObserver.unobserve(entry.target);
         decipher(entry.target, cipherOpts(entry.target));
       });
-    }, { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN });
+    }, { threshold: REVEAL_THRESHOLD, rootMargin: CIPHER_ROOT_MARGIN });
     document.querySelectorAll('[data-cipher]').forEach((el) => cipherObserver.observe(el));
   } else {
     armContact();
@@ -617,7 +622,7 @@
           revealed = true;
           if (lastText) play();
         });
-      }, { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN });
+      }, { threshold: REVEAL_THRESHOLD, rootMargin: CIPHER_ROOT_MARGIN });
       plateObserver.observe(plate);
     }
 
